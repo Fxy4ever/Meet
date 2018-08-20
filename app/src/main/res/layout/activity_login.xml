@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/summer_login_parent"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/summer_login_backgroud_shape"
+        tools:context=".ui.view.activity.LoginActivity">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/summer_login_tl"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize">
+
+        </android.support.v7.widget.Toolbar>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_marginRight="80dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_marginBottom="21dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputLayout
+                    android:hint="输入账号"
+                    android:textColorHint="#FFFFFF"
+                    android:theme="@style/CustomAppTheme_textinputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/login_account"
+                    android:maxLines="1"
+                    android:inputType="text"
+                    android:textColorHint="#86A4B9"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:hint="输入密码"
+                    android:textColorHint="#FFFFFF"
+                    android:theme="@style/CustomAppTheme_textinputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/login_password"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textColorHint="#86A4B9"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/login_commit"
+                    android:text="登陆"
+                    android:layout_centerInParent="true"
+                    android:background="@null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <CheckBox
+                    android:id="@+id/login_checkbox"
+                    android:text="记住密码"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="#B2DAF6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/login_toRegister"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:textColor="#B2DAF6"
+            android:background="#60000000"
+            android:text="注   册"
+            android:ems="1"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+</layout>

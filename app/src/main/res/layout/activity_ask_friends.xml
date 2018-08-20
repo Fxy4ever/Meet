@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/summer_ask_sl"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.view.activity.AskFriendsActivity">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/summer_ask_tl"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="?actionBarSize">
+
+        </android.support.v7.widget.Toolbar>
+
+
+        <LinearLayout
+            android:background="@drawable/summer_redias_shape"
+            android:layout_gravity="center"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputLayout
+                android:textColorHint="#505050"
+                android:theme="@style/CustomAppTheme_textinputLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:id="@+id/summer_ask_name"
+                    android:hint="请输入标题"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:textColorHint="#505050"
+                android:theme="@style/CustomAppTheme_textinputLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/summer_ask_content"
+                    android:hint="请输入内容"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:id="@+id/summer_ask_voice"
+                    android:background="@drawable/summer_icon_voice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageButton
+                    android:id="@+id/summer_ask_photo"
+                    android:background="@drawable/summer_icon_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/summer_ask_back"
+                    android:text="返回"
+                    android:background="@drawable/summer_askbtn_shape"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/summer_ask_commit"
+                    android:text="提交"
+                    android:background="@drawable/summer_askbtn_shape"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#FFFFFF"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>

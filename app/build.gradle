@@ -1,0 +1,90 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.mredrock.cyxbs.summer"
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.0.5'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation 'com.google.code.gson:gson:2.8.1'
+
+    implementation('com.github.florent37:materialviewpager:1.2.3') {
+        exclude group: 'com.android.support'
+        exclude group: 'com.github.bumptech'
+    }
+    implementation('com.jpardogo.materialtabstrip:library:1.1.0') {
+        exclude group: 'com.android.support'
+        exclude group: 'com.github.bumptech'
+    }
+    implementation('com.flaviofaria:kenburnsview:1.0.7') {
+        exclude group: 'com.android.support'
+        exclude group: 'com.github.bumptech'
+    }
+    implementation files('/Users/mac/Summer/jar/FRecyclerView.jar')
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'cn.leancloud.android:avoscloud-sdk:v4.6.4'//leanCloud基础包
+    api('cn.leancloud.android:avoscloud-push:v4.6.4@aar') {
+        transitive = true
+        exclude group: 'com.android.support'
+    }//leanCloud推送与即时通讯包
+
+    implementation 'cn.leancloud.android:qq-sdk:1.6.1-leancloud'
+
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.github.devlight.shadowlayout:library:1.0.2'
+
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+
+    implementation ('com.zhihu.android:matisse:0.4.3'){
+        exclude group:'com.github.bumptech.glide'
+    }
+
+//    implementation 'com.github.bumptech.glide:glide:4.4.0'
+
+
+}

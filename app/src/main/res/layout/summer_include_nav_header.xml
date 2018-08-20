@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/summer_login_backgroud_shape"
+    android:layout_height="200dp">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_marginTop="70dp"
+        android:src="@mipmap/ic_launcher"
+        app:civ_border_overlay="true"
+        app:civ_border_width="1dp"
+        app:civ_border_color="#FFFFFF"
+        android:layout_gravity="center"
+        android:id="@+id/summer_nav_avatar"
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/summer_nav_nick_name"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"/>
+    <TextView
+        android:textColor="#FFFFFF"
+        android:layout_marginLeft="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/summer_nav_desc"
+        android:textSize="16sp"/>
+</LinearLayout>
