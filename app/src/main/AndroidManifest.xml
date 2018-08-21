@@ -28,15 +28,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.view.activity.MainActivity">
-
-        </activity>
-        <activity android:name=".ui.view.activity.RegisterActivity">
-
-        </activity>
-        <activity android:name=".ui.view.activity.LoginActivity">
-
-        </activity>
+        <activity android:name=".ui.view.activity.MainActivity"></activity>
+        <activity android:name=".ui.view.activity.RegisterActivity"></activity>
+        <activity android:name=".ui.view.activity.LoginActivity"></activity>
 
         <!-- 即时通讯组件 -->
         <service android:name="com.avos.avoscloud.PushService" />
@@ -49,20 +43,21 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ui.view.activity.AskFriendsActivity"
-            android:theme="@style/translucent">
+        <activity
+            android:name=".ui.view.activity.AskFriendsActivity"
+            android:theme="@style/translucent"></activity>
 
-        </activity>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.example.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
 
+        <activity android:name=".ui.view.activity.AskDetailActivity"></activity>
     </application>
 
 </manifest>

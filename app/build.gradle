@@ -51,7 +51,6 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation 'com.google.code.gson:gson:2.8.1'
-
     implementation('com.github.florent37:materialviewpager:1.2.3') {
         exclude group: 'com.android.support'
         exclude group: 'com.github.bumptech'
@@ -66,25 +65,22 @@ dependencies {
     }
     implementation files('/Users/mac/Summer/jar/FRecyclerView.jar')
     implementation 'com.android.support:cardview-v7:27.1.1'
-    implementation 'cn.leancloud.android:avoscloud-sdk:v4.6.4'//leanCloud基础包
+    implementation 'cn.leancloud.android:avoscloud-sdk:v4.6.4'
+    //leanCloud基础包
     api('cn.leancloud.android:avoscloud-push:v4.6.4@aar') {
         transitive = true
         exclude group: 'com.android.support'
-    }//leanCloud推送与即时通讯包
-
+    }
+    //leanCloud推送与即时通讯包
     implementation 'cn.leancloud.android:qq-sdk:1.6.1-leancloud'
-
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.github.devlight.shadowlayout:library:1.0.2'
-
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
-
-    implementation ('com.zhihu.android:matisse:0.4.3'){
-        exclude group:'com.github.bumptech.glide'
+    implementation('com.zhihu.android:matisse:0.4.3') {
+        exclude group: 'com.github.bumptech.glide'
     }
-
-//    implementation 'com.github.bumptech.glide:glide:4.4.0'
-
-
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'
+    implementation 'com.github.chrisbanes.photoview:library:1.2.4'
 }

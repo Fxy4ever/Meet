@@ -58,11 +58,13 @@ public class AskFriendsActivity extends BaseMvpActivity implements AskFriednsCon
     private AVUser user;
     private String fileName = "";
     private String filePath = "";
+    private String name="";
+    private String path="";
     private Dialog dialog;
 
     private int REQUEST_CODE_CHOOSE = 10086;
     private List<Uri> selects;
-    private List<AVFile> photos;
+    private AVFile photo;
 
 
     @Override
@@ -77,7 +79,6 @@ public class AskFriendsActivity extends BaseMvpActivity implements AskFriednsCon
         rxPermissions = new RxPermissions(this);
         recorderUtil = new RecorderUtil();
         selects = new ArrayList<>();
-        photos = new ArrayList<>();
         user = AVUser.getCurrentUser();
         askPermissions();
 
@@ -116,7 +117,7 @@ public class AskFriendsActivity extends BaseMvpActivity implements AskFriednsCon
                 Matisse.from(this)
                         .choose(MimeType.allOf())
                         .countable(true)
-                        .maxSelectable(3)
+                        .maxSelectable(1)
                         .gridExpectedSize(DensityUtils.getScreenWidth(this)/3)
                         .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                         .thumbnailScale(0.85f)
@@ -131,18 +132,16 @@ public class AskFriendsActivity extends BaseMvpActivity implements AskFriednsCon
             if(isAskPer&&binding.summerAskName.getText().length()>0
                     &&binding.summerAskContent.getText().length()>0){
                 AskBean bean = new AskBean();
-                if(user.getAVFile("avatar")!=null){
-                    bean.setAskAvatar(user.getAVFile("avatar").getUrl());
-                }
                 bean.setAskContent(binding.summerAskContent.getText().toString());
                 bean.setAskName(binding.summerAskName.getText().toString());
-                bean.setAuthorName(user.getUsername());
                 try {
                     if(filePath.length()>0){
                         AVFile voice = AVFile.withAbsoluteLocalPath(fileName,filePath);
                         bean.setVoice(voice);
                     }
-                    bean.setPhotos(photos);
+                    if(path.length()>0){
+                        bean.setPhoto(photo);
+                    }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -207,14 +206,13 @@ public class AskFriendsActivity extends BaseMvpActivity implements AskFriednsCon
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK){
-            photos.clear();
             selects.clear();
             selects = Matisse.obtainResult(data);
             try{
                 for (int i = 0; i < selects.size(); i++) {
-                    String name = System.currentTimeMillis()/1000 + ".jpg";
-                    String path = UriUtil.getRealPathFromUri(this,selects.get(i));
-                        photos.add(AVFile.withAbsoluteLocalPath(name,path));
+                        name = System.currentTimeMillis()/1000 + ".jpg";
+                        path = UriUtil.getRealPathFromUri(this,selects.get(i));
+                        photo = AVFile.withAbsoluteLocalPath(name,path);
                     }
                     binding.summerAskPhoto.setBackgroundResource(R.drawable.summer_icon_photo_light);
             }catch (IOException e){

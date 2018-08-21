@@ -9,11 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public abstract class BaseFragment extends Fragment {
-    @Override
-    public void onStart() {
-        super.onStart();
-        attachView();
-    }
+
 
     @Override
     public void onDestroyView() {
@@ -21,7 +17,6 @@ public abstract class BaseFragment extends Fragment {
         detacheView();
     }
 
-    public abstract void attachView();
 
     public abstract void detacheView();
 }

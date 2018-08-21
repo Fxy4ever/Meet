@@ -20,6 +20,7 @@ public class AskFriendsPresenter extends BasePresenter<AskFriednsContract.IAskFr
             @Override
             public void succeed(Object o) {
                 getView().hideLoad();
+                Toasts.show("发布成功");
                 ActivityManager.getInstance().getCurrentActivity().finish();
             }
 

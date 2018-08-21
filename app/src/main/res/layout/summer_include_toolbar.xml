@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    app:navigationIcon="@drawable/summer_icon_back"
+    android:id="@+id/summer_include_tl"
+    android:background="@drawable/summer_login_backgroud_shape"
+    android:layout_width="match_parent"
+    android:layout_height="?actionBarSize"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:id="@+id/summer_include_tv"
+        android:text="知遇"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</android.support.v7.widget.Toolbar>

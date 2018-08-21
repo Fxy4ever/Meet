@@ -1,7 +1,11 @@
 package com.mredrock.cyxbs.summer.ui.view.activity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -10,11 +14,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.FindCallback;
+import com.avos.avoscloud.SaveCallback;
 import com.bumptech.glide.Glide;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
@@ -25,11 +35,17 @@ import com.mredrock.cyxbs.summer.base.BaseActivity;
 import com.mredrock.cyxbs.summer.databinding.ActivityMainBinding;
 import com.mredrock.cyxbs.summer.utils.ActivityManager;
 import com.mredrock.cyxbs.summer.utils.DensityUtils;
+import com.mredrock.cyxbs.summer.utils.Glide4Engine;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 import com.mredrock.cyxbs.summer.ui.view.fragment.ChatListFragment;
 import com.mredrock.cyxbs.summer.ui.view.fragment.InfoFragment;
 import com.mredrock.cyxbs.summer.ui.view.fragment.SummerFragment;
+import com.mredrock.cyxbs.summer.utils.UriUtil;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,10 +64,21 @@ public class MainActivity extends BaseActivity {
     private NavigationView navigationView;
     private ActionBarDrawerToggle toggle;
 
+    private RxPermissions rxPermissions;
+    private boolean isAskPer = false;
+
+    private int REQUEST_CODE_CHOOSE = 10086;
+    private List<Uri> selects;
+    private AVFile photo;
+    private String name="";
+    private String path="";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        askPermissions();
         initMV();
         initDrawerLayout();
     }
@@ -61,17 +88,17 @@ public class MainActivity extends BaseActivity {
         pager.setMaterialViewPagerListener(page -> {
             switch (page) {
                 case 0:
-                    return HeaderDesign.fromColorResAndUrl(
-                            R.color.blue,
-                            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534683102076&di=4bf7289903196cdaae00e1c63f77a2a6&imgtype=0&src=http%3A%2F%2Fi1.hdslb.com%2Fbfs%2Farchive%2F4d517784f47a2c1da977592231aefbe656d89913.jpg");
+                    return HeaderDesign.fromColorResAndDrawable(
+                            R.color.blue,getResources().getDrawable(R.drawable.summer_main_header1));
+
                 case 1:
-                    return HeaderDesign.fromColorResAndUrl(
+                    return HeaderDesign.fromColorResAndDrawable(
                             R.color.green,
-                            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534683102075&di=c5b7ed32c91ed71c5b643c8332f5fe1a&imgtype=0&src=http%3A%2F%2Fi1.hdslb.com%2Fbfs%2Farchive%2Fcac512f370968bb8ebe4082407a2af969a84e913.png");
+                            getResources().getDrawable(R.drawable.summer_main_header2));
                 case 2:
-                    return HeaderDesign.fromColorResAndUrl(
+                    return HeaderDesign.fromColorResAndDrawable(
                             R.color.cyan,
-                            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534683222961&di=4cea520b24364eea365c4ca9060ec8d0&imgtype=0&src=http%3A%2F%2Fi2.hdslb.com%2Fbfs%2Farchive%2F12b08571e65489d41220bbd012fed364e6ba4d5d.jpg");
+                            getResources().getDrawable(R.drawable.summer_main_header3));
             }
             return null;
         });
@@ -100,8 +127,26 @@ public class MainActivity extends BaseActivity {
         FFragmentPagerAdapter adapter = new FFragmentPagerAdapter(getSupportFragmentManager(),fragments,titlelist);
         viewPager.setAdapter(adapter);
         pager.getPagerTitleStrip().setViewPager(viewPager);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);
+        viewPager.onSaveInstanceState();
 
+    }
+
+    @SuppressLint({"CheckResult"})
+    private void askPermissions(){
+        rxPermissions = new RxPermissions(this);
+        rxPermissions
+                .requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        ,Manifest.permission.READ_EXTERNAL_STORAGE
+                        ,Manifest.permission.RECORD_AUDIO
+                )
+                .subscribe(permission -> {
+                    if(permission.granted){
+                        isAskPer = true;
+                    }else{
+                        Toasts.show("未获取权限");
+                    }
+                });
     }
 
     private void initDrawerLayout(){
@@ -113,6 +158,22 @@ public class MainActivity extends BaseActivity {
         TextView name = headerView.findViewById(R.id.summer_nav_nick_name);
         CircleImageView avatar = headerView.findViewById(R.id.summer_nav_avatar);
 
+        avatar.setOnClickListener(v -> {
+            if(isAskPer){
+                Matisse.from(this)
+                        .choose(MimeType.allOf())
+                        .countable(true)
+                        .maxSelectable(1)
+                        .gridExpectedSize(DensityUtils.getScreenWidth(this)/3)
+                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                        .thumbnailScale(0.85f)
+                        .imageEngine(new Glide4Engine())
+                        .theme(R.style.Matisse_Dracula)
+                        .forResult(REQUEST_CODE_CHOOSE);
+            }
+        });
+
+
         AVUser currentUser = AVUser.getCurrentUser();
         desc.setText(currentUser.getString("desc"));
         name.setText(currentUser.getUsername());
@@ -120,7 +181,7 @@ public class MainActivity extends BaseActivity {
         if(avFile!=null){
             Glide.with(this).load(avFile.getUrl()).into(avatar);
         }
-
+        selects = new ArrayList<>();
         toggle = new ActionBarDrawerToggle(this,drawerLayout,pager.getToolbar(),0,0);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -143,6 +204,7 @@ public class MainActivity extends BaseActivity {
                     break;
                 case R.id.nav_back:
                     App.spHelper().remove("isChecked");
+                    AVUser.logOut();
                     startActivity(new Intent(MainActivity.this,LoginActivity.class));
                     finish();
                     break;
@@ -160,5 +222,29 @@ public class MainActivity extends BaseActivity {
         ActivityManager.getInstance().finishActivity(this);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK){
+            selects = Matisse.obtainResult(data);
+            try{
+                    name = System.currentTimeMillis()/1000 + ".jpg";
+                    path = UriUtil.getRealPathFromUri(this,selects.get(0));
+                    photo = AVFile.withAbsoluteLocalPath(name,path);
+
+                AVUser.getCurrentUser().put("avatar",photo);
+                AVUser.getCurrentUser().saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(AVException e) {
+                        if(e==null) {
+                            Toasts.show("头像修改成功");
+                        }
+                    }
+                });
+            }catch (IOException e){
+                Toasts.show("文件上传");
+            }
+        }
+    }
 
 }

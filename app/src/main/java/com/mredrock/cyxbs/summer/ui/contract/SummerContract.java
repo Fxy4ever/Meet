@@ -8,10 +8,11 @@ import java.util.List;
 public class SummerContract {
 
     public interface ISummerModel extends BaseContract.ISomethingModel{
-        void loadData(LoadCallBack callBack);
+        void loadData(int skip,LoadCallBack callBack);
     }
 
     public interface ISummerView extends BaseContract.ISomethingView{
         void setData(List<AVObject> data);
+        void setMoreData(List<AVObject> data);
     }
 }

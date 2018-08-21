@@ -11,12 +11,14 @@ import java.util.List;
 
 public class SummerModel implements SummerContract.ISummerModel {
 
+
     @Override
-    public void loadData(LoadCallBack callBack) {
+    public void loadData(int skip,LoadCallBack callBack) {
         AVQuery<AVObject> query = new AVQuery<>("askInfo");
-        Date now = new Date();
-        query.whereLessThanOrEqualTo("createdAt", now);//查询今天之前创建的
-        query.limit(40);// 最多返回 10 条结果
+        query.whereExists("askName");
+        query.orderByDescending("updatedAt");
+        query.limit(20);// 最多返回 20 条结果
+        query.skip(skip);
         query.findInBackground(new FindCallback<AVObject>() {
             @Override
             public void done(List<AVObject> list, AVException e) {

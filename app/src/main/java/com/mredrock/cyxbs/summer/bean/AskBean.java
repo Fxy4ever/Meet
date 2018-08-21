@@ -1,52 +1,32 @@
 package com.mredrock.cyxbs.summer.bean;
 
 import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVUser;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class AskBean implements Serializable {
 
+
     /**
-     * askId : aidjwio141i24j12oijd
-     * askName : BeJson
-     * askAvatar : http://www.bejson.com
-     * isFavorite : true
-     * askContent : this is content
-     * favNum : 4
-     * updateTime : 2018-08-24
-     * createTime : 2018-02-24
-     * voice : https://baidu.com
-     * photos : ["htppasdjioawd","valudndwaioe","dawjiodjaio"]
+     * askName : 标题
+     * voice : {"name":"sound1534845120.mp3","url":"http://lc-UYy61kgD.cn-n1.lcfile.com/iaHIGNpIWExwWP60SB8XI0e7NPNIFAXzOjagMRXL.mp3"}
+     * author : {"__type":"Pointer","className":"_User","objectId":"5b6c16d017d0090035afd2e4"}
+     * photo : {"name":"1534845133.jpg","url":"http://lc-UYy61kgD.cn-n1.lcfile.com/wXtluosBe9WERPlzIJMkLq45t6DXRxNjyuMAAWbb.jpg"}
+     * askContent : 内容
+     * objectId : 5b7be0d6fe88c20039f6d347
+     * createdAt : 2018-08-21T09:52:22.047Z
+     * updatedAt : 2018-08-21T09:52:22.047Z
      */
 
-    private String askId;
     private String askName;
-    private String askAvatar;
-    private boolean isFavorite;
-    private String askContent;
-    private int favNum;
-    private String updateTime;
-    private String createTime;
-    private String authorName;
     private AVFile voice;
-    private List<AVFile> photos;
-
-    public String getAuthorName() {
-        return authorName;
-    }
-
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
-    }
-
-    public String getAskId() {
-        return askId;
-    }
-
-    public void setAskId(String askId) {
-        this.askId = askId;
-    }
+    private AVUser author;
+    private AVFile photo;
+    private String askContent;
+    private String objectId;
+    private String createdAt;
+    private String updatedAt;
 
     public String getAskName() {
         return askName;
@@ -54,54 +34,6 @@ public class AskBean implements Serializable {
 
     public void setAskName(String askName) {
         this.askName = askName;
-    }
-
-    public String getAskAvatar() {
-        return askAvatar;
-    }
-
-    public void setAskAvatar(String askAvatar) {
-        this.askAvatar = askAvatar;
-    }
-
-    public boolean isIsFavorite() {
-        return isFavorite;
-    }
-
-    public void setIsFavorite(boolean isFavorite) {
-        this.isFavorite = isFavorite;
-    }
-
-    public String getAskContent() {
-        return askContent;
-    }
-
-    public void setAskContent(String askContent) {
-        this.askContent = askContent;
-    }
-
-    public int getFavNum() {
-        return favNum;
-    }
-
-    public void setFavNum(int favNum) {
-        this.favNum = favNum;
-    }
-
-    public String getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
     }
 
     public AVFile getVoice() {
@@ -112,28 +44,51 @@ public class AskBean implements Serializable {
         this.voice = voice;
     }
 
-    public List<AVFile> getPhotos() {
-        return photos;
+    public AVUser getAuthor() {
+        return author;
     }
 
-    public void setPhotos(List<AVFile> photos) {
-        this.photos = photos;
+    public void setAuthor(AVUser author) {
+        this.author = author;
     }
 
-    @Override
-    public String toString() {
-        return "AskBean{" +
-                "askId='" + askId + '\'' +
-                ", askName='" + askName + '\'' +
-                ", askAvatar='" + askAvatar + '\'' +
-                ", isFavorite=" + isFavorite +
-                ", askContent='" + askContent + '\'' +
-                ", favNum=" + favNum +
-                ", updateTime='" + updateTime + '\'' +
-                ", createTime='" + createTime + '\'' +
-                ", authorName='" + authorName + '\'' +
-                ", voice=" + voice +
-                ", photos=" + photos +
-                '}';
+    public AVFile getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(AVFile photo) {
+        this.photo = photo;
+    }
+
+    public String getAskContent() {
+        return askContent;
+    }
+
+    public void setAskContent(String askContent) {
+        this.askContent = askContent;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
