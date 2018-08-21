@@ -6,7 +6,7 @@
     android:layout_height="200dp">
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_marginTop="70dp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/summer_user_avatar"
         app:civ_border_overlay="true"
         app:civ_border_width="1dp"
         app:civ_border_color="#FFFFFF"
@@ -28,5 +28,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/summer_nav_desc"
-        android:textSize="16sp"/>
+        android:textSize="14sp"/>
 </LinearLayout>

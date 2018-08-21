@@ -22,6 +22,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.FindCallback;
+import com.avos.avoscloud.GetCallback;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.frecyclerview.BaseHolder;
@@ -30,6 +36,7 @@ import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.bean.AskBean;
 import com.mredrock.cyxbs.summer.ui.view.activity.AskDetailActivity;
 import com.mredrock.cyxbs.summer.utils.AudioPlayer;
+import com.mredrock.cyxbs.summer.utils.DateUtil;
 
 import java.util.List;
 
@@ -107,7 +114,7 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
                                             dialog.show();
                             });
                 }else{
-                    img.setVisibility(View.GONE);
+                    Glide.with(getContext()).load(R.drawable.summer_place_img).apply(new RequestOptions().override(100,100)).into(img);
                 }
 
                 if(beans.get(i).getVoice()!=null){
@@ -137,9 +144,51 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
                         Intent intent = new Intent(getContext(), AskDetailActivity.class);
                         getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) getContext(),parent,"share").toBundle());
                 });
+
+//                if(i==beans.size()-1){
+//                    loadMore();
+//                }
                 break;
         }
     }
+
+//    private void loadMore(){
+//        AVQuery<AVObject> query = new AVQuery<>("askInfo");
+//        query.whereExists("askName");
+//        query.orderByDescending("updatedAt");
+//        query.limit(20);// 最多返回 20 条结果
+//        query.skip(10);
+//        query.findInBackground(new FindCallback<AVObject>() {
+//            @Override
+//            public void done(List<AVObject> data, AVException e) {
+//                if(e == null){
+//                    for (int i = 0; i < data.size(); i++) {
+//                        AskBean bean = new AskBean();
+//                        bean.setAskName(data.get(i).getString("askName"));
+//                        bean.setObjectId(data.get(i).getObjectId());
+//                        bean.setPhoto(data.get(i).getAVFile("photo"));
+//                        bean.setAskContent(data.get(i).getString("askContent"));
+//                        bean.setVoice(data.get(i).getAVFile("voice"));
+//                        bean.setAskInfo(data.get(i));
+//                        bean.setUpdatedAt(DateUtil.getCurDate(data.get(i).getUpdatedAt()));
+//                        AVObject ask = AVObject.createWithoutData("askInfo",data.get(i).getObjectId());
+//                        ask.fetchInBackground("author", new GetCallback<AVObject>() {
+//                            @Override
+//                            public void done(AVObject avObject, AVException e) {
+//                                if(e==null){
+//                                    AVUser user = avObject.getAVUser("author");
+//                                    bean.setAuthor(user);
+//                                    beans.add(bean);
+//
+//                                }
+//                            }
+//                        });
+//                    }
+//                    notifyDataSetChanged();
+//                }
+//            }
+//        });
+//    }
 
     private void onPlayerStatusChanged(AudioPlayer lapt, int status, @Nullable Object msg, ImageButton button){
                  switch (status){

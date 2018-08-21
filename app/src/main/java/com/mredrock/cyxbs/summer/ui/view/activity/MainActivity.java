@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity {
     private AVFile photo;
     private String name="";
     private String path="";
-
+    private CircleImageView avatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity {
             switch (page) {
                 case 0:
                     return HeaderDesign.fromColorResAndDrawable(
-                            R.color.blue,getResources().getDrawable(R.drawable.summer_main_header1));
+                            R.color.cardview_dark_background,getResources().getDrawable(R.drawable.summer_main_header1));
 
                 case 1:
                     return HeaderDesign.fromColorResAndDrawable(
@@ -156,7 +156,7 @@ public class MainActivity extends BaseActivity {
         View headerView = navigationView.inflateHeaderView(R.layout.summer_include_nav_header);
         TextView desc = headerView.findViewById(R.id.summer_nav_desc);
         TextView name = headerView.findViewById(R.id.summer_nav_nick_name);
-        CircleImageView avatar = headerView.findViewById(R.id.summer_nav_avatar);
+        avatar = headerView.findViewById(R.id.summer_nav_avatar);
 
         avatar.setOnClickListener(v -> {
             if(isAskPer){
@@ -175,7 +175,11 @@ public class MainActivity extends BaseActivity {
 
 
         AVUser currentUser = AVUser.getCurrentUser();
-        desc.setText(currentUser.getString("desc"));
+        if(currentUser.getString("desc")!=null){
+            desc.setText(currentUser.getString("desc"));
+        }else{
+            desc.setText("还没有签名噢!");
+        }
         name.setText(currentUser.getUsername());
         AVFile avFile = currentUser.getAVFile("avatar");
         if(avFile!=null){
@@ -192,12 +196,6 @@ public class MainActivity extends BaseActivity {
                     break;
                 case R.id.nav_myself:
                     Toasts.show("个人信息");
-                    break;
-                case R.id.nav_photo:
-                    Toasts.show("相册");
-                    break;
-                case R.id.nav_setting:
-                    Toasts.show("设置");
                     break;
                 case R.id.nav_about:
                     Toasts.show("关于");
@@ -238,6 +236,8 @@ public class MainActivity extends BaseActivity {
                     public void done(AVException e) {
                         if(e==null) {
                             Toasts.show("头像修改成功");
+                            Glide.with(App.getContext()).load(photo.getUrl()).into(avatar);
+                            SummerFragment.presenter.start();
                         }
                     }
                 });

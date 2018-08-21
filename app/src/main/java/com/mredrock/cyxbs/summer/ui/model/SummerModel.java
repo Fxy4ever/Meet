@@ -17,7 +17,7 @@ public class SummerModel implements SummerContract.ISummerModel {
         AVQuery<AVObject> query = new AVQuery<>("askInfo");
         query.whereExists("askName");
         query.orderByDescending("updatedAt");
-        query.limit(20);// 最多返回 20 条结果
+        query.limit(40);// 最多返回 20 条结果
         query.skip(skip);
         query.findInBackground(new FindCallback<AVObject>() {
             @Override

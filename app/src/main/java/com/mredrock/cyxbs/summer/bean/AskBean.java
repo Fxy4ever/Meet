@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.summer.bean;
 
 import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
 
 import java.io.Serializable;
@@ -27,6 +28,15 @@ public class AskBean implements Serializable {
     private String objectId;
     private String createdAt;
     private String updatedAt;
+    private AVObject askInfo;
+
+    public AVObject getAskInfo() {
+        return askInfo;
+    }
+
+    public void setAskInfo(AVObject askInfo) {
+        this.askInfo = askInfo;
+    }
 
     public String getAskName() {
         return askName;

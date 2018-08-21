@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <LinearLayout
+            android:padding="10dp"
+            android:background="@drawable/summer_redias_shape"
+            android:layout_gravity="center"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <EditText
+                android:id="@+id/summer_ask_comment_et"
+                android:hint="评论一下吧～"
+                android:textSize="14sp"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" />
+            <ImageButton
+                android:id="@+id/summer_ask_comment_voice"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/summer_icon_voice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/summer_ask_comment_commit"
+                android:background="@drawable/summer_askbtn_shape"
+                android:text="评论"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+        </LinearLayout>
+</FrameLayout>
