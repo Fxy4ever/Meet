@@ -20,6 +20,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -187,7 +188,7 @@ public class MainActivity extends BaseActivity {
         Button changeBack = changeDesc.findViewById(R.id.summer_change_back);
         Button changeCommit = changeDesc.findViewById(R.id.summer_change_commit);
         changeBack.setOnClickListener(v->{
-            changeDesc.hide();
+            changeDesc.cancel();
             changeEt.setText("");
         });
         /*
@@ -205,7 +206,7 @@ public class MainActivity extends BaseActivity {
                             Toasts.show("修改成功");
                             changeEt.setText("");
                             desc.setText(descContent);
-                            changeDesc.hide();
+                            changeDesc.cancel();
                         }
                     }
                 });
@@ -257,6 +258,11 @@ public class MainActivity extends BaseActivity {
                     break;
                 case R.id.nav_myself:
                     Toasts.show("个人信息");
+                    Intent intent = new Intent(MainActivity.this,UserActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("objectId",currentUser.getObjectId());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                     break;
                 case R.id.nav_about:
                     Toasts.show("关于");
@@ -314,4 +320,13 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            moveTaskToBack(false);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

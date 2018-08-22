@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -230,6 +231,14 @@ public class AskDetailActivity extends BaseMvpActivity implements AskDetailContr
         if(bean.getAuthor().getAVFile("avatar")!=null){
             Glide.with(this).load(bean.getAuthor().getAVFile("avatar").getUrl()).apply(new RequestOptions().override(200,200)).into(binding.summerSmDetailItemAvatar);
         }
+
+        binding.summerSmDetailItemAvatar.setOnClickListener(v->{
+            Intent intent = new Intent(getContext(),UserActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("objectId",bean.getAuthor().getObjectId());
+            intent.putExtras(bundle);
+            getContext().startActivity(intent);
+        });
 
         if(bean.getPhoto()!=null){
             Glide

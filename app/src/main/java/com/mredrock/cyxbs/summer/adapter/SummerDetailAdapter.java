@@ -1,7 +1,9 @@
 package com.mredrock.cyxbs.summer.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +20,7 @@ import com.example.frecyclerview.MultiLayoutBaseAdapter;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.bean.AskBean;
 import com.mredrock.cyxbs.summer.bean.CommentBean;
+import com.mredrock.cyxbs.summer.ui.view.activity.UserActivity;
 import com.mredrock.cyxbs.summer.utils.AudioPlayer;
 import com.mredrock.cyxbs.summer.utils.AudioUtil;
 
@@ -60,6 +63,14 @@ public class SummerDetailAdapter extends MultiLayoutBaseAdapter {
                 if(list.get(i).getContent()!=null&&!list.get(i).getContent().equals("")){
                     content.setText(list.get(i).getContent());
                 }
+
+                avatar.setOnClickListener(v->{
+                    Intent intent = new Intent(getContext(),UserActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("objectId",list.get(i).getUser().getObjectId());
+                    intent.putExtras(bundle);
+                    getContext().startActivity(intent);
+                });
 
                 AudioUtil.setAudio(getContext(),list.get(i).getVoice(),playTime,play);
 

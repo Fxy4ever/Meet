@@ -8,6 +8,7 @@ import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
@@ -35,6 +36,7 @@ import com.example.frecyclerview.MultiLayoutBaseAdapter;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.bean.AskBean;
 import com.mredrock.cyxbs.summer.ui.view.activity.AskDetailActivity;
+import com.mredrock.cyxbs.summer.ui.view.activity.UserActivity;
 import com.mredrock.cyxbs.summer.utils.AudioPlayer;
 import com.mredrock.cyxbs.summer.utils.AudioUtil;
 import com.mredrock.cyxbs.summer.utils.DateUtil;
@@ -84,6 +86,14 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
                 if(beans.get(i).getAuthor().getAVFile("avatar")!=null){
                     Glide.with(getContext()).load(beans.get(i).getAuthor().getAVFile("avatar").getUrl()).apply(new RequestOptions().override(300,300)).into(avatar);
                 }
+                avatar.setOnClickListener(v->{
+                    Intent intent = new Intent(getContext(),UserActivity.class);
+                    Bundle bundle = new Bundle();
+                    Log.d("fxy", "onBinds: "+beans.get(i).getAuthor().getObjectId());
+                    bundle.putString("objectId",beans.get(i).getAuthor().getObjectId());
+                    intent.putExtras(bundle);
+                    getContext().startActivity(intent);
+                });
 
                 if(beans.get(i).getPhoto()!=null){
                             Glide

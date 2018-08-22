@@ -28,11 +28,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.view.activity.MainActivity">
-
-        </activity>
-        <activity android:name=".ui.view.activity.RegisterActivity"></activity>
-        <activity android:name=".ui.view.activity.LoginActivity"></activity>
+        <activity android:name=".ui.view.activity.MainActivity" />
+        <activity android:name=".ui.view.activity.RegisterActivity" />
+        <activity android:name=".ui.view.activity.LoginActivity" />
 
         <!-- 即时通讯组件 -->
         <service android:name="com.avos.avoscloud.PushService" />
@@ -47,7 +45,7 @@
 
         <activity
             android:name=".ui.view.activity.AskFriendsActivity"
-            android:theme="@style/translucent"></activity>
+            android:theme="@style/translucent" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -59,7 +57,11 @@
                 android:resource="@xml/filepaths" />
         </provider>
 
-        <activity android:name=".ui.view.activity.AskDetailActivity"></activity>
+        <activity android:name=".ui.view.activity.AskDetailActivity" />
+        <activity
+            android:name=".ui.view.activity.UserActivity"
+            android:label="@string/title_activity_user"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
