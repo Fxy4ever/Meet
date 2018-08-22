@@ -2,12 +2,17 @@ package com.mredrock.cyxbs.summer.ui.view.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +21,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVException;
@@ -26,6 +34,7 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -44,7 +53,11 @@ import com.mredrock.cyxbs.summer.utils.UriUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +86,9 @@ public class MainActivity extends BaseActivity {
     private String name="";
     private String path="";
     private CircleImageView avatar;
+    private Dialog changeDesc;
+
+    private AVUser currentUser = AVUser.getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,15 +169,62 @@ public class MainActivity extends BaseActivity {
         drawerLayout = binding.drawerLayout;
         navigationView = binding.navigation;
         navigationView.getChildAt(0).setVerticalScrollBarEnabled(false);
+        /*
+        初始化header的控件
+         */
         View headerView = navigationView.inflateHeaderView(R.layout.summer_include_nav_header);
         TextView desc = headerView.findViewById(R.id.summer_nav_desc);
         TextView name = headerView.findViewById(R.id.summer_nav_nick_name);
         avatar = headerView.findViewById(R.id.summer_nav_avatar);
+        ImageButton desc_change = headerView.findViewById(R.id.summer_nav_change);
+        /*
+        初始化改变签名的dialog
+         */
+        changeDesc = new Dialog(this);
+        changeDesc.setContentView(R.layout.summer_change_dialog);
+        changeDesc.setCancelable(true);
+        EditText changeEt = changeDesc.findViewById(R.id.summer_change_et);
+        Button changeBack = changeDesc.findViewById(R.id.summer_change_back);
+        Button changeCommit = changeDesc.findViewById(R.id.summer_change_commit);
+        changeBack.setOnClickListener(v->{
+            changeDesc.hide();
+            changeEt.setText("");
+        });
+        /*
+        修改个性签名
+         */
+        changeCommit.setOnClickListener(v->{
+            String descContent = changeEt.getText().toString();
+            if(descContent.length()>0){
+                AVUser user = AVUser.getCurrentUser();
+                user.put("desc",descContent);
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(AVException e) {
+                        if(e==null){
+                            Toasts.show("修改成功");
+                            changeEt.setText("");
+                            desc.setText(descContent);
+                            changeDesc.hide();
+                        }
+                    }
+                });
+            }
+        });
 
+        desc_change.setOnClickListener(v->{
+            changeDesc.show();
+        });
+
+        /*
+        头像选择
+         */
         avatar.setOnClickListener(v -> {
             if(isAskPer){
                 Matisse.from(this)
                         .choose(MimeType.allOf())
+                        .capture(true)  // 开启相机，和 captureStrategy 一并使用否则报错
+                        .captureStrategy(new CaptureStrategy(true,"com.example.fileprovider"))
                         .countable(true)
                         .maxSelectable(1)
                         .gridExpectedSize(DensityUtils.getScreenWidth(this)/3)
@@ -173,8 +236,6 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-
-        AVUser currentUser = AVUser.getCurrentUser();
         if(currentUser.getString("desc")!=null){
             desc.setText(currentUser.getString("desc"));
         }else{
@@ -183,7 +244,7 @@ public class MainActivity extends BaseActivity {
         name.setText(currentUser.getUsername());
         AVFile avFile = currentUser.getAVFile("avatar");
         if(avFile!=null){
-            Glide.with(this).load(avFile.getUrl()).into(avatar);
+            Glide.with(this).load(avFile.getUrl()).apply(new RequestOptions().override(200,200)).into(avatar);
         }
         selects = new ArrayList<>();
         toggle = new ActionBarDrawerToggle(this,drawerLayout,pager.getToolbar(),0,0);
@@ -226,9 +287,15 @@ public class MainActivity extends BaseActivity {
         if(requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK){
             selects = Matisse.obtainResult(data);
             try{
-                    name = System.currentTimeMillis()/1000 + ".jpg";
-                    path = UriUtil.getRealPathFromUri(this,selects.get(0));
-                    photo = AVFile.withAbsoluteLocalPath(name,path);
+                     name = System.currentTimeMillis()/1000 + ".jpg";
+                    if(selects.get(0).toString().contains("provider")){
+                        path = UriUtil.getFPUriToPath(this,selects.get(0));
+                        photo = AVFile.withAbsoluteLocalPath(name,path);
+                    }
+                    else{
+                        path = UriUtil.getRealPathFromUri(this,selects.get(0));
+                        photo = AVFile.withAbsoluteLocalPath(name,path);
+                    }
 
                 AVUser.getCurrentUser().put("avatar",photo);
                 AVUser.getCurrentUser().saveInBackground(new SaveCallback() {
@@ -236,13 +303,13 @@ public class MainActivity extends BaseActivity {
                     public void done(AVException e) {
                         if(e==null) {
                             Toasts.show("头像修改成功");
-                            Glide.with(App.getContext()).load(photo.getUrl()).into(avatar);
+                            Glide.with(App.getContext()).load(photo.getUrl()).apply(new RequestOptions().override(200,200)).into(avatar);
                             SummerFragment.presenter.start();
                         }
                     }
                 });
             }catch (IOException e){
-                Toasts.show("文件上传");
+                Toasts.show("文件上传失败");
             }
         }
     }

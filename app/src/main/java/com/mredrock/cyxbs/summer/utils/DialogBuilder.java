@@ -1,16 +1,25 @@
 package com.mredrock.cyxbs.summer.utils;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mredrock.cyxbs.summer.R;
 
 public class DialogBuilder {
@@ -135,5 +144,33 @@ public class DialogBuilder {
 
     private boolean isValid(CharSequence text) {
         return text != null && !"".equals(text.toString().trim());
+    }
+
+    public static Dialog buildImgDialog(Context context,String url){
+        Dialog dialog = new Dialog(context,R.style.edit_AlertDialog_style);
+        dialog.setContentView(R.layout.show_img_dialog);
+        ImageView imageView = dialog.findViewById(R.id.show_img);
+        ProgressBar progressBar = dialog.findViewById(R.id.show_progress);
+        Glide.with(context)
+                .asBitmap()
+                .load(url)
+                .into(new BitmapImageViewTarget(imageView){
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        progressBar.setVisibility(View.GONE);
+                       imageView.setImageBitmap(resource);
+                    }
+                });
+        dialog.setCanceledOnTouchOutside(true);
+        Display defaultDisplay = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Window dialogWindow = dialog.getWindow();
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        lp.height = (int)(defaultDisplay.getHeight()*0.8);
+        lp.width = (int)(defaultDisplay.getWidth()*0.8);
+        dialogWindow.setAttributes(lp);
+        imageView.setOnClickListener(v1->{
+            dialog.hide();
+        });
+        return dialog;
     }
 }

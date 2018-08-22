@@ -12,12 +12,14 @@ import android.widget.TextView;
 
 import com.avos.avoscloud.AVUser;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.frecyclerview.BaseHolder;
 import com.example.frecyclerview.MultiLayoutBaseAdapter;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.bean.AskBean;
 import com.mredrock.cyxbs.summer.bean.CommentBean;
 import com.mredrock.cyxbs.summer.utils.AudioPlayer;
+import com.mredrock.cyxbs.summer.utils.AudioUtil;
 
 import java.util.List;
 
@@ -52,51 +54,19 @@ public class SummerDetailAdapter extends MultiLayoutBaseAdapter {
 
                 AVUser user = list.get(i).getUser();
                 if(user.getAVFile("avatar")!=null){
-                    Glide.with(getContext()).load(user.getAVFile("avatar").getUrl()).into(avatar);
+                    Glide.with(getContext()).load(user.getAVFile("avatar").getUrl()).apply(new RequestOptions().override(200,200)).into(avatar);
                 }
                 name.setText(user.getUsername());
                 if(list.get(i).getContent()!=null&&!list.get(i).getContent().equals("")){
                     content.setText(list.get(i).getContent());
                 }
 
-                if(list.get(i).getVoice()!=null){
-                    AudioPlayer audioPlayer = new AudioPlayer();
-                    audioPlayer.setStatusChangedListener(AudioPlayer.Status.STATUS_READY, (lapt, status, msg) -> {
-                        playTime.setText(audioPlayer.getmPlayer().getDuration() / 1000 + "s");
-                        onPlayerStatusChanged(lapt, status, msg, play);
-
-                    }).setStatusChangedListener(AudioPlayer.Status.STATUS_COMPLETE, (lapt, status, msg) -> {
-                        playTime.setText("");
-                        onPlayerStatusChanged(lapt, status, msg, play);
-
-                    }).setStatusChangedListener(AudioPlayer.Status.STATUS_ERROR, (lapt, status, msg) -> {
-                        playTime.setText("");
-                        onPlayerStatusChanged(lapt, status, msg, play);
-                    });
-
-                    play.setOnClickListener(v -> audioPlayer.Play(getContext(), list.get(i).getVoice().getUrl()));
-                }else{
-                    play.setVisibility(View.GONE);
-                    playTime.setVisibility(View.GONE);
-                }
+                AudioUtil.setAudio(getContext(),list.get(i).getVoice(),playTime,play);
 
                 break;
         }
     }
 
-    private void onPlayerStatusChanged(AudioPlayer lapt, int status, @Nullable Object msg, ImageButton button){
-        switch (status){
-            case AudioPlayer.Status.STATUS_READY:
-                button.setImageResource(R.drawable.summer_icon_play_light);
-                break;
-            case AudioPlayer.Status.STATUS_COMPLETE:
-                button.setImageResource(R.drawable.summer_icon_play);
-                break;
-            case AudioPlayer.Status.STATUS_ERROR:
-                button.setImageResource(R.drawable.summer_icon_play);
-                break;
-        }
-    }
 
 
     @Override

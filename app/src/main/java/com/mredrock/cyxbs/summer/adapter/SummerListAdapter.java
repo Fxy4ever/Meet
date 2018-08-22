@@ -36,7 +36,9 @@ import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.bean.AskBean;
 import com.mredrock.cyxbs.summer.ui.view.activity.AskDetailActivity;
 import com.mredrock.cyxbs.summer.utils.AudioPlayer;
+import com.mredrock.cyxbs.summer.utils.AudioUtil;
 import com.mredrock.cyxbs.summer.utils.DateUtil;
+import com.mredrock.cyxbs.summer.utils.DialogBuilder;
 
 import java.util.List;
 
@@ -80,7 +82,7 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
                 title.setText(beans.get(i).getAskName());
                 time.setText(beans.get(i).getUpdatedAt());
                 if(beans.get(i).getAuthor().getAVFile("avatar")!=null){
-                    Glide.with(getContext()).load(beans.get(i).getAuthor().getAVFile("avatar").getUrl()).into(avatar);
+                    Glide.with(getContext()).load(beans.get(i).getAuthor().getAVFile("avatar").getUrl()).apply(new RequestOptions().override(300,300)).into(avatar);
                 }
 
                 if(beans.get(i).getPhoto()!=null){
@@ -90,54 +92,16 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
                             .thumbnail(0.1f)
                                     .apply(RequestOptions.placeholderOf(R.drawable.ic_launcher_background))
                                     .into(img);
+
                             img.setOnClickListener(v -> {
-                                /**
-                                 * 点击大图dialog
-                                 */
-                                Dialog dialog = new Dialog(getContext(),R.style.edit_AlertDialog_style);
-                                            dialog.setContentView(R.layout.show_img_dialog);
-                                            ImageView imageView = dialog.findViewById(R.id.show_img);
-                                            Glide.with(getContext())
-                                                    .load(beans.get(i).getPhoto().getUrl())
-                                                    .apply(RequestOptions.placeholderOf(R.drawable.ic_launcher_background))
-                                                    .into(imageView);
-                                            dialog.setCanceledOnTouchOutside(true);
-                                            Display defaultDisplay = ((Activity)getContext()).getWindowManager().getDefaultDisplay();
-                                            Window dialogWindow = dialog.getWindow();
-                                            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-                                            lp.height = (int)(defaultDisplay.getHeight()*0.8);
-                                            lp.width = (int)(defaultDisplay.getWidth()*0.8);
-                                            dialogWindow.setAttributes(lp);
-                                            imageView.setOnClickListener(v1->{
-                                                dialog.hide();
-                                            });
-                                            dialog.show();
+                                Dialog dialog = DialogBuilder.buildImgDialog(getContext(),beans.get(i).getPhoto().getUrl());
+                                dialog.show();
                             });
                 }else{
                     Glide.with(getContext()).load(R.drawable.summer_place_img).apply(new RequestOptions().override(100,100)).into(img);
                 }
 
-                if(beans.get(i).getVoice()!=null){
-                    AudioPlayer audioPlayer = new AudioPlayer();
-                    audioPlayer.setStatusChangedListener(AudioPlayer.Status.STATUS_READY, (lapt, status, msg) -> {
-                        playTime.setText(audioPlayer.getmPlayer().getDuration() / 1000 + "s");
-                        onPlayerStatusChanged(lapt, status, msg, play);
-
-                    }).setStatusChangedListener(AudioPlayer.Status.STATUS_COMPLETE, (lapt, status, msg) -> {
-                                playTime.setText("");
-                                onPlayerStatusChanged(lapt, status, msg, play);
-
-                    }).setStatusChangedListener(AudioPlayer.Status.STATUS_ERROR, (lapt, status, msg) -> {
-                                playTime.setText("");
-                                onPlayerStatusChanged(lapt, status, msg, play);
-                    });
-
-                    play.setOnClickListener(v -> audioPlayer.Play(getContext(), beans.get(i).getVoice().getUrl()));
-                }else{
-                    play.setVisibility(View.GONE);
-                    playTime.setVisibility(View.GONE);
-                }
-
+                AudioUtil.setAudio(getContext(),beans.get(i).getVoice(),playTime,play);
 
                 baseHolder.itemView.setOnClickListener(v -> {
                         bean = beans.get(i);
@@ -145,64 +109,11 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
                         getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) getContext(),parent,"share").toBundle());
                 });
 
-//                if(i==beans.size()-1){
-//                    loadMore();
-//                }
                 break;
         }
     }
 
-//    private void loadMore(){
-//        AVQuery<AVObject> query = new AVQuery<>("askInfo");
-//        query.whereExists("askName");
-//        query.orderByDescending("updatedAt");
-//        query.limit(20);// 最多返回 20 条结果
-//        query.skip(10);
-//        query.findInBackground(new FindCallback<AVObject>() {
-//            @Override
-//            public void done(List<AVObject> data, AVException e) {
-//                if(e == null){
-//                    for (int i = 0; i < data.size(); i++) {
-//                        AskBean bean = new AskBean();
-//                        bean.setAskName(data.get(i).getString("askName"));
-//                        bean.setObjectId(data.get(i).getObjectId());
-//                        bean.setPhoto(data.get(i).getAVFile("photo"));
-//                        bean.setAskContent(data.get(i).getString("askContent"));
-//                        bean.setVoice(data.get(i).getAVFile("voice"));
-//                        bean.setAskInfo(data.get(i));
-//                        bean.setUpdatedAt(DateUtil.getCurDate(data.get(i).getUpdatedAt()));
-//                        AVObject ask = AVObject.createWithoutData("askInfo",data.get(i).getObjectId());
-//                        ask.fetchInBackground("author", new GetCallback<AVObject>() {
-//                            @Override
-//                            public void done(AVObject avObject, AVException e) {
-//                                if(e==null){
-//                                    AVUser user = avObject.getAVUser("author");
-//                                    bean.setAuthor(user);
-//                                    beans.add(bean);
-//
-//                                }
-//                            }
-//                        });
-//                    }
-//                    notifyDataSetChanged();
-//                }
-//            }
-//        });
-//    }
 
-    private void onPlayerStatusChanged(AudioPlayer lapt, int status, @Nullable Object msg, ImageButton button){
-                 switch (status){
-                         case AudioPlayer.Status.STATUS_READY:
-                             button.setImageResource(R.drawable.summer_icon_play_light);
-                                 break;
-                         case AudioPlayer.Status.STATUS_COMPLETE:
-                             button.setImageResource(R.drawable.summer_icon_play);
-                                 break;
-                         case AudioPlayer.Status.STATUS_ERROR:
-                             button.setImageResource(R.drawable.summer_icon_play);
-                                 break;
-                     }
-             }
 
     private void runEnterAnim(View view,int position){
         if(animationsLocked) return;//有item才开始画

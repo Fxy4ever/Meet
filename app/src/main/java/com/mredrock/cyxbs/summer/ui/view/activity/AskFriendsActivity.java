@@ -89,7 +89,6 @@ public class AskFriendsActivity extends BaseMvpActivity implements AskFriednsCon
         binding.summerAskBack.setOnClickListener(v-> finish());
 
         //麦克风按钮
-
             binding.summerAskVoice.setOnTouchListener((v, event) -> {
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
                     binding.summerAskVoice.setBackgroundResource(R.drawable.summer_icon_voice_light);
@@ -117,6 +116,8 @@ public class AskFriendsActivity extends BaseMvpActivity implements AskFriednsCon
                 Matisse.from(this)
                         .choose(MimeType.allOf())
                         .countable(true)
+                        .capture(true)  // 开启相机，和 captureStrategy 一并使用否则报错
+                        .captureStrategy(new CaptureStrategy(true,"com.example.fileprovider"))
                         .maxSelectable(1)
                         .gridExpectedSize(DensityUtils.getScreenWidth(this)/3)
                         .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
@@ -209,11 +210,15 @@ public class AskFriendsActivity extends BaseMvpActivity implements AskFriednsCon
             selects.clear();
             selects = Matisse.obtainResult(data);
             try{
-                for (int i = 0; i < selects.size(); i++) {
-                        name = System.currentTimeMillis()/1000 + ".jpg";
-                        path = UriUtil.getRealPathFromUri(this,selects.get(i));
-                        photo = AVFile.withAbsoluteLocalPath(name,path);
-                    }
+                name = System.currentTimeMillis()/1000 + ".jpg";
+                if(selects.get(0).toString().contains("provider")){
+                    path = UriUtil.getFPUriToPath(this,selects.get(0));
+                    photo = AVFile.withAbsoluteLocalPath(name,path);
+                }
+                else{
+                    path = UriUtil.getRealPathFromUri(this,selects.get(0));
+                    photo = AVFile.withAbsoluteLocalPath(name,path);
+                }
                     binding.summerAskPhoto.setBackgroundResource(R.drawable.summer_icon_photo_light);
             }catch (IOException e){
                 Toasts.show("文件写入失败");

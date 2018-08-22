@@ -75,9 +75,6 @@ public class SummerFragment  extends BaseFragment implements SummerContract.ISum
             presenter.start();
             binding.summerSmRefresh.finishRefresh(1000);
         }).setOnLoadMoreListener(refreshLayout -> {
-//            manager.setScrollEnabled(false);
-//            presenter.loadMore();
-//            binding.summerSmRefresh.finishLoadMore(1000);
             binding.summerSmRefresh.finishLoadMoreWithNoMoreData();
         });
     }

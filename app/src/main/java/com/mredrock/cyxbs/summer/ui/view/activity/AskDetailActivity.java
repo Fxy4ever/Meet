@@ -46,6 +46,7 @@ import com.mredrock.cyxbs.summer.ui.contract.AskDetailContract;
 import com.mredrock.cyxbs.summer.ui.model.AskDetailModel;
 import com.mredrock.cyxbs.summer.ui.presenter.AskDetailPresenter;
 import com.mredrock.cyxbs.summer.utils.AudioPlayer;
+import com.mredrock.cyxbs.summer.utils.AudioUtil;
 import com.mredrock.cyxbs.summer.utils.DateUtil;
 import com.mredrock.cyxbs.summer.utils.DensityUtils;
 import com.mredrock.cyxbs.summer.utils.DialogBuilder;
@@ -83,6 +84,9 @@ public class AskDetailActivity extends BaseMvpActivity implements AskDetailContr
 
 
     @SuppressLint("ClickableViewAccessibility")
+    /**
+     * 初始化评论Dialog
+     */
     private void initComment(){
         commentDlg = new Dialog(this,R.style.summer_custom_dialog);
         commentDlg.setContentView(R.layout.summer_comment_layout);
@@ -224,7 +228,7 @@ public class AskDetailActivity extends BaseMvpActivity implements AskDetailContr
         binding.summerSmDetailItemTitle.setText(bean.getAskName());
         binding.summerSmDetailItemTime.setText(bean.getUpdatedAt());
         if(bean.getAuthor().getAVFile("avatar")!=null){
-            Glide.with(this).load(bean.getAuthor().getAVFile("avatar").getUrl()).into(binding.summerSmDetailItemAvatar);
+            Glide.with(this).load(bean.getAuthor().getAVFile("avatar").getUrl()).apply(new RequestOptions().override(200,200)).into(binding.summerSmDetailItemAvatar);
         }
 
         if(bean.getPhoto()!=null){
@@ -235,70 +239,21 @@ public class AskDetailActivity extends BaseMvpActivity implements AskDetailContr
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_launcher_background))
                     .into(binding.summerSmDetailItemImg);
             binding.summerSmDetailItemImg.setOnClickListener(v -> {
-                /**
-                 * 点击大图dialog
-                 */
-                Dialog dialog = new Dialog(this,R.style.edit_AlertDialog_style);
-                dialog.setContentView(R.layout.show_img_dialog);
-                ImageView imageView = dialog.findViewById(R.id.show_img);
-                Glide.with(this)
-                        .load(bean.getPhoto().getUrl())
-                        .apply(RequestOptions.placeholderOf(R.drawable.ic_launcher_background))
-                        .into(imageView);
-                dialog.setCanceledOnTouchOutside(true);
-                Display defaultDisplay = getWindowManager().getDefaultDisplay();
-                Window dialogWindow = dialog.getWindow();
-                WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-                lp.height = (int)(defaultDisplay.getHeight()*0.8);
-                lp.width = (int)(defaultDisplay.getWidth()*0.8);
-                dialogWindow.setAttributes(lp);
-                imageView.setOnClickListener(v1->{
-                    dialog.hide();
-                });
+                Dialog dialog = DialogBuilder.buildImgDialog(getContext(),bean.getPhoto().getUrl());
                 dialog.show();
             });
         }else{
             binding.summerSmDetailItemImg.setVisibility(View.GONE);
         }
+        /*
+        语音播放
+         */
+        AudioUtil.setAudio(getContext(),bean.getVoice(),binding.summerSmDetailItemPlayTime,binding.summerSmDetailItemPlay);
 
-        if(bean.getVoice()!=null){
-            AudioPlayer audioPlayer = new AudioPlayer();
-            audioPlayer.setStatusChangedListener(AudioPlayer.Status.STATUS_READY, (lapt, status, msg) -> {
-                binding.summerSmDetailItemPlayTime.setText(audioPlayer.getmPlayer().getDuration() / 1000 + "s");
-                onPlayerStatusChanged(lapt, status, msg, binding.summerSmDetailItemPlay);
-
-            }).setStatusChangedListener(AudioPlayer.Status.STATUS_COMPLETE, (lapt, status, msg) -> {
-                binding.summerSmDetailItemPlayTime.setText("");
-                onPlayerStatusChanged(lapt, status, msg, binding.summerSmDetailItemPlay);
-
-            }).setStatusChangedListener(AudioPlayer.Status.STATUS_ERROR, (lapt, status, msg) -> {
-                binding.summerSmDetailItemPlayTime.setText("");
-                onPlayerStatusChanged(lapt, status, msg, binding.summerSmDetailItemPlay);
-            });
-
-            binding.summerSmDetailItemPlay.setOnClickListener(v -> audioPlayer.Play(this, bean.getVoice().getUrl()));
-        }else{
-            binding.summerSmDetailItemPlay.setVisibility(View.GONE);
-            binding.summerSmDetailItemPlayTime.setVisibility(View.GONE);
-        }
         binding.summerSmDetailItemTl.setNavigationOnClickListener(v->{
             finish();
         });
         DensityUtils.setTransparent(binding.summerSmDetailItemTl,this);
-    }
-
-    private void onPlayerStatusChanged(AudioPlayer lapt, int status, @Nullable Object msg, ImageButton button){
-        switch (status){
-            case AudioPlayer.Status.STATUS_READY:
-                button.setImageResource(R.drawable.summer_icon_play_light);
-                break;
-            case AudioPlayer.Status.STATUS_COMPLETE:
-                button.setImageResource(R.drawable.summer_icon_play);
-                break;
-            case AudioPlayer.Status.STATUS_ERROR:
-                button.setImageResource(R.drawable.summer_icon_play);
-                break;
-        }
     }
 
 

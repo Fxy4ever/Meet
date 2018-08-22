@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/summer_login_backgroud_shape"
@@ -22,11 +23,24 @@
         android:id="@+id/summer_nav_nick_name"
         android:textColor="#FFFFFF"
         android:textSize="18sp"/>
-    <TextView
-        android:textColor="#FFFFFF"
-        android:layout_marginLeft="20dp"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/summer_nav_desc"
-        android:textSize="14sp"/>
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="#FFFFFF"
+            tools:text="签名"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/summer_nav_desc"
+            android:textSize="14sp"/>
+
+        <ImageButton
+            android:id="@+id/summer_nav_change"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/summer_icon_change"
+            android:layout_width="16dp"
+            android:layout_height="16dp" />
+    </LinearLayout>
 </LinearLayout>
