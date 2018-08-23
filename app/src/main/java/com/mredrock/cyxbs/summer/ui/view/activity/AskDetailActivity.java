@@ -2,31 +2,20 @@ package com.mredrock.cyxbs.summer.ui.view.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVException;
@@ -34,6 +23,7 @@ import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.GetCallback;
+import com.avos.avoscloud.SaveCallback;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.mredrock.cyxbs.summer.R;
@@ -43,10 +33,9 @@ import com.mredrock.cyxbs.summer.base.BaseMvpActivity;
 import com.mredrock.cyxbs.summer.bean.AskBean;
 import com.mredrock.cyxbs.summer.bean.CommentBean;
 import com.mredrock.cyxbs.summer.databinding.ActivityAskDetailBinding;
-import com.mredrock.cyxbs.summer.ui.contract.AskDetailContract;
-import com.mredrock.cyxbs.summer.ui.model.AskDetailModel;
-import com.mredrock.cyxbs.summer.ui.presenter.AskDetailPresenter;
-import com.mredrock.cyxbs.summer.utils.AudioPlayer;
+import com.mredrock.cyxbs.summer.ui.mvp.contract.AskDetailContract;
+import com.mredrock.cyxbs.summer.ui.mvp.model.AskDetailModel;
+import com.mredrock.cyxbs.summer.ui.mvp.presenter.AskDetailPresenter;
 import com.mredrock.cyxbs.summer.utils.AudioUtil;
 import com.mredrock.cyxbs.summer.utils.DateUtil;
 import com.mredrock.cyxbs.summer.utils.DensityUtils;
@@ -60,7 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AskDetailActivity extends BaseMvpActivity implements AskDetailContract.IAskDetailView{
-    private AskBean bean;
+    public static AskBean bean;
     private ActivityAskDetailBinding binding;
     private AskDetailPresenter presenter;
     private Dialog commentDlg;
@@ -199,7 +188,7 @@ public class AskDetailActivity extends BaseMvpActivity implements AskDetailContr
             CommentBean bean = new CommentBean();
             bean.setContent(data.get(i).getString("content"));
             bean.setVoice(data.get(i).getAVFile("voice"));
-            bean.setTime(DateUtil.getCurDate(data.get(i).getCreatedAt()));
+            bean.setTime("发布于"+DateUtil.getCurDate(data.get(i).getCreatedAt()));
             AVObject comment = AVObject.createWithoutData("comment",data.get(i).getObjectId());
             comment.fetchInBackground("user", new GetCallback<AVObject>() {
                 @Override
@@ -222,12 +211,13 @@ public class AskDetailActivity extends BaseMvpActivity implements AskDetailContr
     /**
      * 初始化共享组件的内容
      */
+    @SuppressLint("SetTextI18n")
     private void initData(){
         bean = SummerListAdapter.bean;
         binding.summerSmDetailItemName.setText(bean.getAuthor().getUsername());
         binding.summerSmDetailItemContent.setText(bean.getAskContent());
         binding.summerSmDetailItemTitle.setText(bean.getAskName());
-        binding.summerSmDetailItemTime.setText(bean.getUpdatedAt());
+        binding.summerSmDetailItemTime.setText("更新于"+bean.getUpdatedAt());
         if(bean.getAuthor().getAVFile("avatar")!=null){
             Glide.with(this).load(bean.getAuthor().getAVFile("avatar").getUrl()).apply(new RequestOptions().override(200,200)).into(binding.summerSmDetailItemAvatar);
         }
@@ -238,6 +228,30 @@ public class AskDetailActivity extends BaseMvpActivity implements AskDetailContr
             bundle.putString("objectId",bean.getAuthor().getObjectId());
             intent.putExtras(bundle);
             getContext().startActivity(intent);
+        });
+
+        TextView hotNum = binding.summerSmDetailItemLikeNum;
+        hotNum.setText("("+bean.getAskInfo().getInt("hot")+")");
+
+        binding.summerSmDetailItemLike.setOnClickListener(v->{
+            if(!bean.getAuthor().getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
+                int hot = bean.getAskInfo().getInt("hot");
+                bean.getAskInfo().put("hot",hot+1);
+                bean.getAskInfo().saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(AVException e) {
+                        if(e==null){
+                            Toasts.show("投币成功 热度增加！");
+                            hotNum.setText("("+bean.getAskInfo().getInt("hot")+")");
+                            int curMyMoney = AVUser.getCurrentUser().getInt("money");
+                            AVUser.getCurrentUser().put("money",curMyMoney-1);
+                            AVUser.getCurrentUser().saveInBackground();
+                        }else Toasts.show(e.getMessage());
+                    }
+                });
+            }else{
+                Toasts.show("你别给自己投币呀！");
+            }
         });
 
         if(bean.getPhoto()!=null){

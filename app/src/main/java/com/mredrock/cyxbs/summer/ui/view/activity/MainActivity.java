@@ -3,6 +3,7 @@ package com.mredrock.cyxbs.summer.ui.view.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.arch.lifecycle.LifecycleOwner;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.databinding.DataBindingUtil;
@@ -65,7 +66,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements LifecycleOwner {
 
     public static final String TAG = "MainActivity";
 
@@ -116,6 +117,10 @@ public class MainActivity extends BaseActivity {
                     return HeaderDesign.fromColorResAndDrawable(
                             R.color.cyan,
                             getResources().getDrawable(R.drawable.summer_main_header3));
+                case 3:
+                    return HeaderDesign.fromColorResAndDrawable(
+                            R.color.blue,
+                            getResources().getDrawable(R.drawable.summer_main_header4));
             }
             return null;
         });
@@ -136,10 +141,16 @@ public class MainActivity extends BaseActivity {
         titlelist = new ArrayList<>();
         fragments.add(new SummerFragment());
         fragments.add(new ChatListFragment());
-        fragments.add(new InfoFragment());
+        InfoFragment follower = new InfoFragment();
+        follower.setKind("粉丝");
+        InfoFragment followee = new InfoFragment();
+        followee.setKind("关注");
+        fragments.add(follower);
+        fragments.add(followee);
         titlelist.add("广场");
         titlelist.add("消息");
-        titlelist.add("联系人");
+        titlelist.add("我的粉丝");
+        titlelist.add("我的关注");
 
         FFragmentPagerAdapter adapter = new FFragmentPagerAdapter(getSupportFragmentManager(),fragments,titlelist);
         viewPager.setAdapter(adapter);

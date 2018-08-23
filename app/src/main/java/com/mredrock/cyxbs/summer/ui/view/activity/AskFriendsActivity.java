@@ -7,16 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.databinding.DataBindingUtil;
-import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Toast;
 
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
@@ -24,30 +17,24 @@ import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.base.BaseMvpActivity;
 import com.mredrock.cyxbs.summer.bean.AskBean;
 import com.mredrock.cyxbs.summer.databinding.ActivityAskFriendsBinding;
-import com.mredrock.cyxbs.summer.ui.contract.AskFriednsContract;
-import com.mredrock.cyxbs.summer.ui.model.AskFriendsModel;
-import com.mredrock.cyxbs.summer.ui.presenter.AskFriendsPresenter;
+import com.mredrock.cyxbs.summer.ui.mvp.contract.AskFriednsContract;
+import com.mredrock.cyxbs.summer.ui.mvp.model.AskFriendsModel;
+import com.mredrock.cyxbs.summer.ui.mvp.presenter.AskFriendsPresenter;
 import com.mredrock.cyxbs.summer.utils.DensityUtils;
 import com.mredrock.cyxbs.summer.utils.DialogBuilder;
 import com.mredrock.cyxbs.summer.utils.Glide4Engine;
 import com.mredrock.cyxbs.summer.utils.RecorderUtil;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 import com.mredrock.cyxbs.summer.utils.UriUtil;
-import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 
 public class AskFriendsActivity extends BaseMvpActivity implements AskFriednsContract.IAskFriendsView {
     private ActivityAskFriendsBinding binding;

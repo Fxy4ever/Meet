@@ -1,10 +1,9 @@
-package com.mredrock.cyxbs.summer.ui.presenter;
+package com.mredrock.cyxbs.summer.ui.mvp.presenter;
 
-import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.mredrock.cyxbs.summer.base.BaseContract;
 import com.mredrock.cyxbs.summer.base.BasePresenter;
-import com.mredrock.cyxbs.summer.ui.contract.SummerContract;
+import com.mredrock.cyxbs.summer.ui.mvp.contract.SummerContract;
 
 import java.util.List;
 

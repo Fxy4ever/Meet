@@ -94,6 +94,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void Register(){
+
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(AVException e) {

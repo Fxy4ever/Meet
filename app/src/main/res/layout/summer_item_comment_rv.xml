@@ -43,8 +43,8 @@
             android:background="@drawable/summer_icon_play"
             android:layout_marginRight="20dp"
             android:layout_gravity="right|center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="36dp"
+            android:layout_height="36dp" />
         <TextView
             android:id="@+id/summer_comment_playTime"
             android:layout_gravity="right|center"

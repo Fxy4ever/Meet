@@ -1,12 +1,11 @@
-package com.mredrock.cyxbs.summer.ui.model;
+package com.mredrock.cyxbs.summer.ui.mvp.model;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
-import com.mredrock.cyxbs.summer.ui.contract.SummerContract;
+import com.mredrock.cyxbs.summer.ui.mvp.contract.SummerContract;
 
-import java.util.Date;
 import java.util.List;
 
 public class SummerModel implements SummerContract.ISummerModel {

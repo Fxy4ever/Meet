@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.summer.ui.contract;
+package com.mredrock.cyxbs.summer.ui.mvp.contract;
 
 import com.avos.avoscloud.AVObject;
 import com.mredrock.cyxbs.summer.base.BaseContract;

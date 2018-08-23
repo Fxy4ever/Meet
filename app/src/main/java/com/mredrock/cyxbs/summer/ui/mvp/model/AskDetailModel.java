@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.summer.ui.model;
+package com.mredrock.cyxbs.summer.ui.mvp.model;
 
 import android.util.Log;
 
@@ -7,9 +7,8 @@ import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
-import com.mredrock.cyxbs.summer.base.BaseContract;
 import com.mredrock.cyxbs.summer.bean.CommentBean;
-import com.mredrock.cyxbs.summer.ui.contract.AskDetailContract;
+import com.mredrock.cyxbs.summer.ui.mvp.contract.AskDetailContract;
 
 import java.util.List;
 
@@ -48,7 +47,6 @@ public class AskDetailModel implements AskDetailContract.IAskDetailModel {
             @Override
             public void done(List<AVObject> list, AVException e) {
                 if(e == null){
-                    Log.d("fxy", "done: "+list.size());
                     callBack.succeed(list);
                 }else{
                     callBack.failed(e.getMessage());

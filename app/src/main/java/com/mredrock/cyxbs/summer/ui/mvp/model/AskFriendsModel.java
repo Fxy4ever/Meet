@@ -1,14 +1,11 @@
-package com.mredrock.cyxbs.summer.ui.model;
-
-import android.util.Log;
+package com.mredrock.cyxbs.summer.ui.mvp.model;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
-import com.mredrock.cyxbs.summer.base.BaseContract;
 import com.mredrock.cyxbs.summer.bean.AskBean;
-import com.mredrock.cyxbs.summer.ui.contract.AskFriednsContract;
+import com.mredrock.cyxbs.summer.ui.mvp.contract.AskFriednsContract;
 
 public class AskFriendsModel implements AskFriednsContract.IAskFriendsModel {
 

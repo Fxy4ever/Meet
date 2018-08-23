@@ -44,13 +44,13 @@ public class AudioUtil {
     private static void onPlayerStatusChanged(AudioPlayer lapt, int status, @Nullable Object msg, ImageButton button){
         switch (status){
             case AudioPlayer.Status.STATUS_READY:
-                button.setImageResource(R.drawable.summer_icon_play_light);
+                button.setBackgroundResource(R.drawable.summer_icon_play_light);
                 break;
             case AudioPlayer.Status.STATUS_COMPLETE:
-                button.setImageResource(R.drawable.summer_icon_play);
+                button.setBackgroundResource(R.drawable.summer_icon_play);
                 break;
             case AudioPlayer.Status.STATUS_ERROR:
-                button.setImageResource(R.drawable.summer_icon_play);
+                button.setBackgroundResource(R.drawable.summer_icon_play);
                 break;
         }
     }

@@ -1,11 +1,12 @@
-package com.mredrock.cyxbs.summer.ui.presenter;
+package com.mredrock.cyxbs.summer.ui.mvp.presenter;
 
 import com.avos.avoscloud.AVObject;
 import com.mredrock.cyxbs.summer.base.BaseContract;
 import com.mredrock.cyxbs.summer.base.BasePresenter;
 import com.mredrock.cyxbs.summer.bean.CommentBean;
-import com.mredrock.cyxbs.summer.ui.contract.AskDetailContract;
-import com.mredrock.cyxbs.summer.ui.model.AskDetailModel;
+import com.mredrock.cyxbs.summer.ui.mvp.contract.AskDetailContract;
+import com.mredrock.cyxbs.summer.ui.mvp.model.AskDetailModel;
+import com.mredrock.cyxbs.summer.ui.view.activity.AskDetailActivity;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 
 import java.util.List;
@@ -40,7 +41,9 @@ public class AskDetailPresenter extends BasePresenter<AskDetailContract.IAskDeta
             @Override
             public void succeed(Object o) {
                 getView().hideLoad();
-
+                int commentNum = AskDetailActivity.bean.getAskInfo().getInt("countNum");
+                AskDetailActivity.bean.getAskInfo().put("countNum",commentNum+1);
+                AskDetailActivity.bean.getAskInfo().saveInBackground();
             }
 
             @Override

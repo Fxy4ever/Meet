@@ -1,11 +1,10 @@
-package com.mredrock.cyxbs.summer.ui.presenter;
+package com.mredrock.cyxbs.summer.ui.mvp.presenter;
 
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
 import com.mredrock.cyxbs.summer.base.BaseContract;
 import com.mredrock.cyxbs.summer.base.BasePresenter;
-import com.mredrock.cyxbs.summer.bean.AskBean;
-import com.mredrock.cyxbs.summer.ui.contract.UserContract;
+import com.mredrock.cyxbs.summer.ui.mvp.contract.UserContract;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 
 import java.util.List;
@@ -18,18 +17,18 @@ public class UserPresenter extends BasePresenter<UserContract.IUserView> {
     }
 
     public void loadUser(String objectId){
-        model.LoadUserInfo(objectId, new BaseContract.ISomethingModel.LoadCallBack() {
+        model.LoadUserInfo(objectId, new UserContract.CallBack() {
             @Override
-            public void succeed(Object o) {
+            public void succeed(Object o, boolean isFavorite) {
                 if(o!=null){
                     AVUser avUser = (AVUser) o;
-                    getView().setUser(avUser);
+                    getView().setUser(avUser,isFavorite);
                 }
             }
 
             @Override
             public void failed(String msg) {
-                Toasts.show(msg);
+
             }
         });
     }

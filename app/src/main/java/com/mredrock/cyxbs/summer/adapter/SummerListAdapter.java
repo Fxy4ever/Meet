@@ -23,12 +23,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVACL;
+import com.avos.avoscloud.AVCallback;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.GetCallback;
+import com.avos.avoscloud.SaveCallback;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.frecyclerview.BaseHolder;
@@ -41,6 +44,7 @@ import com.mredrock.cyxbs.summer.utils.AudioPlayer;
 import com.mredrock.cyxbs.summer.utils.AudioUtil;
 import com.mredrock.cyxbs.summer.utils.DateUtil;
 import com.mredrock.cyxbs.summer.utils.DialogBuilder;
+import com.mredrock.cyxbs.summer.utils.Toasts;
 
 import java.util.List;
 
@@ -78,18 +82,22 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
                 ImageButton play = baseHolder.getView(R.id.summer_sm_item_play);
                 TextView playTime = baseHolder.getView(R.id.summer_sm_item_play_time);
                 CardView parent = baseHolder.getView(R.id.summer_sm_parent);
+                ImageButton like = baseHolder.getView(R.id.summer_sm_item_like);
+                TextView hotNum = baseHolder.getView(R.id.summer_sm_item_likeNum);
+                TextView commentNum = baseHolder.getView(R.id.summer_sm_item_comNum);
 
+                commentNum.setText("("+beans.get(i).getAskInfo().getInt("countNum")+")");
+                hotNum.setText("("+beans.get(i).getAskInfo().getInt("hot")+")");
                 name.setText(beans.get(i).getAuthor().getUsername());
                 content.setText(beans.get(i).getAskContent());
                 title.setText(beans.get(i).getAskName());
-                time.setText(beans.get(i).getUpdatedAt());
+                time.setText("更新于"+beans.get(i).getUpdatedAt());
                 if(beans.get(i).getAuthor().getAVFile("avatar")!=null){
                     Glide.with(getContext()).load(beans.get(i).getAuthor().getAVFile("avatar").getUrl()).apply(new RequestOptions().override(300,300)).into(avatar);
                 }
                 avatar.setOnClickListener(v->{
                     Intent intent = new Intent(getContext(),UserActivity.class);
                     Bundle bundle = new Bundle();
-                    Log.d("fxy", "onBinds: "+beans.get(i).getAuthor().getObjectId());
                     bundle.putString("objectId",beans.get(i).getAuthor().getObjectId());
                     intent.putExtras(bundle);
                     getContext().startActivity(intent);
@@ -117,6 +125,28 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
                         bean = beans.get(i);
                         Intent intent = new Intent(getContext(), AskDetailActivity.class);
                         getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) getContext(),parent,"share").toBundle());
+                });
+
+                like.setOnClickListener(v->{
+
+                    if(!beans.get(i).getAuthor().getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
+                        int hot = beans.get(i).getAskInfo().getInt("hot");
+                        beans.get(i).getAskInfo().put("hot",hot+1);
+                        beans.get(i).getAskInfo().saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(AVException e) {
+                                if(e==null){
+                                    Toasts.show("投币成功 热度增加！");
+                                    hotNum.setText("("+beans.get(i).getAskInfo().getInt("hot")+")");
+                                    int curMyMoney = AVUser.getCurrentUser().getInt("money");
+                                    AVUser.getCurrentUser().put("money",curMyMoney-1);
+                                    AVUser.getCurrentUser().saveInBackground();
+                                }else Toasts.show(e.getMessage());
+                            }
+                        });
+                    }else{
+                        Toasts.show("你别给自己投币呀！");
+                    }
                 });
 
                 break;
