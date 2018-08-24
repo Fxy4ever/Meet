@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:id="@+id/summer_chat_root"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.view.activity.ChatActivity">
+        <android.support.v7.widget.Toolbar
+            app:navigationIcon="@drawable/summer_icon_back"
+            android:id="@+id/summer_chat_tl"
+            android:background="@drawable/summer_login_backgroud_shape"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            >
+            <TextView
+                android:id="@+id/summer_chat_userName"
+                tools:text="Fxymine4ever"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </android.support.v7.widget.Toolbar>
+        <android.support.v7.widget.RecyclerView
+            android:background="#EAEAEA"
+            android:id="@+id/summer_chat_rv"
+            android:layout_width="match_parent"
+            android:layout_weight="8"
+            android:layout_height="0dp">
+
+        </android.support.v7.widget.RecyclerView>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/summer_pop_chat_voice"
+                android:src="@drawable/summer_icon_voice"
+                app:civ_border_width="1dp"
+                android:layout_gravity="center"
+                app:civ_border_color="#D6D7D7"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="35dp" />
+            <FrameLayout
+                android:layout_weight="5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/summer_pop_chat_et"
+                    android:layout_width="match_parent"
+                    android:padding="5dp"
+                    android:textColor="#000000"
+                    android:layout_gravity="center"
+                    android:background="@drawable/summer_et_shape"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:visibility="gone"
+                    android:id="@+id/summer_pop_chat_sendVoice"
+                    android:layout_width="match_parent"
+                    android:text="按住说话"
+                    android:background="@drawable/summer_chat_send_shape"
+                    android:layout_height="35dp" />
+            </FrameLayout>
+            <ImageButton
+                android:id="@+id/summer_pop_chat_photo"
+                android:background="@drawable/summer_icon_photo"
+                android:layout_width="0dp"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="0.8"
+                android:layout_height="35dp" />
+            <Button
+                android:id="@+id/summer_pop_chat_send"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="发送"
+                android:background="@drawable/summer_chat_send_shape"
+                android:layout_height="30dp" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

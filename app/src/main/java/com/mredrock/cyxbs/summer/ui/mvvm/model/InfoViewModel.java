@@ -39,4 +39,7 @@ public class InfoViewModel extends AndroidViewModel {
     public LiveData<List<AVUser>> getFolloweeList() {
         return followeeList;
     }
+
+
+
 }

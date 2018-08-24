@@ -1,15 +1,12 @@
 package com.mredrock.cyxbs.summer.ui.view.fragment;
 
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -80,6 +77,7 @@ public class InfoFragment extends Fragment implements LifecycleOwner{
              model = ViewModelProviders.of(this).get(InfoViewModel.class);
              model.setFenSi(AVUser.getCurrentUser());
         }else{
+            Log.d("fxy", "onActivityCreated: viewModel创立");
             model = ViewModelProviders.of(this).get(InfoViewModel.class);
              model.setGuanZhu(AVUser.getCurrentUser());
         }
@@ -90,21 +88,21 @@ public class InfoFragment extends Fragment implements LifecycleOwner{
 
     private void observeModel(InfoViewModel model){
         if(kind.equals("粉丝")){
-            model.getFollowerList().observe(this,list->{
+            model.getFollowerList().observeForever(avUsers -> {
                 refreshLayout.finishRefresh();
-                if(list!=null){
-                    Log.d("fxy", "observeModel: ");
-                    data.addAll(list);
+                if(avUsers!=null){
+                    data.addAll(avUsers);
                     adapter.notifyDataSetChanged();
                 }
             });
         }else{
-            model.getFolloweeList().observe(this,list->{
-                refreshLayout.finishRefresh();
-                if(list!=null){
-                    data.addAll(list);
+            model.getFolloweeList().observeForever(avUsers -> {
+                if(avUsers!=null){
+                    data.clear();
+                    data.addAll(avUsers);
                     adapter.notifyDataSetChanged();
                 }
+                refreshLayout.finishRefresh();
             });
         }
     }

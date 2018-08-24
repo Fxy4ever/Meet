@@ -231,7 +231,7 @@ public class AskDetailActivity extends BaseMvpActivity implements AskDetailContr
         });
 
         TextView hotNum = binding.summerSmDetailItemLikeNum;
-        hotNum.setText("("+bean.getAskInfo().getInt("hot")+")");
+//        hotNum.setText(bean.getAskInfo().getInt("hot"));
 
         binding.summerSmDetailItemLike.setOnClickListener(v->{
             if(!bean.getAuthor().getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
@@ -242,7 +242,7 @@ public class AskDetailActivity extends BaseMvpActivity implements AskDetailContr
                     public void done(AVException e) {
                         if(e==null){
                             Toasts.show("投币成功 热度增加！");
-                            hotNum.setText("("+bean.getAskInfo().getInt("hot")+")");
+                            hotNum.setText(bean.getAskInfo().getInt("hot"));
                             int curMyMoney = AVUser.getCurrentUser().getInt("money");
                             AVUser.getCurrentUser().put("money",curMyMoney-1);
                             AVUser.getCurrentUser().saveInBackground();

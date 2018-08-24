@@ -17,6 +17,7 @@
                 android:id="@+id/summer_user_toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:expandedTitleGravity="center_horizontal"
                 android:background="@drawable/summer_register_back_shape"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -39,7 +40,7 @@
                 <TextView
                     android:id="@+id/summer_user_money"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="35dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_gravity="left|bottom"
                     android:textColor="#FFFFFF"
                     android:layout_width="wrap_content"
@@ -72,7 +73,13 @@
             android:orientation="horizontal"
             app:layout_anchor="@id/summer_user_app_bar"
             app:layout_anchorGravity="bottom|right">
-
+            <Button
+                android:id="@+id/summer_user_chat"
+                android:text="聊天"
+                android:background="@drawable/summer_askbtn_shape"
+                android:layout_gravity="center"
+                android:layout_width="80dp"
+                android:layout_height="40dp" />
             <Button
                 android:id="@+id/summer_user_send"
                 android:layout_width="80dp"

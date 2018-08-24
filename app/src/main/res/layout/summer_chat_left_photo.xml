@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/summer_chat_left_photo_avatar"
+            android:src="@drawable/summer_user_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+        <FrameLayout
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:background="@drawable/chat_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/summer_chat_left_photo_img"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher_background"
+                android:layout_width="200dp"
+                android:layout_height="100dp" />
+        </FrameLayout>
+    </LinearLayout>
+
+</FrameLayout>

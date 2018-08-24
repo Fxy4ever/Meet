@@ -16,7 +16,7 @@ public class GlideBlurformation extends BitmapTransformation {
     }
     @Override
     protected Bitmap transform(@NonNull BitmapPool pool, @NonNull Bitmap toTransform, int outWidth, int outHeight) {
-        return BlurBitmapUtil.instance().blurBitmap(context, toTransform, 20,outWidth,outHeight);
+        return BlurBitmapUtil.instance().blurBitmap(context, toTransform, 18,outWidth,outHeight);
     }
     @Override
     public void updateDiskCacheKey(MessageDigest messageDigest) {

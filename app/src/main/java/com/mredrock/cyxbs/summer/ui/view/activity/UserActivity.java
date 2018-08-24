@@ -43,7 +43,7 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
     private SummerListAdapter adapter;
     private RecyclerView recyclerView;
     private boolean isFavorite = false;
-    private int money=0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +70,8 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SummerListAdapter(this,datas,new int[]{R.layout.summer_item_user_rv});
         recyclerView.setAdapter(adapter);
+        binding.summerUserChat.setVisibility(View.GONE);
+        binding.summerUserSend.setVisibility(View.GONE);
     }
 
 
@@ -137,10 +139,14 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
                 avatar.setVisibility(View.VISIBLE);
                 if(!avUser.getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
                     binding.summerUserSend.setVisibility(View.VISIBLE);
+                    binding.summerUserChat.setVisibility(View.VISIBLE);
                 }
+                binding.summerUserMoney.setVisibility(View.VISIBLE);
             } else {
                 avatar.setVisibility(View.GONE);
+                binding.summerUserMoney.setVisibility(View.GONE);
                 binding.summerUserSend.setVisibility(View.GONE);
+                binding.summerUserChat.setVisibility(View.GONE);
             }
         });
         presenter.loadData(avUser);
@@ -148,7 +154,18 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
         binding.summerUserToolbar.setNavigationOnClickListener(v->{
             finish();
         });
+
+        binding.summerUserChat.setOnClickListener(v->{
+            Intent intent = new Intent(UserActivity.this,ChatActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("objectId",avUser.getObjectId());
+            intent.putExtras(bundle);
+            startActivity(intent);
+        });
     }
+
+
+
 
     @Override
     public void setData(List<AVObject> beans) {

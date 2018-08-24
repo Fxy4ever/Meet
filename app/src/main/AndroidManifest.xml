@@ -16,9 +16,10 @@
     <application
         android:name=".ui.view.activity.App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/summer_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/summer_logo"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.view.activity.WelcomeActivity">
@@ -61,7 +62,12 @@
         <activity
             android:name=".ui.view.activity.UserActivity"
             android:label="@string/title_activity_user"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ui.view.activity.ChatActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            >
+
+        </activity>
     </application>
 
 </manifest>

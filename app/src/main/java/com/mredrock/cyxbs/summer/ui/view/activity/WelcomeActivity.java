@@ -1,12 +1,11 @@
 package com.mredrock.cyxbs.summer.ui.view.activity;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 
 import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.LogInCallback;
 import com.mredrock.cyxbs.summer.R;
@@ -22,10 +21,7 @@ public class WelcomeActivity extends BaseActivity {
         setContentView(R.layout.activity_welcome);
         Toolbar toolbar = findViewById(R.id.welcome_tb);
         DensityUtils.setTransparent(toolbar,this);
-        String app_Key = "VijaFweItDqe1KIUTHux1K7X";
-        String app_Id = "UYy61kgDl429l4zkc1jzHJR5-gzGzoHsz";
-        AVOSCloud.initialize(this, app_Id, app_Key);//初始化
-        AVOSCloud.setDebugLogEnabled(true);//开启日志
+
         new Handler().postDelayed(() -> {
            if((boolean)App.spHelper().get("isChecked",false))
            {

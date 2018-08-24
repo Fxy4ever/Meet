@@ -18,10 +18,7 @@
         <item name="colorControlNormal">@android:color/white</item>
         <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
 
-        <!-- Material Theme -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/accent_color</item>
+
 
         <item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor
         </item>
@@ -70,9 +67,9 @@
 
     <style name="AppTheme2" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">#1A2030</item>
+        <item name="colorPrimaryDark">#1A2030</item>
+        <item name="colorAccent">#C7C7C7</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
 

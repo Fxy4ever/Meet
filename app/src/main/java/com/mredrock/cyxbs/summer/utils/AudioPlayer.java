@@ -135,6 +135,7 @@ public class AudioPlayer {
     protected void finalize() {
         if (mPlayer.isPlaying())
             mPlayer.stop();
+
         mPlayer.release();
         mPlayer = null;
     }

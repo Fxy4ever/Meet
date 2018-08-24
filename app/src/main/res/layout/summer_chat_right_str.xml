@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="6"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+            <FrameLayout
+                android:padding="10dp"
+                android:background="@drawable/chat_right"
+                android:layout_gravity="right|center"
+                android:layout_marginRight="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/summer_chat_right_str_content"
+                    tools:text="爱噢大危机动静啊我哦ID叫啊我 i 哦大家噢豌 i 简单哦我 i 多久哦 i 啊我的家i 哦啊我觉得avoid那我 i大家噢 i 啊我觉得啊我ID叫爱噢我减肥啊我 i 多久哦 i 啊我的家i 哦啊我觉得avoid那我 i大家噢 i 啊我觉得啊我ID叫爱噢我减肥 "
+                    android:textColor="#FFFFFF"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
+        </FrameLayout>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/summer_chat_right_str_avatar"
+            android:src="@drawable/summer_user_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+    </LinearLayout>
+</FrameLayout>

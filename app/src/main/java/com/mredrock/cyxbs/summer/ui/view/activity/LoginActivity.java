@@ -17,7 +17,6 @@ import com.mredrock.cyxbs.summer.databinding.ActivityLoginBinding;
 import com.mredrock.cyxbs.summer.utils.ActivityManager;
 import com.mredrock.cyxbs.summer.utils.DensityUtils;
 import com.mredrock.cyxbs.summer.utils.DialogBuilder;
-import com.mredrock.cyxbs.summer.utils.SPHelper;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 
 public class LoginActivity extends BaseActivity {
@@ -34,6 +33,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_login);
         DensityUtils.setTransparent(binding.summerLoginTl,this);
+        dialog = new DialogBuilder(this).title("").message("登陆中...").setCancelable(false).build();
         initAVCloud();
         initListener();
     }
@@ -49,7 +49,6 @@ public class LoginActivity extends BaseActivity {
             tx_password = App.spHelper().get("password","").toString().trim();
             binding.loginCheckbox.setChecked(true);
             Login();
-            dialog = new DialogBuilder(this).title("").message("登陆中...").setCancelable(false).build();
             dialog.show();
         }
     }
@@ -96,16 +95,17 @@ public class LoginActivity extends BaseActivity {
         });
         //登陆按钮
         binding.loginCommit.setOnClickListener(v -> {
-            Login();
-            dialog = new DialogBuilder(context).title("").message("登陆中...").setCancelable(false).build();
             dialog.show();
+            Login();
         });
         //记住密码单选框
         binding.loginCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
-                App.spHelper().put("account",tx_account);
-                App.spHelper().put("password",tx_password);
-                App.spHelper().put("isChecked",true);
+                if(tx_account.length()>0&&tx_password.length()>0){
+                    App.spHelper().put("account",tx_account);
+                    App.spHelper().put("password",tx_password);
+                    App.spHelper().put("isChecked",true);
+                }
             }else{
                 App.spHelper().remove("account");
                 App.spHelper().remove("password");
@@ -117,7 +117,7 @@ public class LoginActivity extends BaseActivity {
     /**
      * 登陆操作 利用LeanCloud后端支持
      */
-    private void Login(){
+    private void Login(){ 
         if(tx_account.length()>0&&tx_password.length()>0){
             AVUser.logInInBackground(tx_account, tx_password, new LogInCallback<AVUser>() {
                 @Override
@@ -132,15 +132,21 @@ public class LoginActivity extends BaseActivity {
                         overridePendingTransition(R.anim.out_to_top,R.anim.in_from_bottm);
                     }else{
                         Toasts.show(e.getMessage());
+                        App.spHelper().remove("account");
+                        App.spHelper().remove("password");
+                        App.spHelper().remove("isChecked");
                         if(binding.loginAccount.getText().length()==0){
                             binding.loginAccount.setError("用户名不能为空");
                         }
                         if(binding.loginPassword.getText().length()==0){
                             binding.loginPassword.setError("密码不能为空");
                         }
+                        dialog.cancel();
                     }
                 }
             });
+        }else{
+            dialog.cancel();
         }
     }
 

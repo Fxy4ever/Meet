@@ -2,25 +2,21 @@ package com.mredrock.cyxbs.summer.ui.view.activity;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
+import com.avos.avoscloud.AVOSCloud;
+import com.avos.avoscloud.im.v2.AVIMClient;
+import com.avos.avoscloud.im.v2.AVIMConversation;
+import com.avos.avoscloud.im.v2.AVIMMessage;
+import com.avos.avoscloud.im.v2.AVIMMessageHandler;
+import com.avos.avoscloud.im.v2.AVIMMessageManager;
+import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.utils.SPHelper;
-import com.scwang.smartrefresh.header.DeliveryHeader;
-import com.scwang.smartrefresh.header.FlyRefreshHeader;
-import com.scwang.smartrefresh.header.FunGameBattleCityHeader;
+import com.mredrock.cyxbs.summer.utils.Toasts;
 import com.scwang.smartrefresh.header.MaterialHeader;
-import com.scwang.smartrefresh.header.PhoenixHeader;
-import com.scwang.smartrefresh.header.StoreHouseHeader;
-import com.scwang.smartrefresh.header.TaurusHeader;
-import com.scwang.smartrefresh.header.WaterDropHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
-import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
-import com.scwang.smartrefresh.layout.api.RefreshFooter;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 public class App extends Application {
     private static Context appContext;
@@ -44,9 +40,30 @@ public class App extends Application {
         super.onCreate();
         appContext = getApplicationContext();
         spHelper = new SPHelper(appContext,"Default");
+        String app_Key = "VijaFweItDqe1KIUTHux1K7X";
+        String app_Id = "UYy61kgDl429l4zkc1jzHJR5-gzGzoHsz";
+        AVOSCloud.initialize(this, app_Id, app_Key);//初始化
+        AVIMMessageManager.registerDefaultMessageHandler(new App.CustomMessageHandler());
+        AVIMClient.setUnreadNotificationEnabled(true);
+        AVOSCloud.setDebugLogEnabled(false);//开启日志
     }
 
     public static Context getContext(){return appContext;}
 
     public static SPHelper spHelper(){return spHelper;}
+
+    public static class CustomMessageHandler extends AVIMMessageHandler {
+        //接收到消息后的处理逻辑
+        @Override
+        public void onMessage(AVIMMessage message, AVIMConversation conversation, AVIMClient client){
+            if(message instanceof AVIMTextMessage){
+                Log.d("chat",message.getContent()+"app里");
+                Toasts.show(message.getContent());
+            }
+        }
+
+        public void onMessageReceipt(AVIMMessage message,AVIMConversation conversation,AVIMClient client){
+
+        }
+    }
 }

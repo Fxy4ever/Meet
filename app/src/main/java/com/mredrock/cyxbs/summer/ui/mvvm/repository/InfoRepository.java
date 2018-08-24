@@ -1,10 +1,7 @@
 package com.mredrock.cyxbs.summer.ui.mvvm.repository;
 
-import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.avos.avoscloud.AVException;
@@ -13,14 +10,18 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InfoRepository {
     private static InfoRepository repository;
     private AVUser currentUesr;
+    private final MutableLiveData<List<AVUser>> data1;
+    private final MutableLiveData<List<AVUser>> data2;
 
     private InfoRepository(){
-        currentUesr = AVUser.getCurrentUser();
+        data1 = new MutableLiveData<>();
+        data2 = new MutableLiveData<>();
     }
 
     public static InfoRepository getInstance(){
@@ -40,8 +41,6 @@ public class InfoRepository {
      * @return
      */
     public LiveData<List<AVUser>> getFowllowerList(AVUser avUser){
-        final MutableLiveData<List<AVUser>> data = new MutableLiveData<>();
-
         try {
             AVQuery<AVUser> query = avUser.followerQuery(AVUser.class);
             query.include("follower");
@@ -49,7 +48,7 @@ public class InfoRepository {
                 @Override
                 public void done(List<AVUser> list, AVException e) {
                     if(e==null){
-                        data.setValue(list);
+                        data1.setValue(list);
                     }else{
                         Toasts.show("查询不到当前粉丝列表");
                     }
@@ -58,7 +57,7 @@ public class InfoRepository {
         } catch (AVException e) {
             e.printStackTrace();
         }
-        return data;
+        return data1;
     }
 
     /**
@@ -67,7 +66,6 @@ public class InfoRepository {
      * @return
      */
     public LiveData<List<AVUser>> getFowlloweeList(AVUser avUser){
-        final MutableLiveData<List<AVUser>> data = new MutableLiveData<>();
 
         AVQuery<AVUser> query = null;
         try {
@@ -77,7 +75,9 @@ public class InfoRepository {
                 @Override
                 public void done(List<AVUser> list, AVException e) {
                     if(e==null){
-                        data.setValue(list);
+                        List<AVUser> newList = new ArrayList<>(list);
+                        Log.d("fxy", "done: 关注列表的个数为："+ newList.size());
+                        data2.setValue(newList);
                     }else{
                         Toasts.show("查询不到当前关注列表");
                     }
@@ -87,6 +87,6 @@ public class InfoRepository {
             e.printStackTrace();
         }
 
-        return data;
+        return data2;
     }
 }
