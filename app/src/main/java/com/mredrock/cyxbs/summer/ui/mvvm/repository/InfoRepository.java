@@ -2,7 +2,6 @@ package com.mredrock.cyxbs.summer.ui.mvvm.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.util.Log;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVQuery;
@@ -76,7 +75,6 @@ public class InfoRepository {
                 public void done(List<AVUser> list, AVException e) {
                     if(e==null){
                         List<AVUser> newList = new ArrayList<>(list);
-                        Log.d("fxy", "done: 关注列表的个数为："+ newList.size());
                         data2.setValue(newList);
                     }else{
                         Toasts.show("查询不到当前关注列表");

@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.summer.ui.mvvm.repository;
 
-import android.app.Dialog;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
@@ -11,12 +10,9 @@ import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
-import com.avos.avoscloud.SaveCallback;
-import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.AVIMMessage;
-import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMMessagesQueryCallback;
@@ -24,7 +20,7 @@ import com.avos.avoscloud.im.v2.messages.AVIMAudioMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMImageMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.mredrock.cyxbs.summer.bean.ChatBean;
-import com.mredrock.cyxbs.summer.ui.view.activity.App;
+import com.mredrock.cyxbs.summer.ui.view.activity.MainActivity;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 
 import java.io.FileNotFoundException;
@@ -37,13 +33,12 @@ public class ChatRepository {
     public static final String TAG = "ChatRepository";
 
     private static ChatRepository repository;
-    private MutableLiveData<List<ChatBean>> data;
+    private final MutableLiveData<List<ChatBean>> data = new MutableLiveData<>();;
     private AVUser mine;
     private AVUser you;
     private AVIMConversation conversation;
     private boolean isCanChat = false;
     private List<ChatBean> beans;
-    private AVIMClient client;
 
 
     private ChatRepository() {
@@ -66,15 +61,10 @@ public class ChatRepository {
     }
 
     //qnm leanCloud  连接leanCloud
-    public LiveData<List<ChatBean>> createChat(AVIMClient client) {
-        data = new MutableLiveData<>();
-        client.open(new AVIMClientCallback() {//建立client连接
-            @Override
-            public void done(AVIMClient avimClient, AVIMException e) {
-                if (e == null) {
+    public LiveData<List<ChatBean>> createChat() {
                     List<String> userList = new ArrayList<>();//初始化列表
                     userList.add(you.getUsername());
-                    userList.add(mine.getUsername());
+                    userList.add(AVUser.getCurrentUser().getUsername());
                     Collections.sort(userList);//这样做让单聊的名称能够统一
                     String name = userList.get(0) + " & " + userList.get(1);
 
@@ -85,18 +75,16 @@ public class ChatRepository {
                         public void done(List<AVObject> list, AVException e) {
                             if (e == null) {
                                 if (list.size() > 0) {//存在就直接找到改conversation
-                                    conversation = client.getConversation(list.get(0).getString("conversationId"));
+                                    conversation = MainActivity.client.getConversation(list.get(0).getString("conversationId"));
                                     Log.d(TAG, "done: 连接对话成功");
                                     isCanChat = true;
                                     beans = new ArrayList<>();
-
 
                                     int limit = 20;//聊天记录查询
                                     conversation.queryMessages(limit,new AVIMMessagesQueryCallback() {
                                         @Override
                                         public void done(List<AVIMMessage> list, AVIMException e) {
                                             if(e == null){
-                                                Log.d(TAG, "done: "+list.size());
                                                 for (int i = 0; i < list.size(); i++) {
                                                    changeData(list.get(i));
                                                 }
@@ -108,7 +96,7 @@ public class ChatRepository {
 
 
                                 } else {//否则，建立新的conversation 并存进远程数据库
-                                    client.createConversation(userList, name, null, new AVIMConversationCreatedCallback() {
+                                    MainActivity.client.createConversation(userList, name, null, new AVIMConversationCreatedCallback() {
                                         @Override
                                         public void done(AVIMConversation avimConversation, AVIMException e) {
                                             if (e == null) {
@@ -122,21 +110,7 @@ public class ChatRepository {
                                                 conversation = avimConversation;
                                                 isCanChat = true;
                                                 beans = new ArrayList<>();
-//                                                int limit = 20;//聊天记录查询
-//                                                conversation.queryMessages(limit,new AVIMMessagesQueryCallback() {
-//                                                    @Override
-//                                                    public void done(List<AVIMMessage> list, AVIMException e) {
-//                                                        if(e == null){
-//                                                            Log.d(TAG, "done: "+list.size());
-//                                                            for (int i = 0; i < list.size(); i++) {
-//                                                                changeData(list.get(i));
-//                                                            }
-//                                                            data.setValue(beans);
-//                                                        }else{
-//                                                            Log.d(TAG, "done: 查询失败");
-//                                                        }
-//                                                    }
-//                                                });
+
                                             } else {
                                                 Log.d(TAG, "done: 连接对话成功");
                                             }
@@ -146,11 +120,6 @@ public class ChatRepository {
                             }
                         }
                     });
-                } else {
-                    Toasts.show("连接服务器失败" + e.getMessage());
-                }
-            }
-        });
         return data;
     }
 
@@ -171,6 +140,8 @@ public class ChatRepository {
                         if (e == null) {
                             Log.d("chat", "done: 文字发送成功");
                             changeData(msg);
+                        }else{
+                            Log.d("chat", "done: 文字发送失败"+e.getMessage());
                         }
                     }
                 });
@@ -228,7 +199,6 @@ public class ChatRepository {
     public void changeData(AVIMMessage msg) {
         ChatBean bean = new ChatBean();
         //判断msg类型
-        Log.d("chat", "changeData: 2" + mine.getUsername());
         if (msg.getFrom().equals(mine.getUsername())) {
             if (msg instanceof AVIMTextMessage) {
                 bean.setKind("我的文字");

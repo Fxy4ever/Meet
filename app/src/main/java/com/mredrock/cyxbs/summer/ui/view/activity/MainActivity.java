@@ -150,7 +150,7 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         viewPager.setOffscreenPageLimit(4);
         viewPager.onSaveInstanceState();
 
-        client = AVIMClient.getInstance(AVUser.getCurrentUser());
+        client = AVIMClient.getInstance(AVUser.getCurrentUser().getUsername());
         client.open(new AVIMClientCallback() {
             @Override
             public void done(AVIMClient avimClient, AVIMException e) {
@@ -297,14 +297,6 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
     protected void onDestroy() {
         super.onDestroy();
         ActivityManager.getInstance().finishActivity(this);
-        if(client!=null){
-            client.close(new AVIMClientCallback() {
-                @Override
-                public void done(AVIMClient avimClient, AVIMException e) {
-
-                }
-            });
-        }
     }
 
     @Override

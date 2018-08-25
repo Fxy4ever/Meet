@@ -15,6 +15,7 @@ public class ChatListViewModel extends AndroidViewModel {
 
     public ChatListViewModel(@NonNull Application application) {
         super(application);
+        list = ChatListRepository.getInstance().getData();
     }
 
     public void loadData(){

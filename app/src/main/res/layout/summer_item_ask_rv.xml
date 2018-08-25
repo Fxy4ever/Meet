@@ -79,40 +79,39 @@
                     android:layout_height="match_parent">
                     <ImageButton
                         android:id="@+id/summer_sm_item_play"
+                        android:layout_gravity="center"
                         android:background="@drawable/summer_icon_play"
                         android:layout_width="24dp"
                         android:layout_height="24dp" />
                     <TextView
-                        android:layout_marginRight="5dp"
                         android:id="@+id/summer_sm_item_play_time"
                         android:layout_gravity="center"
+                        android:layout_marginRight="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <ImageButton
                         android:id="@+id/summer_sm_item_like"
-                        android:background="@drawable/summer_icon_fire"
+                        android:layout_gravity="center"
+                        android:background="@drawable/summer_icon_like"
                         android:layout_width="24dp"
                         android:layout_height="24dp" />
                     <TextView
-                        tools:text="(2)"
-                        android:layout_marginRight="5dp"
+                        tools:text="2"
                         android:id="@+id/summer_sm_item_likeNum"
-                        android:layout_marginLeft="5dp"
                         android:layout_gravity="center"
-                        android:layout_width="wrap_content"
+                        android:layout_width="20dp"
                         android:layout_height="wrap_content" />
                     <ImageView
                         android:id="@+id/summer_sm_item_com"
-                        android:layout_marginRight="5dp"
+                        android:layout_gravity="center"
                         android:background="@drawable/summer_icon_comment"
                         android:layout_width="24dp"
                         android:layout_height="24dp" />
                     <TextView
-                        tools:text="(3)"
+                        tools:text="3"
                         android:layout_gravity="center"
-                        android:layout_marginRight="5dp"
                         android:id="@+id/summer_sm_item_comNum"
-                        android:layout_width="wrap_content"
+                        android:layout_width="20dp"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
 

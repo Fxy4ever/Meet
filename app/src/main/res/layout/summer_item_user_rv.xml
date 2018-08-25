@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    android:id="@+id/summer_sm_parent"
+<android.support.v7.widget.CardView android:id="@+id/summer_sm_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     app:cardCornerRadius="0dp"
     android:backgroundTint="#E9E9E9"
@@ -8,7 +7,8 @@
     android:transitionName="share"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
         android:padding="10dp"
         android:orientation="horizontal"
@@ -81,39 +81,40 @@
                     android:layout_height="match_parent">
                     <ImageButton
                         android:id="@+id/summer_sm_item_play"
+                        android:layout_gravity="center"
                         android:background="@drawable/summer_icon_play"
                         android:layout_width="24dp"
                         android:layout_height="24dp" />
                     <TextView
-                        android:layout_marginRight="20dp"
                         android:id="@+id/summer_sm_item_play_time"
                         android:layout_gravity="center"
+                        android:layout_marginRight="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <ImageButton
                         android:id="@+id/summer_sm_item_like"
-                        android:visibility="gone"
+                        android:layout_gravity="center"
                         android:background="@drawable/summer_icon_like"
                         android:layout_width="24dp"
                         android:layout_height="24dp" />
                     <TextView
-                        android:layout_marginRight="20dp"
                         android:id="@+id/summer_sm_item_likeNum"
                         android:layout_gravity="center"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
+                        tools:text="6"
+                        android:layout_width="20dp"
                         android:layout_height="wrap_content" />
                     <ImageView
                         android:id="@+id/summer_sm_item_com"
-                        android:layout_marginRight="5dp"
+                        android:layout_gravity="center"
                         android:background="@drawable/summer_icon_comment"
                         android:layout_width="24dp"
                         android:layout_height="24dp" />
                     <TextView
                         android:layout_gravity="center"
                         android:layout_marginRight="5dp"
+                        tools:text="6"
                         android:id="@+id/summer_sm_item_comNum"
-                        android:layout_width="wrap_content"
+                        android:layout_width="20dp"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
 

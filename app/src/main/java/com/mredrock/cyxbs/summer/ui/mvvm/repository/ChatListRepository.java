@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.summer.ui.mvvm.repository;
 
 import android.arch.lifecycle.MutableLiveData;
-import android.util.Log;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
@@ -55,7 +54,6 @@ public class ChatListRepository {
      */
     public MutableLiveData<List<ChatUserBean>> getData(){
         beans.clear();
-        Log.d("ChatListFragment", "getData: ");
         AVUser user = AVUser.getCurrentUser();
 
         AVQuery<AVObject> query = new AVQuery<>("conRelation");

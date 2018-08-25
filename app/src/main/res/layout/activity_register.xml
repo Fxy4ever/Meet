@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/summer_register_parent"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -44,6 +44,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:inputType="text"
+                        android:maxLength="12"
                         android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         android:singleLine="true"
                         android:textColor="#FFFFFF"

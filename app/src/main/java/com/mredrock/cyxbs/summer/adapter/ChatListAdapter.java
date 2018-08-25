@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,7 +18,6 @@ import com.example.frecyclerview.MultiLayoutBaseAdapter;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.bean.ChatBean;
 import com.mredrock.cyxbs.summer.utils.AudioUtil;
-import com.scwang.smartrefresh.header.waterdrop.Circle;
 
 import java.util.List;
 
@@ -129,11 +126,8 @@ public class ChatListAdapter extends MultiLayoutBaseAdapter {
     }
 
     public void setChatData(List<ChatBean> list){
-        for (ChatBean c : list) {
-            if(!beans.contains(c)){
-                beans.add(c);
-            }
-        }
+        beans.clear();
+        beans.addAll(list);
         notifyDataSetChanged();
     }
 }

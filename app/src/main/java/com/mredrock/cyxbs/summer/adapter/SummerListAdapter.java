@@ -10,27 +10,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Display;
+import android.text.TextPaint;
+import android.util.TypedValue;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.avos.avoscloud.AVACL;
-import com.avos.avoscloud.AVCallback;
 import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVObject;
-import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.FindCallback;
-import com.avos.avoscloud.GetCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -40,9 +31,7 @@ import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.bean.AskBean;
 import com.mredrock.cyxbs.summer.ui.view.activity.AskDetailActivity;
 import com.mredrock.cyxbs.summer.ui.view.activity.UserActivity;
-import com.mredrock.cyxbs.summer.utils.AudioPlayer;
 import com.mredrock.cyxbs.summer.utils.AudioUtil;
-import com.mredrock.cyxbs.summer.utils.DateUtil;
 import com.mredrock.cyxbs.summer.utils.DialogBuilder;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 
@@ -86,8 +75,9 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
                 TextView hotNum = baseHolder.getView(R.id.summer_sm_item_likeNum);
                 TextView commentNum = baseHolder.getView(R.id.summer_sm_item_comNum);
 
-                commentNum.setText("("+beans.get(i).getAskInfo().getInt("countNum")+")");
-                hotNum.setText("("+beans.get(i).getAskInfo().getInt("hot")+")");
+
+                commentNum.setText(""+beans.get(i).getAskInfo().getInt("countNum")+"");
+                hotNum.setText(""+beans.get(i).getAskInfo().getInt("hot")+"");
                 name.setText(beans.get(i).getAuthor().getUsername());
                 content.setText(beans.get(i).getAskContent());
                 title.setText(beans.get(i).getAskName());
@@ -137,7 +127,7 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
                             public void done(AVException e) {
                                 if(e==null){
                                     Toasts.show("投币成功 热度增加！");
-                                    hotNum.setText("("+beans.get(i).getAskInfo().getInt("hot")+")");
+                                    hotNum.setText(""+beans.get(i).getAskInfo().getInt("hot"));
                                     int curMyMoney = AVUser.getCurrentUser().getInt("money");
                                     AVUser.getCurrentUser().put("money",curMyMoney-1);
                                     AVUser.getCurrentUser().saveInBackground();
@@ -152,6 +142,27 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
                 break;
         }
     }
+
+    public float adjustTvTextSize(TextView tv, int maxWidth, String text) {
+        int avaiWidth = maxWidth - tv.getPaddingLeft() - tv.getPaddingRight() - 10;
+
+        if (avaiWidth <= 0 || text.length()==0) {
+            return tv.getPaint().getTextSize();
+        }
+
+        TextPaint textPaintClone = new TextPaint(tv.getPaint());
+        // note that Paint text size works in px not sp
+        float trySize = textPaintClone.getTextSize();
+
+        while (textPaintClone.measureText(text) > avaiWidth) {
+            trySize--;
+            textPaintClone.setTextSize(trySize);
+        }
+
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, trySize);
+        return trySize;
+    }
+
 
 
 

@@ -106,23 +106,22 @@
                                 <ImageButton
                                     android:id="@+id/summer_sm_detail_item_play"
                                     android:background="@drawable/summer_icon_play"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp" />
+                                    android:layout_width="46dp"
+                                    android:layout_height="46dp" />
                                 <TextView
-                                    android:layout_marginRight="20dp"
                                     android:id="@+id/summer_sm_detail_item_play_time"
                                     android:layout_gravity="center"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="20dp"
                                     android:layout_height="wrap_content" />
                                 <ImageButton
+                                    android:visibility="gone"
                                     android:id="@+id/summer_sm_detail_item_like"
-                                    android:background="@drawable/summer_icon_fire"
+                                    android:background="@drawable/summer_icon_like"
                                     android:layout_width="24dp"
                                     android:layout_height="24dp" />
                                 <TextView
-                                    android:layout_marginRight="20dp"
+                                    android:visibility="gone"
                                     android:id="@+id/summer_sm_detail_item_likeNum"
-                                    android:layout_marginLeft="5dp"
                                     android:layout_gravity="center"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content" />

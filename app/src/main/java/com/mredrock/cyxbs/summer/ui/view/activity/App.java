@@ -26,7 +26,17 @@ import org.greenrobot.eventbus.EventBus;
 public class App extends Application {
     private static Context appContext;
     private static SPHelper spHelper;
-    private static AVIMClient client;
+    private static boolean chatIsLoad = false;
+
+    public static boolean isChatIsLoad() {
+        return chatIsLoad;
+    }
+
+    public static void setChatIsLoad(boolean chatIsLoad) {
+        App.chatIsLoad = chatIsLoad;
+    }
+
+
 
     static {
         //设置全局的Header构建器

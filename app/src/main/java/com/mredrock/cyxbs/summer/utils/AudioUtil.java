@@ -39,7 +39,7 @@ public class AudioUtil {
             play.setOnClickListener(v -> audioPlayer.Play(context, voice.getUrl()));
         }else{
             play.setVisibility(View.GONE);
-            playTime.setVisibility(View.GONE);
+            playTime.setText("No Audio");
         }
     }
 

@@ -76,6 +76,7 @@
             <Button
                 android:id="@+id/summer_user_chat"
                 android:text="聊天"
+                android:visibility="gone"
                 android:background="@drawable/summer_askbtn_shape"
                 android:layout_gravity="center"
                 android:layout_width="80dp"

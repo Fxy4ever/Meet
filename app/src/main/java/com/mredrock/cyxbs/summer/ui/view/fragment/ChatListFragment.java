@@ -36,6 +36,7 @@ public class ChatListFragment extends Fragment {
     private List<ChatUserBean> data;
     private SmartRefreshLayout refreshLayout;
     public static final String TAG = "ChatListFragment";
+    private boolean isFirstResume = true;
 
     @Nullable
     @Override
@@ -50,7 +51,6 @@ public class ChatListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         model = ViewModelProviders.of(this).get(ChatListViewModel.class);
-        model.loadData();
         observe(model.getList());
         refreshLayout.setOnRefreshListener(refreshLayout -> {
             model.loadData();
@@ -68,7 +68,10 @@ public class ChatListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        model.loadData();
+        if(!isFirstResume){
+            model.loadData();
+        }
+        isFirstResume = false;
     }
 
     public void setRecyclerView(){

@@ -70,8 +70,6 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SummerListAdapter(this,datas,new int[]{R.layout.summer_item_user_rv});
         recyclerView.setAdapter(adapter);
-        binding.summerUserChat.setVisibility(View.GONE);
-        binding.summerUserSend.setVisibility(View.GONE);
     }
 
 
@@ -87,6 +85,10 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
         isFavorite = isFav;
         if(!avUser.getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
             binding.summerUserSend.setVisibility(View.VISIBLE);
+            binding.summerUserChat.setVisibility(View.VISIBLE);
+        }else{
+            binding.summerUserSend.setVisibility(View.GONE);
+            binding.summerUserChat.setVisibility(View.GONE);
         }
         DensityUtils.setTransparent(binding.summerUserToolbar, this);
         setSupportActionBar(binding.summerUserToolbar);
@@ -120,7 +122,7 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
             }
         });
 
-        binding.summerUserMoney.setText("秒数为："+avUser.getInt("money"));
+        binding.summerUserMoney.setText("财富值为："+avUser.getInt("money"));
 
         if (avUser.getAVFile("avatar") != null) {
             Glide.with(this)

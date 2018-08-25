@@ -21,7 +21,7 @@ public class AskFriendsPresenter extends BasePresenter<AskFriednsContract.IAskFr
             @Override
             public void succeed(Object o) {
                 getView().hideLoad();
-                Toasts.show("发布成功 秒数+5");
+                Toasts.show("发布成功 财富值+5");
                 int curMoney = AVUser.getCurrentUser().getInt("money");
                 AVUser.getCurrentUser().put("money",curMoney+5);
                 AVUser.getCurrentUser().saveInBackground();
