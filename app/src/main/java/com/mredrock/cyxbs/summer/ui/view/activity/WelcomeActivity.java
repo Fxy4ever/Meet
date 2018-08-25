@@ -11,7 +11,6 @@ import com.avos.avoscloud.LogInCallback;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.base.BaseActivity;
 import com.mredrock.cyxbs.summer.utils.DensityUtils;
-import com.mredrock.cyxbs.summer.utils.Toasts;
 
 public class WelcomeActivity extends BaseActivity {
 
@@ -43,7 +42,7 @@ public class WelcomeActivity extends BaseActivity {
             AVUser.logInInBackground(tx_account, tx_password, new LogInCallback<AVUser>() {
                 @Override
                 public void done(AVUser avUser, AVException e) {
-                    Toasts.show("欢迎您");
+
                 }
             });
         }

@@ -27,6 +27,9 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
+import com.avos.avoscloud.im.v2.AVIMClient;
+import com.avos.avoscloud.im.v2.AVIMException;
+import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.florent37.materialviewpager.MaterialViewPager;
@@ -77,6 +80,7 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
     private String path="";
     private CircleImageView avatar;
     private Dialog changeDesc;
+    public static AVIMClient client;
 
     private AVUser currentUser = AVUser.getCurrentUser();
 
@@ -146,6 +150,15 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         viewPager.setOffscreenPageLimit(4);
         viewPager.onSaveInstanceState();
 
+        client = AVIMClient.getInstance(AVUser.getCurrentUser());
+        client.open(new AVIMClientCallback() {
+            @Override
+            public void done(AVIMClient avimClient, AVIMException e) {
+                if(e==null){
+                    Toasts.show("登陆成功");
+                }
+            }
+        });
     }
 
     @SuppressLint({"CheckResult"})
@@ -284,6 +297,14 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
     protected void onDestroy() {
         super.onDestroy();
         ActivityManager.getInstance().finishActivity(this);
+        if(client!=null){
+            client.close(new AVIMClientCallback() {
+                @Override
+                public void done(AVIMClient avimClient, AVIMException e) {
+
+                }
+            });
+        }
     }
 
     @Override

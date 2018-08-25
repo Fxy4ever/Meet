@@ -24,4 +24,9 @@ public class ChatListViewModel extends AndroidViewModel {
     public LiveData<List<ChatUserBean>> getList() {
         return list;
     }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+    }
 }

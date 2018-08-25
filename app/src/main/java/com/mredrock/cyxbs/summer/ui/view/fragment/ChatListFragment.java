@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.summer.ui.view.fragment;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -10,29 +9,18 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVObject;
-import com.avos.avoscloud.AVQuery;
-import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.FindCallback;
-import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 import com.mredrock.cyxbs.summer.R;
-import com.mredrock.cyxbs.summer.adapter.ChatListAdapter;
 import com.mredrock.cyxbs.summer.adapter.ChatMsgAdapter;
 import com.mredrock.cyxbs.summer.bean.ChatUserBean;
 import com.mredrock.cyxbs.summer.databinding.SummerFragmentChatBinding;
 import com.mredrock.cyxbs.summer.ui.mvvm.model.ChatListViewModel;
-import com.mredrock.cyxbs.summer.ui.mvvm.model.InfoViewModel;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +35,6 @@ public class ChatListFragment extends Fragment {
     private ChatMsgAdapter adapter;
     private List<ChatUserBean> data;
     private SmartRefreshLayout refreshLayout;
-
     public static final String TAG = "ChatListFragment";
 
     @Nullable
@@ -66,7 +53,6 @@ public class ChatListFragment extends Fragment {
         model.loadData();
         observe(model.getList());
         refreshLayout.setOnRefreshListener(refreshLayout -> {
-            Log.d(TAG, "onActivityCreated: ");
             model.loadData();
         }).setOnLoadMoreListener(RefreshLayout::finishLoadMoreWithNoMoreData);
     }
@@ -74,7 +60,6 @@ public class ChatListFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        Log.d(TAG, "setUserVisibleHint: "+isVisibleToUser);
         if(isVisibleToUser){
             model.loadData();
         }
@@ -92,6 +77,7 @@ public class ChatListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
         data = new ArrayList<>();
+
         adapter = new ChatMsgAdapter(getContext(),data,new int[]{R.layout.summer_item_chat_list});
         recyclerView.setAdapter(adapter);
     }
@@ -101,7 +87,6 @@ public class ChatListFragment extends Fragment {
         list.observe(this, chatUserBeans -> {
             if (chatUserBeans != null) {
                 refreshLayout.finishRefresh(1000);
-                Log.d(TAG, "observe: ");
                 data.clear();
                 data.addAll(chatUserBeans);
                 adapter.notifyDataSetChanged();

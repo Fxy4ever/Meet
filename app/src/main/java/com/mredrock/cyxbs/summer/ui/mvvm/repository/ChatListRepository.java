@@ -8,12 +8,10 @@ import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
-import com.avos.avoscloud.im.v2.AVIMConversation;
-import com.avos.avoscloud.im.v2.AVIMMessage;
-import com.mredrock.cyxbs.summer.bean.ChatBean;
+import com.avos.avoscloud.im.v2.AVIMClient;
+import com.avos.avoscloud.im.v2.AVIMException;
+import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.mredrock.cyxbs.summer.bean.ChatUserBean;
-import com.mredrock.cyxbs.summer.utils.DateUtil;
-import com.tencent.qc.stat.common.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +21,7 @@ public class ChatListRepository {
     private static ChatListRepository repository;
     private MutableLiveData<List<ChatUserBean>> data = new MutableLiveData<>();
     private List<ChatUserBean> beans = new ArrayList<>();
+    private AVIMClient client;
 
     private ChatListRepository() {
     }
@@ -36,6 +35,18 @@ public class ChatListRepository {
             }
         }
         return repository;
+    }
+
+    public void getClient(ClientCallback callback) {
+        client = AVIMClient.getInstance(AVUser.getCurrentUser());
+        client.open(new AVIMClientCallback() {
+            @Override
+            public void done(AVIMClient avimClient, AVIMException e) {
+                if(e==null){
+                    callback.succeed(avimClient);
+                }
+            }
+        });
     }
 
     /**
@@ -67,7 +78,6 @@ public class ChatListRepository {
                         ChatUserBean bean = new ChatUserBean();
                         if(user.getObjectId().equals(list.get(i).getAVUser("you").getObjectId())){
                             //如果当前用户是you 对面的就是mine
-                            Log.d("chat", "done: "+list.get(i).getAVUser("mine").getAVFile("avatar"));
                             bean.setAvUser(list.get(i).getAVUser("mine"));
                             bean.setConversationId(list.get(i).getString("conversationId"));
                             beans.add(bean);
@@ -87,7 +97,6 @@ public class ChatListRepository {
                             });
                         }else {
                             //如果当前用户是mine 对面的就是you
-                            Log.d("chat", "done: "+list.get(i).getAVUser("you").getAVFile("avatar"));
                             bean.setAvUser(list.get(i).getAVUser("you"));
                             bean.setConversationId(list.get(i).getString("conversationId"));
                             beans.add(bean);
@@ -113,6 +122,8 @@ public class ChatListRepository {
 
         return data;
     }
-
-
+    //我知道写回调不好2333
+    public interface ClientCallback{
+        void succeed(AVIMClient client);
+    }
 }

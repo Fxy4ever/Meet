@@ -8,16 +8,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.avos.avoscloud.AVUser;
-import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.adapter.InfoListAdapter;
 import com.mredrock.cyxbs.summer.databinding.SummerFragmentInfoBinding;
@@ -79,7 +75,6 @@ public class InfoFragment extends Fragment implements LifecycleOwner{
              model = ViewModelProviders.of(this).get(InfoViewModel.class);
              model.setFenSi(AVUser.getCurrentUser());
         }else{
-            Log.d("fxy", "onActivityCreated: viewModel创立");
             model = ViewModelProviders.of(this).get(InfoViewModel.class);
              model.setGuanZhu(AVUser.getCurrentUser());
         }

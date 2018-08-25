@@ -2,7 +2,6 @@ package com.mredrock.cyxbs.summer.ui.view.activity;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.im.v2.AVIMClient;
@@ -18,7 +17,6 @@ import com.mredrock.cyxbs.summer.event.AudioEvent;
 import com.mredrock.cyxbs.summer.event.ImageEvent;
 import com.mredrock.cyxbs.summer.event.TextEvent;
 import com.mredrock.cyxbs.summer.utils.SPHelper;
-import com.mredrock.cyxbs.summer.utils.Toasts;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -28,6 +26,7 @@ import org.greenrobot.eventbus.EventBus;
 public class App extends Application {
     private static Context appContext;
     private static SPHelper spHelper;
+    private static AVIMClient client;
 
     static {
         //设置全局的Header构建器
@@ -54,6 +53,8 @@ public class App extends Application {
         AVIMClient.setUnreadNotificationEnabled(true);
         AVOSCloud.setDebugLogEnabled(false);//开启日志
     }
+
+
 
     public static Context getContext(){return appContext;}
 

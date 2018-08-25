@@ -8,27 +8,32 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.im.v2.AVIMConversation;
+import com.avos.avoscloud.im.v2.AVIMConversationsQuery;
 import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.AVIMMessage;
-import com.avos.avoscloud.im.v2.callback.AVIMMessagesQueryCallback;
+import com.avos.avoscloud.im.v2.callback.AVIMConversationQueryCallback;
 import com.bumptech.glide.Glide;
 import com.example.frecyclerview.BaseHolder;
 import com.example.frecyclerview.MultiLayoutBaseAdapter;
+import com.google.gson.Gson;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.bean.ChatUserBean;
+import com.mredrock.cyxbs.summer.bean.MsgType;
 import com.mredrock.cyxbs.summer.ui.view.activity.ChatActivity;
-import com.mredrock.cyxbs.summer.ui.view.activity.UserActivity;
+import com.mredrock.cyxbs.summer.ui.view.activity.MainActivity;
 import com.mredrock.cyxbs.summer.utils.DateUtil;
 
-import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatMsgAdapter extends MultiLayoutBaseAdapter {
     private List<ChatUserBean> beans;
+
+
+
     public ChatMsgAdapter(Context context, List<ChatUserBean> data, int[] layoutIds) {
         super(context, data, layoutIds);
         this.beans = data;
@@ -60,6 +65,34 @@ public class ChatMsgAdapter extends MultiLayoutBaseAdapter {
                         bundle.putString("objectId",beans.get(i).getAvUser().getObjectId());
                         intent.putExtras(bundle);
                         getContext().startActivity(intent);
+                    });
+
+                    AVIMConversationsQuery query = MainActivity.client.getConversationsQuery();
+                    query.whereEqualTo("objectId",beans.get(i).getConversationId());
+                    query.setWithLastMessagesRefreshed(true);
+                    query.setQueryPolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);//这里好坑！竟然还给我缓存了 我就说怎么拿不到实时数据
+                    query.findInBackground(new AVIMConversationQueryCallback() {
+                        @Override
+                        public void done(List<AVIMConversation> list, AVIMException e) {
+                            if(e==null){
+                                if(list!=null){
+                                    AVIMMessage message = list.get(0).getLastMessage();
+                                    String cont = message.getContent();
+                                    MsgType msgType = new Gson().fromJson(cont,MsgType.class);
+                                    if(msgType!=null){
+                                        if(msgType.get_lctype()==-1){
+                                            content.setText(msgType.get_lctext());
+                                        }else if(msgType.get_lctype()==-2){
+                                            content.setText("[图片]");
+                                        }else{
+                                            content.setText("[语音]");
+                                        }
+                                    }
+                                }
+                            }else {
+                                Log.d("chat", "done: "+e.getMessage());
+                            }
+                        }
                     });
 
                 }
