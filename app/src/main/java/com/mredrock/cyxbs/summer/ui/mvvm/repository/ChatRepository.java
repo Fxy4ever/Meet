@@ -19,6 +19,7 @@ import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
+import com.avos.avoscloud.im.v2.callback.AVIMMessagesQueryCallback;
 import com.avos.avoscloud.im.v2.messages.AVIMAudioMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMImageMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
@@ -88,6 +89,24 @@ public class ChatRepository {
                                     Log.d(TAG, "done: 连接对话成功");
                                     isCanChat = true;
                                     beans = new ArrayList<>();
+
+
+                                    int limit = 20;//聊天记录查询
+                                    conversation.queryMessages(limit,new AVIMMessagesQueryCallback() {
+                                        @Override
+                                        public void done(List<AVIMMessage> list, AVIMException e) {
+                                            if(e == null){
+                                                Log.d(TAG, "done: "+list.size());
+                                                for (int i = 0; i < list.size(); i++) {
+                                                   changeData(list.get(i));
+                                                }
+                                            }else{
+                                                Log.d(TAG, "done: 查询失败");
+                                            }
+                                        }
+                                    });
+
+
                                 } else {//否则，建立新的conversation 并存进远程数据库
                                     client.createConversation(userList, name, null, new AVIMConversationCreatedCallback() {
                                         @Override
@@ -102,9 +121,22 @@ public class ChatRepository {
                                                 avObject.saveInBackground();
                                                 conversation = avimConversation;
                                                 isCanChat = true;
-                                                // TODO: 2018/8/25 数据库查询
                                                 beans = new ArrayList<>();
-                                                data.setValue(beans);
+//                                                int limit = 20;//聊天记录查询
+//                                                conversation.queryMessages(limit,new AVIMMessagesQueryCallback() {
+//                                                    @Override
+//                                                    public void done(List<AVIMMessage> list, AVIMException e) {
+//                                                        if(e == null){
+//                                                            Log.d(TAG, "done: "+list.size());
+//                                                            for (int i = 0; i < list.size(); i++) {
+//                                                                changeData(list.get(i));
+//                                                            }
+//                                                            data.setValue(beans);
+//                                                        }else{
+//                                                            Log.d(TAG, "done: 查询失败");
+//                                                        }
+//                                                    }
+//                                                });
                                             } else {
                                                 Log.d(TAG, "done: 连接对话成功");
                                             }
@@ -121,6 +153,7 @@ public class ChatRepository {
         });
         return data;
     }
+
 
     /**
      * 发送文字消息

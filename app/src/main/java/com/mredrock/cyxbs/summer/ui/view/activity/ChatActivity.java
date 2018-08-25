@@ -110,6 +110,9 @@ public class ChatActivity extends AppCompatActivity {
         model = ViewModelProviders.of(ChatActivity.this, factory).get(ChatViewModel.class);
         model.getChatList().observe(this, chatBeans -> {
             adapter.setChatData(chatBeans);//这里会观察到数据改变
+            if (chatBeans != null) {
+                recyclerView.scrollToPosition(chatBeans.size()-1);
+            }
         });
     }
 
@@ -131,7 +134,7 @@ public class ChatActivity extends AppCompatActivity {
         recorderUtil = new RecorderUtil();
         selects = new ArrayList<>();
         /*
-        查询当前用户 这里不改成了mvvm了 因为要用user 心情好烦。。leanCloud
+        查询当前用户 这里不改成了mvvm了 因为要用user 心情好烦。。
          */
         Bundle bundle = getIntent().getExtras();
         AVQuery<AVUser> userQuery = new AVQuery<>("_User");
@@ -281,6 +284,7 @@ public class ChatActivity extends AppCompatActivity {
         myMessageHandler = new MyMessageHandler();
         AVIMMessageManager.registerMessageHandler(AVIMMessage.class, myMessageHandler);
     }
+
 
     @Override
     protected void onPause() {

@@ -71,6 +71,21 @@ public class ChatListFragment extends Fragment {
         }).setOnLoadMoreListener(RefreshLayout::finishLoadMoreWithNoMoreData);
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        Log.d(TAG, "setUserVisibleHint: "+isVisibleToUser);
+        if(isVisibleToUser){
+            model.loadData();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        model.loadData();
+    }
+
     public void setRecyclerView(){
         recyclerView = binding.summerChatListRv;
         refreshLayout = binding.summerChatListSrl;
