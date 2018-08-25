@@ -12,6 +12,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp" />
         <LinearLayout
+            android:foreground="?android:attr/selectableItemBackground"
             android:id="@+id/summer_chat_left_voice_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
@@ -19,17 +20,19 @@
             android:background="@drawable/chat_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <ImageView
+            <ImageButton
+                android:id="@+id/summer_chat_left_voice_play"
                 android:background="@drawable/summer_icon_sound"
                 android:layout_width="30dp"
                 android:layout_height="30dp" />
+
             <TextView
-                android:textColor="#FFFFFF"
                 android:id="@+id/summer_chat_left_voice_time"
-                android:text="00:01s"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="00:01s"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
     </LinearLayout>
 

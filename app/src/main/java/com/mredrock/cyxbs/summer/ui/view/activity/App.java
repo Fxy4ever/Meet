@@ -10,13 +10,20 @@ import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.AVIMMessageHandler;
 import com.avos.avoscloud.im.v2.AVIMMessageManager;
+import com.avos.avoscloud.im.v2.messages.AVIMAudioMessage;
+import com.avos.avoscloud.im.v2.messages.AVIMImageMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.mredrock.cyxbs.summer.R;
+import com.mredrock.cyxbs.summer.event.AudioEvent;
+import com.mredrock.cyxbs.summer.event.ImageEvent;
+import com.mredrock.cyxbs.summer.event.TextEvent;
 import com.mredrock.cyxbs.summer.utils.SPHelper;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class App extends Application {
     private static Context appContext;
@@ -57,8 +64,17 @@ public class App extends Application {
         @Override
         public void onMessage(AVIMMessage message, AVIMConversation conversation, AVIMClient client){
             if(message instanceof AVIMTextMessage){
-                Log.d("chat",message.getContent()+"app里");
-                Toasts.show(message.getContent());
+                TextEvent event = new TextEvent();
+                event.setMessage((AVIMTextMessage) message);
+                EventBus.getDefault().post(event);
+            }else if(message instanceof AVIMImageMessage){
+                ImageEvent event = new ImageEvent();
+                event.setMessage((AVIMImageMessage) message);
+                EventBus.getDefault().post(event);
+            }else{
+                AudioEvent event = new AudioEvent();
+                event.setMessage((AVIMAudioMessage) message);
+                EventBus.getDefault().post(event);
             }
         }
 

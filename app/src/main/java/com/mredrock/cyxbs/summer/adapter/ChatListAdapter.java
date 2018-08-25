@@ -1,11 +1,17 @@
 package com.mredrock.cyxbs.summer.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.avos.avoscloud.im.v2.messages.AVIMAudioMessage;
+import com.avos.avoscloud.im.v2.messages.AVIMImageMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -13,6 +19,8 @@ import com.example.frecyclerview.BaseHolder;
 import com.example.frecyclerview.MultiLayoutBaseAdapter;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.bean.ChatBean;
+import com.mredrock.cyxbs.summer.utils.AudioUtil;
+import com.scwang.smartrefresh.header.waterdrop.Circle;
 
 import java.util.List;
 
@@ -40,7 +48,6 @@ public class ChatListAdapter extends MultiLayoutBaseAdapter {
 
     @Override
     public int getItemType(int i) {
-        Log.d(TAG, "getItemType: "+beans.get(i).getKind());
         switch (beans.get(i).getKind()) {
             case "我的文字":
                 return TEXT_MINE;
@@ -57,6 +64,7 @@ public class ChatListAdapter extends MultiLayoutBaseAdapter {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBinds(BaseHolder baseHolder, Object o, int i, int i1) {
         switch (i1){
@@ -67,10 +75,20 @@ public class ChatListAdapter extends MultiLayoutBaseAdapter {
                 Glide.with(getContext()).load(myAvatar).apply(new RequestOptions().override(100,100).error(R.drawable.summer_user_avatar)).into(myTextAvatar);
                 break;
             case 1://我的图片
-
+                CircleImageView myImgAvatar = baseHolder.getView(R.id.summer_chat_right_photo_avatar);
+                ImageView myImg = baseHolder.getView(R.id.summer_chat_right_photo_img);
+                Glide.with(getContext()).load(myAvatar).apply(new RequestOptions().override(100,100).error(R.drawable.summer_user_avatar)).into(myImgAvatar);
+                Glide.with(getContext()).load(((AVIMImageMessage)beans.get(i).getMessage()).getFileUrl()).apply(new RequestOptions().override(100,100).error(R.drawable.ic_launcher_background)).into(myImg);
                 break;
             case 2://我的音频
-
+                CircleImageView myAudioAvatar = baseHolder.getView(R.id.summer_chat_right_voice_avatar);
+                LinearLayout myAudioPlayer = baseHolder.getView(R.id.summer_chat_right_voice_parent);
+                TextView myAudioTime = baseHolder.getView(R.id.summer_chat_right_voice_time);
+                myAudioTime.setText(((AVIMAudioMessage)beans.get(i).getMessage()).getDuration()+"s");
+                Glide.with(getContext()).load(myAvatar).apply(new RequestOptions().override(100,100).error(R.drawable.summer_user_avatar)).into(myAudioAvatar);
+                myAudioPlayer.setOnClickListener(v->{
+                    AudioUtil.setAudioInChat(getContext(),((AVIMAudioMessage)beans.get(i).getMessage()).getFileUrl(),myAudioPlayer);
+                });
                 break;
             case 3://你的文字
                 TextView yourTextContent = baseHolder.getView(R.id.summer_chat_left_str_content);
@@ -79,10 +97,20 @@ public class ChatListAdapter extends MultiLayoutBaseAdapter {
                 Glide.with(getContext()).load(yourAvatar).apply(new RequestOptions().override(100,100).error(R.drawable.summer_user_avatar)).into(yourTextAvatar);
                 break;
             case 4://你的图片
-
+                CircleImageView yourImgAvatar = baseHolder.getView(R.id.summer_chat_left_photo_avatar);
+                ImageView yourImg = baseHolder.getView(R.id.summer_chat_left_photo_img);
+                Glide.with(getContext()).load(myAvatar).apply(new RequestOptions().override(100,100).error(R.drawable.summer_user_avatar)).into(yourImgAvatar);
+                Glide.with(getContext()).load(((AVIMImageMessage)beans.get(i).getMessage()).getFileUrl()).apply(new RequestOptions().override(100,100).error(R.drawable.ic_launcher_background)).into(yourImg);
                 break;
             case 5://你的音频
-
+                CircleImageView yourAudioAvatar = baseHolder.getView(R.id.summer_chat_left_voice_avatar);
+                LinearLayout yourAudioPlayer = baseHolder.getView(R.id.summer_chat_left_voice_parent);
+                TextView yourAudioTime = baseHolder.getView(R.id.summer_chat_left_voice_time);
+                yourAudioTime.setText(((AVIMAudioMessage)beans.get(i).getMessage()).getDuration()+"s");
+                Glide.with(getContext()).load(yourAudioAvatar).apply(new RequestOptions().override(100,100).error(R.drawable.summer_user_avatar)).into(yourAudioAvatar);
+                yourAudioPlayer.setOnClickListener(v->{
+                    AudioUtil.setAudioInChat(getContext(),((AVIMAudioMessage)beans.get(i).getMessage()).getFileUrl(),yourAudioPlayer);
+                });
                 break;
         }
     }
@@ -93,12 +121,19 @@ public class ChatListAdapter extends MultiLayoutBaseAdapter {
     }
 
     public void setYourAvatar(String yourAvatar) {
-        Log.d(TAG, "setYourAvatar: "+yourAvatar);
         this.yourAvatar = yourAvatar;
     }
 
     public void setMyAvatar(String myAvatar) {
-        Log.d(TAG, "setMyAvatar: "+myAvatar);
         this.myAvatar = myAvatar;
+    }
+
+    public void setChatData(List<ChatBean> list){
+        for (ChatBean c : list) {
+            if(!beans.contains(c)){
+                beans.add(c);
+            }
+        }
+        notifyDataSetChanged();
     }
 }

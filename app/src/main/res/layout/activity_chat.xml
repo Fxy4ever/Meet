@@ -26,6 +26,7 @@
         </android.support.v7.widget.Toolbar>
         <android.support.v7.widget.RecyclerView
             android:background="#EAEAEA"
+
             android:id="@+id/summer_chat_rv"
             android:layout_width="match_parent"
             android:layout_weight="8"

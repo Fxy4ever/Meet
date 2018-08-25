@@ -1,11 +1,21 @@
 package com.mredrock.cyxbs.summer.ui.view.activity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,83 +23,90 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
-import com.avos.avoscloud.im.v2.AVIMClient;
-import com.avos.avoscloud.im.v2.AVIMConversation;
-import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.AVIMMessageManager;
-import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
-import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
-import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
-import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.adapter.ChatListAdapter;
 import com.mredrock.cyxbs.summer.bean.ChatBean;
 import com.mredrock.cyxbs.summer.databinding.ActivityChatBinding;
+import com.mredrock.cyxbs.summer.event.AudioEvent;
+import com.mredrock.cyxbs.summer.event.ImageEvent;
 import com.mredrock.cyxbs.summer.event.TextEvent;
+import com.mredrock.cyxbs.summer.ui.mvvm.model.ChatViewModel;
+import com.mredrock.cyxbs.summer.utils.DensityUtils;
+import com.mredrock.cyxbs.summer.utils.Glide4Engine;
 import com.mredrock.cyxbs.summer.utils.MyMessageHandler;
+import com.mredrock.cyxbs.summer.utils.RecorderUtil;
 import com.mredrock.cyxbs.summer.utils.TextWatcheListener;
 import com.mredrock.cyxbs.summer.utils.Toasts;
+import com.mredrock.cyxbs.summer.utils.UriUtil;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChatActivity extends AppCompatActivity {
     private ActivityChatBinding binding;
     private CircleImageView voice;
+    private Button send;
     private Button sendVoice;
     private EditText et;
     private ImageButton photo;
-    private Button send;
     private TextView userName;
-    private AVUser user;
-    private AVUser mine;
-    private android.support.v7.widget.Toolbar toolbar;
+    private Toolbar toolbar;
     private boolean isClickVoice = false;
-    private MyMessageHandler myMessageHandler;
-    private AVIMConversation conversation;
-    private AVIMClient client;
-    private boolean isCanChat = false;
+    private boolean isAskPer = false;
     private RecyclerView recyclerView;
     private ChatListAdapter adapter;
+    private ChatViewModel model;
+    private RecorderUtil recorderUtil;
+    private int REQUEST_CODE_CHOOSE = 10086;
     private List<ChatBean> datas;
+    private List<Uri> selects;
     private String myAvatar;
     private String yourAvatar;
+    private String audioName = "";
+    private String audioPath = "";
+    private String imgName = "";
+    private String imgPath = "";
+    private AVUser user;
+    private AVUser mine;
+
+
+    private MyMessageHandler myMessageHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chat);
         EventBus.getDefault().register(this);
-
+        askPermissions();
         setRecyclerView();
         setBinding();
-        createChat();
         setListener();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        myMessageHandler = new MyMessageHandler();
-        AVIMMessageManager.registerMessageHandler(AVIMMessage.class, myMessageHandler);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        AVIMMessageManager.unregisterMessageHandler(AVIMMessage.class, myMessageHandler);
+    private void initViewModel() {
+        ChatViewModel.Factory factory = new ChatViewModel.Factory(getApplication(), mine, user);
+        model = ViewModelProviders.of(ChatActivity.this, factory).get(ChatViewModel.class);
+        model.getChatList().observe(this, chatBeans -> {
+            adapter.setChatData(chatBeans);//这里会观察到数据改变
+        });
     }
 
 
@@ -105,10 +122,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         voice = binding.summerPopChatVoice;
         userName = binding.summerChatUserName;
         mine = AVUser.getCurrentUser();
-
-
+        recorderUtil = new RecorderUtil();
+        selects = new ArrayList<>();
         /*
-        查询当前用户
+        查询当前用户 这里不改成了mvvm了 因为要用user 心情好烦。。leanCloud
          */
         Bundle bundle = getIntent().getExtras();
         AVQuery<AVUser> userQuery = new AVQuery<>("_User");
@@ -122,33 +139,31 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         userName.setText(user.getUsername());
                         yourAvatar = user.getAVFile("avatar").getUrl();
                         myAvatar = mine.getAVFile("avatar").getUrl();
-                        Log.d("chat", "done: "+yourAvatar);
-                        Log.d("chat", "done: "+myAvatar);
                         adapter.setMyAvatar(myAvatar);
                         adapter.setYourAvatar(yourAvatar);
+                        /*
+                        在这里注册ViewModel
+                         */
+                        initViewModel();
                     }
                 }
             });
         }
     }
 
-    private void setRecyclerView(){
+    private void setRecyclerView() {
         recyclerView = binding.summerChatRv;
         datas = new ArrayList<>();
-        int[] layouts = new int[]{R.layout.summer_chat_right_str,R.layout.summer_chat_right_photo,
-                R.layout.summer_chat_right_voice,R.layout.summer_chat_left_str,
-                R.layout.summer_chat_right_photo,R.layout.summer_chat_right_voice};
-        adapter = new ChatListAdapter(this,datas,layouts);
+        int[] layouts = new int[]{R.layout.summer_chat_right_str, R.layout.summer_chat_right_photo,
+                R.layout.summer_chat_right_voice, R.layout.summer_chat_left_str,
+                R.layout.summer_chat_left_photo, R.layout.summer_chat_left_voice};
+        adapter = new ChatListAdapter(this, datas, layouts);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setListener() {
-        //发照片
-        photo.setOnClickListener(v -> {
-
-        });
-
         //输入栏监听
         et.addTextChangedListener(new TextWatcheListener() {
             @Override
@@ -160,25 +175,73 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
+
+        binding.summerPopChatSend.setOnClickListener(v -> {
+            model.sendText(et.getText().toString());
+            et.setText("");
+        });
+
+        binding.summerPopChatVoice.setOnClickListener(v -> {
+            sendVoice();
+        });
+
+        binding.summerPopChatPhoto.setOnClickListener(v -> {
+            if(isAskPer){
+                Matisse.from(this)
+                        .choose(MimeType.allOf())
+                        .countable(true)
+                        .capture(true)  // 开启相机，和 captureStrategy 一并使用否则报错
+                        .captureStrategy(new CaptureStrategy(true,"com.example.fileprovider"))
+                        .maxSelectable(1)
+                        .gridExpectedSize(DensityUtils.getScreenWidth(this)/3)
+                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                        .thumbnailScale(0.85f)
+                        .imageEngine(new Glide4Engine())
+                        .theme(R.style.Matisse_Dracula)
+                        .forResult(REQUEST_CODE_CHOOSE);
+            }
+        });
+
+        binding.summerPopChatSendVoice.setOnTouchListener((v, event) -> {
+            if(event.getAction() == MotionEvent.ACTION_DOWN){
+                binding.summerPopChatSendVoice.setBackground(getResources().getDrawable(R.drawable.summer_chat_send_shape_light));
+                recorderUtil.recordStart();
+            }
+            try{
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    binding.summerPopChatSendVoice.setBackground(getResources().getDrawable(R.drawable.summer_chat_send_shape));
+                    recorderUtil.recordStop((fileName,filePath) -> {
+                        Toasts.show("录制成功");
+                        audioName= fileName;
+                        audioPath = filePath;
+                        model.sendAudio(audioName,audioPath);
+                    });
+                }
+            }catch (Exception e){
+                Toasts.show("录制失败");
+            }
+            return false;
+        });
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.summer_pop_chat_send:
-                sendMessage();
-                break;
-            case R.id.summer_pop_chat_voice:
-                sendVoice();
-                // TODO: 2018/8/25 加入发语音
-                break;
-            case R.id.summer_pop_chat_photo:
-                // TODO: 2018/8/25 加入发照片
-                break;
-        }
+    @SuppressLint({"CheckResult"})
+    private void askPermissions(){
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions
+                .requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        ,Manifest.permission.READ_EXTERNAL_STORAGE
+                        ,Manifest.permission.RECORD_AUDIO
+                )
+                .subscribe(permission -> {
+                    if(permission.granted){
+                        isAskPer = true;
+                    }else{
+                        Toasts.show("未获取权限");
+                    }
+                });
     }
 
-    private void sendVoice(){
+    private void sendVoice() {
         if (isClickVoice) {
             voice.setImageDrawable(getResources().getDrawable(R.drawable.summer_icon_voice));
             sendVoice.setVisibility(View.GONE);
@@ -190,111 +253,53 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
-    private void createChat() {
-
-        //qnm leanCloud
-        client = AVIMClient.getInstance(AVUser.getCurrentUser().getUsername());
-        client.open(new AVIMClientCallback() {//建立client连接
-            @Override
-            public void done(AVIMClient avimClient, AVIMException e) {
-                if (e == null) {
-                    List<String> userList = new ArrayList<>();//初始化列表
-                    userList.add(user.getUsername());
-                    userList.add(mine.getUsername());
-                    Collections.sort(userList);//这样做让单聊的名称能够统一
-                    String name = userList.get(0) + " & " + userList.get(1);
-
-                    AVQuery<AVObject> avQuery = new AVQuery("conRelation");//查询是否存在这个conversation
-                    avQuery.whereEqualTo("conversationName", name);
-                    avQuery.findInBackground(new FindCallback<AVObject>() {
-                        @Override
-                        public void done(List<AVObject> list, AVException e) {
-                            if (e == null) {
-                                if (list.size() > 0) {//存在就直接找到改conversation
-                                    conversation = client.getConversation((String) App.spHelper().get(name, "null"));
-                                    Toasts.show("连接对话成功");
-                                    isCanChat = true;
-                                } else {//否则，建立新的conversation 并存进远程数据库
-                                    client.createConversation(userList, name, null, new AVIMConversationCreatedCallback() {
-                                        @Override
-                                        public void done(AVIMConversation avimConversation, AVIMException e) {
-                                            if (e == null) {
-                                                Toasts.show("连接对话成功");
-                                                AVObject avObject = new AVObject("conRelation");
-                                                avObject.put("conversationName", name);
-                                                avObject.put("conversationId", avimConversation.getConversationId());
-                                                avObject.saveInBackground();
-                                                conversation = avimConversation;
-                                                isCanChat = true;
-                                            } else {
-                                                Toasts.show("连接对话失败");
-                                            }
-                                        }
-                                    });
-                                }
-                            }
-                        }
-                    });
-                } else {
-                    Toasts.show("连接服务器失败" + e.getMessage());
-                }
-            }
-        });
-
-    }
-
-    private void sendMessage() {
-        AVIMTextMessage msg = new AVIMTextMessage();
-        if (et.getText().length() != 0) {
-            msg.setText(et.getText().toString());
-            if (isCanChat) {
-                conversation.sendMessage(msg, new AVIMConversationCallback() {
-                    @Override
-                    public void done(AVIMException e) {
-                        if (e == null) {
-                            Log.d("chat", "done: 发送成功");
-                            et.setText("");//发送成功就清空et里面的内容
-                            getMyText(msg);
-                        }
-                    }
-                });
-            }
-        }
-    }
-
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getTextEvent(TextEvent event) {
-        ChatBean bean = new ChatBean();
-        bean.setMessage(event.getMessage());
-        bean.setKind("你的文字");
-        datas.add(bean);
-        adapter.notifyDataSetChanged();
+        model.getText(event);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getImageEvent(ImageEvent event) {
+        model.getImage(event);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getAudioEvent(AudioEvent event) {
+        model.getAudio(event);
     }
 
-    public void getMyText(AVIMTextMessage message){
-        ChatBean bean = new ChatBean();
-        bean.setKind("我的文字");
-        bean.setMessage(message);
-        datas.add(bean);
-        adapter.notifyDataSetChanged();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        myMessageHandler = new MyMessageHandler();
+        AVIMMessageManager.registerMessageHandler(AVIMMessage.class, myMessageHandler);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AVIMMessageManager.unregisterMessageHandler(AVIMMessage.class, myMessageHandler);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
 
-        if (client != null) {
-            client.close(new AVIMClientCallback() {
-                @Override
-                public void done(AVIMClient avimClient, AVIMException e) {
-                    if (e == null) {
-                        Toasts.show("对话结束");
-                    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK){
+            selects.clear();
+            selects = Matisse.obtainResult(data);
+                imgName = System.currentTimeMillis()/1000 + ".jpg";
+                if(selects.get(0).toString().contains("provider")){
+                    imgPath = UriUtil.getFPUriToPath(this,selects.get(0));
+                    model.sendImage(imgName,imgPath);
                 }
-            });
+                else{
+                    imgPath = UriUtil.getRealPathFromUri(this,selects.get(0));
+                    model.sendImage(imgName,imgPath);
+                }
         }
     }
 }

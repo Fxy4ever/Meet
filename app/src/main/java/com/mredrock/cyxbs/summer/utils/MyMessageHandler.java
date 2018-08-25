@@ -6,7 +6,11 @@ import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.AVIMMessageHandler;
+import com.avos.avoscloud.im.v2.messages.AVIMAudioMessage;
+import com.avos.avoscloud.im.v2.messages.AVIMImageMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
+import com.mredrock.cyxbs.summer.event.AudioEvent;
+import com.mredrock.cyxbs.summer.event.ImageEvent;
 import com.mredrock.cyxbs.summer.event.TextEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -18,9 +22,15 @@ public class MyMessageHandler  extends AVIMMessageHandler{
             TextEvent event = new TextEvent();
             event.setMessage((AVIMTextMessage) message);
             EventBus.getDefault().post(event);
-            Log.d("chat",message.getContent()+"自定义");
+        }else if(message instanceof AVIMImageMessage){
+            ImageEvent event = new ImageEvent();
+            event.setMessage((AVIMImageMessage) message);
+            EventBus.getDefault().post(event);
+        }else{
+            AudioEvent event = new AudioEvent();
+            event.setMessage((AVIMAudioMessage) message);
+            EventBus.getDefault().post(event);
         }
-        // TODO: 2018/8/24 音频 图片的msg
     }
 
     public void onMessageReceipt(AVIMMessage message,AVIMConversation conversation,AVIMClient client){
