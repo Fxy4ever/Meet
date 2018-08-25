@@ -2,6 +2,7 @@ package com.mredrock.cyxbs.summer.ui.view.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.content.pm.ActivityInfo;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,6 +40,7 @@ import com.mredrock.cyxbs.summer.event.ImageEvent;
 import com.mredrock.cyxbs.summer.event.TextEvent;
 import com.mredrock.cyxbs.summer.ui.mvvm.model.ChatViewModel;
 import com.mredrock.cyxbs.summer.utils.DensityUtils;
+import com.mredrock.cyxbs.summer.utils.DialogBuilder;
 import com.mredrock.cyxbs.summer.utils.Glide4Engine;
 import com.mredrock.cyxbs.summer.utils.MyMessageHandler;
 import com.mredrock.cyxbs.summer.utils.RecorderUtil;
@@ -85,10 +88,9 @@ public class ChatActivity extends AppCompatActivity {
     private String imgPath = "";
     private AVUser user;
     private AVUser mine;
-
+    private Dialog dialog;
 
     private MyMessageHandler myMessageHandler;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +101,8 @@ public class ChatActivity extends AppCompatActivity {
         setRecyclerView();
         setBinding();
         setListener();
+        dialog = new DialogBuilder(this).title("").message("连接中...").setCancelable(false).build();
+        dialog.show();
     }
 
     private void initViewModel() {
@@ -108,6 +112,8 @@ public class ChatActivity extends AppCompatActivity {
             adapter.setChatData(chatBeans);//这里会观察到数据改变
         });
     }
+
+
 
 
     private void setBinding() {
@@ -222,6 +228,9 @@ public class ChatActivity extends AppCompatActivity {
             }
             return false;
         });
+        new Handler().postDelayed(() -> {
+            dialog.cancel();
+        },1000);
     }
 
     @SuppressLint({"CheckResult"})

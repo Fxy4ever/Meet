@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.summer.ui.mvvm.model;
 
 import android.app.Application;
+import android.app.Dialog;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
@@ -26,6 +27,7 @@ import com.mredrock.cyxbs.summer.event.ImageEvent;
 import com.mredrock.cyxbs.summer.event.TextEvent;
 import com.mredrock.cyxbs.summer.ui.mvvm.repository.ChatRepository;
 import com.mredrock.cyxbs.summer.ui.view.activity.App;
+import com.mredrock.cyxbs.summer.utils.DialogBuilder;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 
 import java.util.ArrayList;
@@ -37,9 +39,8 @@ public class ChatViewModel extends AndroidViewModel {
     private LiveData<AVUser> user;
     private final AVUser mine;
     private final AVUser you;
-
+    public static final String TAG = "ChatViewModel";
     private AVIMClient client;
-
 
 
     private ChatViewModel(@NonNull Application application, AVUser mine, AVUser you) {
@@ -88,7 +89,7 @@ public class ChatViewModel extends AndroidViewModel {
                 @Override
                 public void done(AVIMClient avimClient, AVIMException e) {
                     if (e == null) {
-                        Toasts.show("对话结束");
+                        Log.d(TAG, "done: ");
                     }
                 }
             });

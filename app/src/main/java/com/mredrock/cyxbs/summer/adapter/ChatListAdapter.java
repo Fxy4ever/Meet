@@ -28,7 +28,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatListAdapter extends MultiLayoutBaseAdapter {
     private List<ChatBean> beans;
-    private String TAG = "chat";
+
     private int TEXT_MINE = 0;
     private int PHOTO_MINE = 1;
     private int AUDIO_MINE = 2;

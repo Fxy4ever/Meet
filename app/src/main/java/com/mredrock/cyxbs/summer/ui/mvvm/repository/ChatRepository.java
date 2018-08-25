@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.summer.ui.mvvm.repository;
 
+import android.app.Dialog;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
@@ -10,6 +11,7 @@ import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
+import com.avos.avoscloud.SaveCallback;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMException;
@@ -41,6 +43,7 @@ public class ChatRepository {
     private boolean isCanChat = false;
     private List<ChatBean> beans;
     private AVIMClient client;
+
 
     private ChatRepository() {
     }
@@ -81,8 +84,8 @@ public class ChatRepository {
                         public void done(List<AVObject> list, AVException e) {
                             if (e == null) {
                                 if (list.size() > 0) {//存在就直接找到改conversation
-                                    conversation = client.getConversation((String) App.spHelper().get(name, "null"));
-                                    Toasts.show("连接对话成功");
+                                    conversation = client.getConversation(list.get(0).getString("conversationId"));
+                                    Log.d(TAG, "done: 连接对话成功");
                                     isCanChat = true;
                                     beans = new ArrayList<>();
                                 } else {//否则，建立新的conversation 并存进远程数据库
@@ -90,10 +93,12 @@ public class ChatRepository {
                                         @Override
                                         public void done(AVIMConversation avimConversation, AVIMException e) {
                                             if (e == null) {
-                                                Toasts.show("连接对话成功");
+                                                Log.d(TAG, "done: 连接对话成功");
                                                 AVObject avObject = new AVObject("conRelation");
                                                 avObject.put("conversationName", name);
                                                 avObject.put("conversationId", avimConversation.getConversationId());
+                                                avObject.put("mine",mine);
+                                                avObject.put("you",you);
                                                 avObject.saveInBackground();
                                                 conversation = avimConversation;
                                                 isCanChat = true;
@@ -101,7 +106,7 @@ public class ChatRepository {
                                                 beans = new ArrayList<>();
                                                 data.setValue(beans);
                                             } else {
-                                                Toasts.show("连接对话失败");
+                                                Log.d(TAG, "done: 连接对话成功");
                                             }
                                         }
                                     });
@@ -213,4 +218,5 @@ public class ChatRepository {
         data.setValue(beans);
     }
     // TODO: 2018/8/25 优化发送速度
+
 }
