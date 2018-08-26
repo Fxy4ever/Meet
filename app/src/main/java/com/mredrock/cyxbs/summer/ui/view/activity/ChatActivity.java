@@ -136,7 +136,9 @@ public class ChatActivity extends AppCompatActivity {
                     if (e == null) {
                         user = list.get(0);
                         userName.setText(user.getUsername());
+                        if(user.getAVFile("avatar")!=null)
                         yourAvatar = user.getAVFile("avatar").getUrl();
+                        if(mine.getAVFile("avatar")!=null)
                         myAvatar = mine.getAVFile("avatar").getUrl();
                         adapter.setMyAvatar(myAvatar);
                         adapter.setYourAvatar(yourAvatar);
