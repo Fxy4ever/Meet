@@ -9,7 +9,7 @@
         tools:context=".ui.view.activity.ChangeInfoActivity">
         <android.support.v7.widget.Toolbar
             app:navigationIcon="@drawable/summer_icon_back"
-            android:id="@+id/summer_about_tl"
+            android:id="@+id/summer_change_tl"
             android:background="@drawable/summer_login_backgroud_shape"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"

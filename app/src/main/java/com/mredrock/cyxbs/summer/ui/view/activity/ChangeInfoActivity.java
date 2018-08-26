@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toolbar;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
@@ -73,6 +74,10 @@ public class ChangeInfoActivity extends AppCompatActivity {
                 });
 
             }
+        });
+        Toolbar toolbar = findViewById(R.id.summer_change_tl);
+        toolbar.setNavigationOnClickListener(v->{
+            finish();
         });
     }
 

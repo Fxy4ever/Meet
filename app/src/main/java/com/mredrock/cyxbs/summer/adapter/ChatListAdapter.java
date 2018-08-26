@@ -102,7 +102,7 @@ public class ChatListAdapter extends MultiLayoutBaseAdapter {
             case 4://你的图片
                 CircleImageView yourImgAvatar = baseHolder.getView(R.id.summer_chat_left_photo_avatar);
                 ImageView yourImg = baseHolder.getView(R.id.summer_chat_left_photo_img);
-                Glide.with(getContext()).load(myAvatar).apply(new RequestOptions().override(100,100).error(R.drawable.summer_user_avatar)).into(yourImgAvatar);
+                Glide.with(getContext()).load(yourAvatar).apply(new RequestOptions().override(100,100).error(R.drawable.summer_user_avatar)).into(yourImgAvatar);
                 Glide.with(getContext()).load(((AVIMImageMessage)beans.get(i).getMessage()).getFileUrl()).apply(new RequestOptions().override(100,100).error(R.drawable.ic_launcher_background)).into(yourImg);
                 yourImg.setOnClickListener(v->{
                     Dialog dialog = DialogBuilder.buildImgDialog(getContext(),((AVIMImageMessage)beans.get(i).getMessage()).getFileUrl());
@@ -114,7 +114,7 @@ public class ChatListAdapter extends MultiLayoutBaseAdapter {
                 LinearLayout yourAudioPlayer = baseHolder.getView(R.id.summer_chat_left_voice_parent);
                 TextView yourAudioTime = baseHolder.getView(R.id.summer_chat_left_voice_time);
                 yourAudioTime.setText(((AVIMAudioMessage)beans.get(i).getMessage()).getDuration()+"s");
-                Glide.with(getContext()).load(yourAudioAvatar).apply(new RequestOptions().override(100,100).error(R.drawable.summer_user_avatar)).into(yourAudioAvatar);
+                Glide.with(getContext()).load(yourAvatar).apply(new RequestOptions().override(100,100).error(R.drawable.summer_user_avatar)).into(yourAudioAvatar);
                 yourAudioPlayer.setOnClickListener(v->{
                     AudioUtil.setAudioInChat(getContext(),((AVIMAudioMessage)beans.get(i).getMessage()).getFileUrl(),yourAudioPlayer);
                 });
