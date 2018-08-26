@@ -79,7 +79,7 @@ public class ChatRepository {
                                     Log.d(TAG, "done: 连接对话成功");
                                     isCanChat = true;
                                     beans = new ArrayList<>();
-
+                                    conversation.read();//设为已读
                                     int limit = 20;//聊天记录查询
                                     conversation.queryMessages(limit,new AVIMMessagesQueryCallback() {
                                         @Override

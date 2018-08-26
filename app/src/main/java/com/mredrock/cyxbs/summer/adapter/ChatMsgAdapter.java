@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVQuery;
@@ -26,12 +27,12 @@ import com.mredrock.cyxbs.summer.ui.view.activity.MainActivity;
 import com.mredrock.cyxbs.summer.utils.DateUtil;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatMsgAdapter extends MultiLayoutBaseAdapter {
     private List<ChatUserBean> beans;
-
 
 
     public ChatMsgAdapter(Context context, List<ChatUserBean> data, int[] layoutIds) {
@@ -53,6 +54,7 @@ public class ChatMsgAdapter extends MultiLayoutBaseAdapter {
                     TextView name = baseHolder.getView(R.id.summer_chat_list_name);
                     TextView content = baseHolder.getView(R.id.summer_chat_list_content);
                     TextView time = baseHolder.getView(R.id.summer_chat_list_time);
+                    TextView unReadCount = baseHolder.getView(R.id.summer_chat_list_count);
                     if(beans.get(i).getAvUser().getAVFile("avatar")!=null){
                         Glide.with(getContext()).load(beans.get(i).getAvUser().getAVFile("avatar").getUrl()).into(avatar);
                     }
@@ -60,6 +62,8 @@ public class ChatMsgAdapter extends MultiLayoutBaseAdapter {
                     time.setText("更新于"+DateUtil.getCurDate(beans.get(i).getConversation().getDate("updatedAt")));
 
                     baseHolder.itemView.setOnClickListener(v->{
+                        unReadCount.setVisibility(View.GONE);
+                        unReadCount.setText("");
                         Intent intent = new Intent(getContext(),ChatActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("objectId",beans.get(i).getAvUser().getObjectId());
@@ -70,6 +74,7 @@ public class ChatMsgAdapter extends MultiLayoutBaseAdapter {
                     AVIMConversationsQuery query = MainActivity.client.getConversationsQuery();
                     query.whereEqualTo("objectId",beans.get(i).getConversationId());
                     query.setWithLastMessagesRefreshed(true);
+
                     query.setQueryPolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);//这里好坑！竟然还给我缓存了 我就说怎么拿不到实时数据
                     query.findInBackground(new AVIMConversationQueryCallback() {
                         @Override
@@ -88,6 +93,11 @@ public class ChatMsgAdapter extends MultiLayoutBaseAdapter {
                                             content.setText("[语音]");
                                         }
                                     }
+                                        if(list.get(0).getUnreadMessagesCount()>0){
+                                            Log.d("fxy", "done: "+list.get(0).getUnreadMessagesCount());
+                                            unReadCount.setVisibility(View.VISIBLE);
+                                            unReadCount.setText(list.get(0).getUnreadMessagesCount()+"");
+                                        }
                                 }
                             }else {
                                 Log.d("chat", "done: "+e.getMessage());

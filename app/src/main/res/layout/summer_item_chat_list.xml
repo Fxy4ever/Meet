@@ -36,6 +36,7 @@
                 android:id="@+id/summer_chat_list_content"
                 android:layout_gravity="bottom"
                 tools:text="你好在吗"
+                android:maxLength="10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </FrameLayout></LinearLayout>
@@ -48,4 +49,16 @@
         tools:text="几分钟前"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/summer_chat_list_count"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="right|bottom"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:visibility="gone"
+        android:background="@drawable/summer_red_point"
+        tools:text="1"
+        android:layout_width="17dp"
+        android:layout_height="17dp" />
 </FrameLayout>

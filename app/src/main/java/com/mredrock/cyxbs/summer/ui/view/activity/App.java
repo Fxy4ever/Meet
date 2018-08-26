@@ -2,10 +2,12 @@ package com.mredrock.cyxbs.summer.ui.view.activity;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
+import com.avos.avoscloud.im.v2.AVIMConversationEventHandler;
 import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.AVIMMessageHandler;
 import com.avos.avoscloud.im.v2.AVIMMessageManager;
@@ -22,6 +24,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 public class App extends Application {
     private static Context appContext;
@@ -60,6 +64,7 @@ public class App extends Application {
         String app_Id = "UYy61kgDl429l4zkc1jzHJR5-gzGzoHsz";
         AVOSCloud.initialize(this, app_Id, app_Key);//初始化
         AVIMMessageManager.registerDefaultMessageHandler(new App.CustomMessageHandler());
+        AVIMMessageManager.setConversationEventHandler(new CustomConversationEventHandle());
         AVIMClient.setUnreadNotificationEnabled(true);
         AVOSCloud.setDebugLogEnabled(false);//开启日志
     }
@@ -91,6 +96,35 @@ public class App extends Application {
 
         public void onMessageReceipt(AVIMMessage message,AVIMConversation conversation,AVIMClient client){
 
+        }
+    }
+
+    public class CustomConversationEventHandle extends AVIMConversationEventHandler{
+
+        @Override
+        public void onMemberLeft(AVIMClient avimClient, AVIMConversation avimConversation, List<String> list, String s) {
+
+        }
+
+        @Override
+        public void onMemberJoined(AVIMClient avimClient, AVIMConversation avimConversation, List<String> list, String s) {
+
+        }
+
+        @Override
+        public void onKicked(AVIMClient avimClient, AVIMConversation avimConversation, String s) {
+
+        }
+
+        @Override
+        public void onInvited(AVIMClient avimClient, AVIMConversation avimConversation, String s) {
+
+        }
+
+        @Override
+        public void onUnreadMessagesCountUpdated(AVIMClient client, AVIMConversation conversation) {
+            super.onUnreadMessagesCountUpdated(client, conversation);
+            Log.d("fxy", "onUnreadMessagesCountUpdated: "+conversation.getUnreadMessagesCount());
         }
     }
 }
