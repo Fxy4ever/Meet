@@ -71,7 +71,7 @@ public class ChatListRepository {
         query_all.findInBackground(new FindCallback<AVObject>() {
             @Override
             public void done(List<AVObject> list, AVException e) {
-                if(list.size()>0){
+                if(list!=null&&list.size()>0){
                     for (int i = 0; i < list.size(); i++) {
                         ChatUserBean bean = new ChatUserBean();
                         if(user.getObjectId().equals(list.get(i).getAVUser("you").getObjectId())){

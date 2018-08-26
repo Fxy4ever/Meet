@@ -46,34 +46,36 @@ public class SummerDetailAdapter extends MultiLayoutBaseAdapter {
     public void onBinds(BaseHolder baseHolder, Object o, int i, int i1) {
         switch (i1){
             case 0:
-                CircleImageView avatar = baseHolder.getView(R.id.summer_comment_avatar);
-                TextView name = baseHolder.getView(R.id.summer_comment_name);
-                TextView content = baseHolder.getView(R.id.summer_comment_content);
-                ImageButton play = baseHolder.getView(R.id.summer_comment_play);
-                TextView playTime = baseHolder.getView(R.id.summer_comment_playTime);
-                TextView time = baseHolder.getView(R.id.summer_comment_time);
+                if(list.get(i).getUser()!=null){
+                    CircleImageView avatar = baseHolder.getView(R.id.summer_comment_avatar);
+                    TextView name = baseHolder.getView(R.id.summer_comment_name);
+                    TextView content = baseHolder.getView(R.id.summer_comment_content);
+                    ImageButton play = baseHolder.getView(R.id.summer_comment_play);
+                    TextView playTime = baseHolder.getView(R.id.summer_comment_playTime);
+                    TextView time = baseHolder.getView(R.id.summer_comment_time);
 
-                time.setText(list.get(i).getTime());
+                    time.setText(list.get(i).getTime());
 
-                AVUser user = list.get(i).getUser();
-                if(user.getAVFile("avatar")!=null){
-                    Glide.with(getContext()).load(user.getAVFile("avatar").getUrl()).apply(new RequestOptions().override(200,200)).into(avatar);
+                    AVUser user = list.get(i).getUser();
+                    if(user.getAVFile("avatar")!=null){
+                        Glide.with(getContext()).load(user.getAVFile("avatar").getUrl()).apply(new RequestOptions().override(200,200)).into(avatar);
+                    }
+                    name.setText(user.getUsername());
+                    if(list.get(i).getContent()!=null&&!list.get(i).getContent().equals("")){
+                        content.setText(list.get(i).getContent());
+                    }
+
+                    avatar.setOnClickListener(v->{
+                        Intent intent = new Intent(getContext(),UserActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("objectId",list.get(i).getUser().getObjectId());
+                        intent.putExtras(bundle);
+                        getContext().startActivity(intent);
+                    });
+
+                    AudioUtil.setAudio(getContext(),list.get(i).getVoice(),playTime,play);
+
                 }
-                name.setText(user.getUsername());
-                if(list.get(i).getContent()!=null&&!list.get(i).getContent().equals("")){
-                    content.setText(list.get(i).getContent());
-                }
-
-                avatar.setOnClickListener(v->{
-                    Intent intent = new Intent(getContext(),UserActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("objectId",list.get(i).getUser().getObjectId());
-                    intent.putExtras(bundle);
-                    getContext().startActivity(intent);
-                });
-
-                AudioUtil.setAudio(getContext(),list.get(i).getVoice(),playTime,play);
-
                 break;
         }
     }

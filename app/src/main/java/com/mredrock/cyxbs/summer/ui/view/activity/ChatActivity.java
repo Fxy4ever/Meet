@@ -288,7 +288,8 @@ public class ChatActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        model.getChatList().removeObservers(this);
+        if(model.getChatList()!=null)
+            model.getChatList().removeObservers(this);
     }
 
     @Override

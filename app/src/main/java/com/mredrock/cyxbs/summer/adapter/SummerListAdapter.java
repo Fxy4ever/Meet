@@ -110,7 +110,9 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
                     Glide.with(getContext()).load(R.drawable.summer_place_img).apply(new RequestOptions().override(100,100)).into(img);
                 }
 
-                AudioUtil.setAudio(getContext(),beans.get(i).getVoice(),playTime,play);
+                if(beans.get(i).getVoice()!=null){
+                    AudioUtil.setAudio(getContext(),beans.get(i).getVoice(),playTime,play);
+                }
 
                 baseHolder.itemView.setOnClickListener(v -> {
                         bean = beans.get(i);
@@ -120,24 +122,25 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
 
                 like.setOnClickListener(v->{
 
-                    if(!beans.get(i).getAuthor().getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
-                        int hot = beans.get(i).getAskInfo().getInt("hot");
-                        beans.get(i).getAskInfo().put("hot",hot+1);
-                        beans.get(i).getAskInfo().saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(AVException e) {
-                                if(e==null){
-                                    Toasts.show("投币成功 热度增加！");
-                                    hotNum.setText(""+beans.get(i).getAskInfo().getInt("hot"));
-                                    int curMyMoney = AVUser.getCurrentUser().getInt("money");
-                                    AVUser.getCurrentUser().put("money",curMyMoney-1);
-                                    AVUser.getCurrentUser().saveInBackground();
-                                }else Toasts.show(e.getMessage());
-                            }
-                        });
-                    }else{
-                        Toasts.show("你别给自己投币呀！");
-                    }
+                        int curMyMoney = AVUser.getCurrentUser().getInt("money");
+                        if(curMyMoney>0){
+                            AVUser.getCurrentUser().put("money",curMyMoney-1);
+                            AVUser.getCurrentUser().saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(AVException e) {
+                                    if(e==null){
+                                        int hot = beans.get(i).getAskInfo().getInt("hot");
+                                        beans.get(i).getAskInfo().put("hot",hot+1);
+                                        beans.get(i).getAskInfo().saveInBackground();
+                                        Toasts.show("投币成功 热度增加！");
+                                        hotNum.setText(""+beans.get(i).getAskInfo().getInt("hot"));
+                                    }
+                                }
+                            });
+                        }else{
+                            Toasts.show("您没有钱啦！快去发布消息赚钱吧");
+                        }
+
                 });
 
                 break;

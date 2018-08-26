@@ -79,7 +79,7 @@ public class ChatListFragment extends Fragment {
         model = ViewModelProviders.of(this).get(ChatListViewModel.class);
         observe(model.getList());
         refreshLayout.setOnRefreshListener(refreshLayout -> {
-
+            model.loadData();
         }).setOnLoadMoreListener(RefreshLayout::finishLoadMoreWithNoMoreData);
     }
 
