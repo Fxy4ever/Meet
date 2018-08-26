@@ -18,6 +18,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -279,7 +280,6 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
                     Toasts.show("主界面");
                     break;
                 case R.id.nav_myself:
-                    Toasts.show("个人信息");
                     Intent intent = new Intent(MainActivity.this,UserActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("objectId",currentUser.getObjectId());
@@ -287,8 +287,10 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
                     startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,avatar,"summer_toUser").toBundle());
                     break;
                 case R.id.nav_about:
-                    Toasts.show("关于");
-                    startActivity(new Intent(MainActivity.this,AboutActivity.class));
+                    Log.d(TAG, "initDrawerLayout: ");
+                    Intent intent1 = new Intent(MainActivity.this,AboutActivity.class);
+                    MainActivity.this.startActivity(intent1);
+                    Log.d(TAG, "initDrawerLayout: 1");
                     break;
                 case R.id.nav_back:
                     App.spHelper().remove("isChecked");

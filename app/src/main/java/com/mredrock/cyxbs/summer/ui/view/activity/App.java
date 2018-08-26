@@ -16,8 +16,10 @@ import com.avos.avoscloud.im.v2.messages.AVIMImageMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.event.AudioEvent;
+import com.mredrock.cyxbs.summer.event.EmptyEvent;
 import com.mredrock.cyxbs.summer.event.ImageEvent;
 import com.mredrock.cyxbs.summer.event.TextEvent;
+import com.mredrock.cyxbs.summer.utils.NotificationUtils;
 import com.mredrock.cyxbs.summer.utils.SPHelper;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -79,24 +81,23 @@ public class App extends Application {
         //接收到消息后的处理逻辑
         @Override
         public void onMessage(AVIMMessage message, AVIMConversation conversation, AVIMClient client){
+            EventBus.getDefault().post(new EmptyEvent());
+            NotificationUtils notificationUtils = new NotificationUtils(getContext());
+            Log.d("chat", "onMessage: "+message.getContent());
             if(message instanceof AVIMTextMessage){
-                TextEvent event = new TextEvent();
-                event.setMessage((AVIMTextMessage) message);
-                EventBus.getDefault().post(event);
+                notificationUtils.sendNotification("来自知遇", message.getFrom()+"："+((AVIMTextMessage) message).getText());
             }else if(message instanceof AVIMImageMessage){
-                ImageEvent event = new ImageEvent();
-                event.setMessage((AVIMImageMessage) message);
-                EventBus.getDefault().post(event);
+                notificationUtils.sendNotification("来自知遇", message.getFrom()+"：[图片]");
             }else{
-                AudioEvent event = new AudioEvent();
-                event.setMessage((AVIMAudioMessage) message);
-                EventBus.getDefault().post(event);
+                notificationUtils.sendNotification("来自知遇", message.getFrom()+"：[语音]");
             }
         }
 
         public void onMessageReceipt(AVIMMessage message,AVIMConversation conversation,AVIMClient client){
 
         }
+
+
     }
 
     public class CustomConversationEventHandle extends AVIMConversationEventHandler{

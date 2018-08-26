@@ -26,6 +26,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.disposables.Disposable;
+
 /**
  * 好友信息Fragment 利用mvvm架构
  */

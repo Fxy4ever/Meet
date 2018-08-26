@@ -6,10 +6,13 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.SaveCallback;
 import com.avos.avoscloud.SignUpCallback;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.base.BaseActivity;
@@ -17,6 +20,9 @@ import com.mredrock.cyxbs.summer.databinding.ActivityRegisterBinding;
 import com.mredrock.cyxbs.summer.utils.ActivityManager;
 import com.mredrock.cyxbs.summer.utils.DensityUtils;
 import com.mredrock.cyxbs.summer.utils.Toasts;
+
+import java.io.FileNotFoundException;
+import java.util.HashMap;
 
 public class RegisterActivity extends BaseActivity {
     public static final String TAG = "Register";
@@ -94,15 +100,27 @@ public class RegisterActivity extends BaseActivity {
             }
         });
 
-        binding.registerCommit.setOnClickListener(v -> Register());
+        binding.registerCommit.setOnClickListener(v -> {
+            Register();
+        });
     }
 
     private void Register(){
-
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(AVException e) {
                 if(e == null){
+                    App.spHelper().put("account",tx_account);
+                    App.spHelper().put("password",tx_password);
+                    App.spHelper().put("isChecked",true);
+                    AVFile file = new AVFile("avatar","http://lc-UYy61kgD.cn-n1.lcfile.com/JNehek2c7NrZyVt0n0BJdiqZxlYpQHKlJB2cxw1E.jpg",new HashMap<>());
+                    file.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(AVException e) {
+                            user.put("avatar",file);
+                            Log.d(TAG, "done: 默认头像保存成功");
+                        }
+                    });
                     Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(RegisterActivity.this,MainActivity.class));
                     ActivityManager.getInstance().finishAllActivity();

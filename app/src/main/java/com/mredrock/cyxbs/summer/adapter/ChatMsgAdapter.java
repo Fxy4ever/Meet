@@ -96,7 +96,6 @@ public class ChatMsgAdapter extends MultiLayoutBaseAdapter {
                                         }
                                     }
                                         if(list.get(0).getUnreadMessagesCount()>0){
-                                            Log.d("fxy", "done: "+list.get(0).getUnreadMessagesCount());
                                             unReadCount.setVisibility(View.VISIBLE);
                                             unReadCount.setText(list.get(0).getUnreadMessagesCount()+"");
                                         }
