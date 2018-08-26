@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.summer.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.example.frecyclerview.MultiLayoutBaseAdapter;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.bean.ChatBean;
 import com.mredrock.cyxbs.summer.utils.AudioUtil;
+import com.mredrock.cyxbs.summer.utils.DialogBuilder;
 
 import java.util.List;
 
@@ -76,6 +78,10 @@ public class ChatListAdapter extends MultiLayoutBaseAdapter {
                 ImageView myImg = baseHolder.getView(R.id.summer_chat_right_photo_img);
                 Glide.with(getContext()).load(myAvatar).apply(new RequestOptions().override(100,100).error(R.drawable.summer_user_avatar)).into(myImgAvatar);
                 Glide.with(getContext()).load(((AVIMImageMessage)beans.get(i).getMessage()).getFileUrl()).apply(new RequestOptions().override(100,100).error(R.drawable.ic_launcher_background)).into(myImg);
+                myImg.setOnClickListener(v->{
+                    Dialog dialog = DialogBuilder.buildImgDialog(getContext(),((AVIMImageMessage)beans.get(i).getMessage()).getFileUrl());
+                    dialog.show();
+                });
                 break;
             case 2://我的音频
                 CircleImageView myAudioAvatar = baseHolder.getView(R.id.summer_chat_right_voice_avatar);
@@ -98,6 +104,10 @@ public class ChatListAdapter extends MultiLayoutBaseAdapter {
                 ImageView yourImg = baseHolder.getView(R.id.summer_chat_left_photo_img);
                 Glide.with(getContext()).load(myAvatar).apply(new RequestOptions().override(100,100).error(R.drawable.summer_user_avatar)).into(yourImgAvatar);
                 Glide.with(getContext()).load(((AVIMImageMessage)beans.get(i).getMessage()).getFileUrl()).apply(new RequestOptions().override(100,100).error(R.drawable.ic_launcher_background)).into(yourImg);
+                yourImg.setOnClickListener(v->{
+                    Dialog dialog = DialogBuilder.buildImgDialog(getContext(),((AVIMImageMessage)beans.get(i).getMessage()).getFileUrl());
+                    dialog.show();
+                });
                 break;
             case 5://你的音频
                 CircleImageView yourAudioAvatar = baseHolder.getView(R.id.summer_chat_left_voice_avatar);

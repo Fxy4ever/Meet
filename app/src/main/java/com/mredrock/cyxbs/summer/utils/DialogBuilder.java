@@ -5,14 +5,17 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,6 +24,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mredrock.cyxbs.summer.R;
+
+import uk.co.senab.photoview.PhotoView;
 
 public class DialogBuilder {
     private Context context;
@@ -149,7 +154,7 @@ public class DialogBuilder {
     public static Dialog buildImgDialog(Context context,String url){
         Dialog dialog = new Dialog(context,R.style.edit_AlertDialog_style);
         dialog.setContentView(R.layout.show_img_dialog);
-        ImageView imageView = dialog.findViewById(R.id.show_img);
+        PhotoView imageView = dialog.findViewById(R.id.show_img);
         ProgressBar progressBar = dialog.findViewById(R.id.show_progress);
         Glide.with(context)
                 .asBitmap()
@@ -162,14 +167,18 @@ public class DialogBuilder {
                     }
                 });
         dialog.setCanceledOnTouchOutside(true);
-        Display defaultDisplay = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Window dialogWindow = dialog.getWindow();
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-        lp.height = (int)(defaultDisplay.getHeight()*0.8);
-        lp.width = (int)(defaultDisplay.getWidth()*0.8);
-        dialogWindow.setAttributes(lp);
-        imageView.setOnClickListener(v1->{
-            dialog.hide();
+//        Window dialogWindow = dialog.getWindow();
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+//        lp.height = (int)(DensityUtils.getScreenHeight(context)*0.7);
+//        lp.width = (int)(DensityUtils.getScreenWidth(context)*0.9);
+//        dialogWindow.setAttributes(lp);
+        ViewGroup.LayoutParams lp = imageView.getLayoutParams();
+        lp.height = (int)(DensityUtils.getScreenHeight(context)*0.7);
+        lp.width = (int)(DensityUtils.getScreenWidth(context)*0.9);
+
+        dialog.getWindow().findViewById(R.id.show_img).setOnClickListener(v1->{
+            Log.d("photo", "buildImgDialog: ");
+            dialog.cancel();
         });
         return dialog;
     }
