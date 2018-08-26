@@ -1,5 +1,7 @@
 package com.mredrock.cyxbs.summer.adapter;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -53,7 +55,8 @@ public class InfoListAdapter extends MultiLayoutBaseAdapter {
                     bundle.putString("objectId",data.get(i).getObjectId());
                     intent.putExtras(bundle);
                     getContext().startActivity(intent);
-                });
+                    ((Activity)getContext()).overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
+                    });
 
                 break;
         }

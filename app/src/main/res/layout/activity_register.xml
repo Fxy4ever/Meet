@@ -22,7 +22,15 @@
             android:layout_marginLeft="80dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
+            <Button
+                android:id="@+id/register_tv"
+                android:textSize="40sp"
+                android:textColor="#FFFFFF"
+                android:text="注册"
+                android:background="@null"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <LinearLayout
                 android:layout_gravity="center"
                 android:orientation="vertical"
@@ -116,6 +124,7 @@
             android:background="#60000000"
             android:text="登   录"
             android:ems="1"
+            android:transitionName="shared_login"
             android:gravity="center"
             android:layout_height="match_parent" />
     </FrameLayout>

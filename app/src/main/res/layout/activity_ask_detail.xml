@@ -158,12 +158,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/summer_sm_comment_rv"
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/summer_sm_comment_srl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/summer_sm_comment_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            </android.support.v7.widget.RecyclerView>
+                </android.support.v7.widget.RecyclerView>
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
         </LinearLayout>
 </layout>

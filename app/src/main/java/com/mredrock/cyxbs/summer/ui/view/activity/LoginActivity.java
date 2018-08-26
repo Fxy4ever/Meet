@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.summer.ui.view.activity;
 
+import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,9 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
@@ -25,6 +29,7 @@ public class LoginActivity extends BaseActivity {
     private String tx_password;
     private ActivityLoginBinding binding;
     private Dialog dialog;
+    private Button textView;
     private Context context = this;
 
 
@@ -41,6 +46,7 @@ public class LoginActivity extends BaseActivity {
     private void initAVCloud(){
         tx_password="";
         tx_account="";
+        textView = binding.loginTv;
         //如果记住了密码 直接登陆
         if((boolean)App.spHelper().get("isChecked",false)){
             binding.loginAccount.setText(App.spHelper().get("account","").toString().trim());
@@ -128,7 +134,8 @@ public class LoginActivity extends BaseActivity {
                         }
                         App.spHelper().put("username",tx_account);
                         LoginActivity.this.finish();
-                        startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                        startActivity(intent);
                         overridePendingTransition(R.anim.out_to_top,R.anim.in_from_bottm);
                     }else{
                         Toasts.show(e.getMessage());

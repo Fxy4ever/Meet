@@ -42,6 +42,7 @@ import com.mredrock.cyxbs.summer.utils.DensityUtils;
 import com.mredrock.cyxbs.summer.utils.DialogBuilder;
 import com.mredrock.cyxbs.summer.utils.RecorderUtil;
 import com.mredrock.cyxbs.summer.utils.Toasts;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.FileNotFoundException;
@@ -61,6 +62,7 @@ public class AskDetailActivity extends BaseMvpActivity implements AskDetailContr
     private Dialog dialog;
     private RecyclerView recyclerView;
     private SummerDetailAdapter adapter;
+    private SmartRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,6 +192,7 @@ public class AskDetailActivity extends BaseMvpActivity implements AskDetailContr
             bean.setVoice(data.get(i).getAVFile("voice"));
             bean.setTime("发布于"+DateUtil.getCurDate(data.get(i).getCreatedAt()));
             AVObject comment = AVObject.createWithoutData("comment",data.get(i).getObjectId());
+            int finalI = i;
             comment.fetchInBackground("user", new GetCallback<AVObject>() {
                 @Override
                 public void done(AVObject avObject, AVException e) {
@@ -197,7 +200,10 @@ public class AskDetailActivity extends BaseMvpActivity implements AskDetailContr
                         AVUser user = avObject.getAVUser("user");
                         bean.setUser(user);
                         list.add(bean);
-                        adapter.notifyDataSetChanged();
+                        if(finalI ==data.size()-1){
+                            adapter.notifyDataSetChanged();
+                            refreshLayout.finishRefresh();
+                        }
                     }
                 }
             });
@@ -218,6 +224,7 @@ public class AskDetailActivity extends BaseMvpActivity implements AskDetailContr
         binding.summerSmDetailItemContent.setText(bean.getAskContent());
         binding.summerSmDetailItemTitle.setText(bean.getAskName());
         binding.summerSmDetailItemTime.setText("更新于"+bean.getUpdatedAt());
+        refreshLayout = binding.summerSmCommentSrl;
         if(bean.getAuthor().getAVFile("avatar")!=null){
             Glide.with(this).load(bean.getAuthor().getAVFile("avatar").getUrl()).apply(new RequestOptions().override(200,200)).into(binding.summerSmDetailItemAvatar);
         }
@@ -277,6 +284,10 @@ public class AskDetailActivity extends BaseMvpActivity implements AskDetailContr
             finish();
         });
         DensityUtils.setTransparent(binding.summerSmDetailItemTl,this);
+
+        refreshLayout.setOnRefreshListener(v->{
+                presenter.start(SummerListAdapter.bean.getObjectId());
+        }).setOnLoadMoreListener(v-> refreshLayout.finishLoadMoreWithNoMoreData());
     }
 
 

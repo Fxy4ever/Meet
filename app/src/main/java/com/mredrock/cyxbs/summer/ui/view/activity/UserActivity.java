@@ -122,7 +122,7 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
             }
         });
 
-        binding.summerUserMoney.setText("财富值为："+avUser.getInt("money"));
+        binding.summerUserMoney.setText("财富为："+avUser.getInt("money"));
 
         if (avUser.getAVFile("avatar") != null) {
             Glide.with(this)
@@ -133,6 +133,7 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
 
             Glide.with(this)
                     .load(avUser.getAVFile("avatar").getUrl())
+                    .apply(new RequestOptions().placeholder(R.drawable.summer_user_avatar).error(R.drawable.summer_user_avatar))
                     .into(avatar);
         }
 
@@ -204,4 +205,9 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
         return this;
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.out_to_right,R.anim.in_from_left);
+    }
 }

@@ -104,7 +104,7 @@ public class AskFriendsActivity extends BaseMvpActivity implements AskFriednsCon
                         .choose(MimeType.allOf())
                         .countable(true)
                         .capture(true)  // 开启相机，和 captureStrategy 一并使用否则报错
-                        .captureStrategy(new CaptureStrategy(true,"com.example.fileprovider"))
+                        .captureStrategy(new CaptureStrategy(true,"com.mredrock.cyxbs.summer.fileprovider"))
                         .maxSelectable(1)
                         .gridExpectedSize(DensityUtils.getScreenWidth(this)/3)
                         .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)

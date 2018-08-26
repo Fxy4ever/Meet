@@ -2,6 +2,8 @@ package com.mredrock.cyxbs.summer.ui.view.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.arch.lifecycle.LifecycleOwner;
 import android.content.Intent;
@@ -27,6 +29,7 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
+import com.avos.avoscloud.feedback.FeedbackAgent;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
@@ -80,6 +83,7 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
     private String path="";
     private CircleImageView avatar;
     private Dialog changeDesc;
+    private FeedbackAgent agent;
     public static AVIMClient client;
 
     private AVUser currentUser = AVUser.getCurrentUser();
@@ -89,8 +93,14 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         askPermissions();
+        setFeedBack();
         initMV();
         initDrawerLayout();
+    }
+
+    private void setFeedBack(){
+        agent = new FeedbackAgent(this);
+        agent.sync();
     }
 
     private void initMV(){
@@ -237,7 +247,7 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
                 Matisse.from(this)
                         .choose(MimeType.allOf())
                         .capture(true)  // 开启相机，和 captureStrategy 一并使用否则报错
-                        .captureStrategy(new CaptureStrategy(true,"com.example.fileprovider"))
+                        .captureStrategy(new CaptureStrategy(true,"com.mredrock.cyxbs.summer.fileprovider"))
                         .countable(true)
                         .maxSelectable(1)
                         .gridExpectedSize(DensityUtils.getScreenWidth(this)/3)
@@ -274,16 +284,20 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
                     Bundle bundle = new Bundle();
                     bundle.putString("objectId",currentUser.getObjectId());
                     intent.putExtras(bundle);
-                    startActivity(intent);
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,avatar,"summer_toUser").toBundle());
                     break;
                 case R.id.nav_about:
                     Toasts.show("关于");
+                    startActivity(new Intent(MainActivity.this,AboutActivity.class));
                     break;
                 case R.id.nav_back:
                     App.spHelper().remove("isChecked");
                     AVUser.logOut();
                     startActivity(new Intent(MainActivity.this,LoginActivity.class));
                     finish();
+                    break;
+                case R.id.nav_feedback:
+                    agent.startDefaultThreadActivity();
                     break;
             }
 

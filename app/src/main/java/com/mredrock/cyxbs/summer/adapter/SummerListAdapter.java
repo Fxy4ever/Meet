@@ -90,7 +90,8 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
                     Bundle bundle = new Bundle();
                     bundle.putString("objectId",beans.get(i).getAuthor().getObjectId());
                     intent.putExtras(bundle);
-                    getContext().startActivity(intent);
+                    getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) getContext(),avatar,"summer_toUser").toBundle());
+
                 });
 
                 if(beans.get(i).getPhoto()!=null){
@@ -142,29 +143,6 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
                 break;
         }
     }
-
-    public float adjustTvTextSize(TextView tv, int maxWidth, String text) {
-        int avaiWidth = maxWidth - tv.getPaddingLeft() - tv.getPaddingRight() - 10;
-
-        if (avaiWidth <= 0 || text.length()==0) {
-            return tv.getPaint().getTextSize();
-        }
-
-        TextPaint textPaintClone = new TextPaint(tv.getPaint());
-        // note that Paint text size works in px not sp
-        float trySize = textPaintClone.getTextSize();
-
-        while (textPaintClone.measureText(text) > avaiWidth) {
-            trySize--;
-            textPaintClone.setTextSize(trySize);
-        }
-
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, trySize);
-        return trySize;
-    }
-
-
-
 
     private void runEnterAnim(View view,int position){
         if(animationsLocked) return;//有item才开始画

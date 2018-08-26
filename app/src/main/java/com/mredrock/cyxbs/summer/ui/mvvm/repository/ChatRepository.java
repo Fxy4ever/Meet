@@ -2,6 +2,8 @@ package com.mredrock.cyxbs.summer.ui.mvvm.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.avos.avoscloud.AVException;
@@ -23,6 +25,7 @@ import com.mredrock.cyxbs.summer.bean.ChatBean;
 import com.mredrock.cyxbs.summer.ui.view.activity.MainActivity;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -178,8 +181,8 @@ public class ChatRepository {
                 @Override
                 public void done(AVIMException e) {
                     if(e==null){
-                        changeData(message);
                         Log.d("chat", "done: 图片发送成功");
+                        changeData(message);
                     }else{
                         Toasts.show("图片发送失败");
                     }
@@ -197,6 +200,7 @@ public class ChatRepository {
      * @param msg
      */
     public void changeData(AVIMMessage msg) {
+        conversation.read();
         ChatBean bean = new ChatBean();
         //判断msg类型
         if (msg.getFrom().equals(mine.getUsername())) {

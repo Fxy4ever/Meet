@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.summer.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -69,7 +70,8 @@ public class ChatMsgAdapter extends MultiLayoutBaseAdapter {
                         bundle.putString("objectId",beans.get(i).getAvUser().getObjectId());
                         intent.putExtras(bundle);
                         getContext().startActivity(intent);
-                    });
+                        ((Activity)getContext()).overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
+                        });
 
                     AVIMConversationsQuery query = MainActivity.client.getConversationsQuery();
                     query.whereEqualTo("objectId",beans.get(i).getConversationId());

@@ -61,6 +61,7 @@
                         android:layout_gravity="bottom"
                         android:id="@+id/summer_sm_item_avatar"
                         android:src="@drawable/summer_user_avatar"
+                        android:transitionName="summer_toUser"
                         android:layout_width="24dp"
                         android:layout_height="24dp" />
                     <TextView

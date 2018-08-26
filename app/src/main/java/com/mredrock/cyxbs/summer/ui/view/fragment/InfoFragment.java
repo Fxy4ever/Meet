@@ -54,7 +54,7 @@ public class InfoFragment extends Fragment implements LifecycleOwner{
         recyclerView = binding.summerInfoRv;
         refreshLayout = binding.summerInfoRefreshLayout;
         data = new ArrayList<>();
-        adapter = new InfoListAdapter(App.getContext(),data,new int[]{R.layout.summer_item_info});
+        adapter = new InfoListAdapter(getContext(),data,new int[]{R.layout.summer_item_info});
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -68,6 +68,8 @@ public class InfoFragment extends Fragment implements LifecycleOwner{
                 data.clear();
                 model.setGuanZhu(AVUser.getCurrentUser());
             }
+        }).setOnLoadMoreListener(v->{
+            refreshLayout.finishLoadMoreWithNoMoreData();
         });
     }
 

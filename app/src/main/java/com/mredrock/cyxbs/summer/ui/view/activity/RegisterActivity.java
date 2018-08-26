@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.summer.ui.view.activity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -37,7 +38,10 @@ public class RegisterActivity extends BaseActivity {
 
 
     private void initListener(){
-        binding.registerToLogin.setOnClickListener(v -> RegisterActivity.this.finish());
+        binding.registerToLogin.setOnClickListener(v -> {
+            RegisterActivity.this.finish();
+        }
+        );
         binding.registerAccount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

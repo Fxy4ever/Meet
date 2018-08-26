@@ -174,6 +174,9 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
+        binding.summerChatTl.setNavigationOnClickListener(v->{
+            finish();
+        });
 
         binding.summerPopChatSend.setOnClickListener(v -> {
             model.sendText(et.getText().toString());
@@ -190,7 +193,7 @@ public class ChatActivity extends AppCompatActivity {
                         .choose(MimeType.allOf())
                         .countable(true)
                         .capture(true)  // 开启相机，和 captureStrategy 一并使用否则报错
-                        .captureStrategy(new CaptureStrategy(true,"com.example.fileprovider"))
+                        .captureStrategy(new CaptureStrategy(true,"com.mredrock.cyxbs.summer.fileprovider"))
                         .maxSelectable(1)
                         .gridExpectedSize(DensityUtils.getScreenWidth(this)/3)
                         .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
@@ -302,5 +305,11 @@ public class ChatActivity extends AppCompatActivity {
                     model.sendImage(imgName,imgPath);
                 }
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.out_to_right,R.anim.in_from_left);
     }
 }
