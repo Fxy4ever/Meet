@@ -63,12 +63,14 @@ public class InfoFragment extends Fragment implements LifecycleOwner{
         recyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
         refreshLayout.setOnRefreshListener(v->{
            refreshLayout.finishRefresh(1000);
-            if(kind.equals("粉丝")){
-                data.clear();
-                model.setFenSi(AVUser.getCurrentUser());
-            }else{
-                data.clear();
-                model.setGuanZhu(AVUser.getCurrentUser());
+            if(kind!=null){
+                if(kind.equals("粉丝")){
+                    data.clear();
+                    model.setFenSi(AVUser.getCurrentUser());
+                }else{
+                    data.clear();
+                    model.setGuanZhu(AVUser.getCurrentUser());
+                }
             }
         }).setOnLoadMoreListener(v->{
             refreshLayout.finishLoadMoreWithNoMoreData();
