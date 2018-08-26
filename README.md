@@ -39,7 +39,7 @@
 
 #### 使用到的技术：
 - RxJava+RxPermission的结合 申请权限更加方便
-- 软件前半部分使用了mvp模式，后半部分由于觉得聊天使用mvp太过于繁琐，转为mvvm架构，即viewModel+LiveData，外加Databinding，接耦更加彻底。
+- 软件前半部分使用了mvp模式，后半部分由于觉得聊天使用mvp太过于繁琐，转为mvvm架构，即viewModel+LiveData，外加Databinding，解耦更加彻底。
 - EventBus的使用，使消息刷新更加简单，优化了代码量。
 - Material Design的设计模式，界面UI更加好看。
 - LeanCloud强大的后端支持
