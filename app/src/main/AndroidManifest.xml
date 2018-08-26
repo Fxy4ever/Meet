@@ -68,15 +68,10 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.view.activity.ChatActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-
-        </activity>
-        <activity android:name="com.avos.avoscloud.feedback.ThreadActivity">
-
-        </activity>
-        <activity android:name=".ui.view.activity.AboutActivity">
-
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+        <activity android:name="com.avos.avoscloud.feedback.ThreadActivity"></activity>
+        <activity android:name=".ui.view.activity.AboutActivity"></activity>
+        <activity android:name=".ui.view.activity.ChangeInfoActivity"></activity>
     </application>
 
 </manifest>

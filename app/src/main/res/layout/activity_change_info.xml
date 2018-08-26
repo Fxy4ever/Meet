@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.view.activity.ChangeInfoActivity">
+        <android.support.v7.widget.Toolbar
+            app:navigationIcon="@drawable/summer_icon_back"
+            android:id="@+id/summer_about_tl"
+            android:background="@drawable/summer_login_backgroud_shape"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            >
+            <TextView
+                android:text="修改"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </android.support.v7.widget.Toolbar>
+
+        <Spinner
+            android:id="@+id/summer_change_spinner"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="50dp"
+            android:background="#F4F4F4"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_height="50dp"/>
+
+        <EditText
+            android:id="@+id/summer_change_et1"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:layout_width="200dp"
+            android:hint="输入修改的内容"
+            android:textColor="#000000"
+            android:padding="10dp"
+            android:background="@drawable/summer_et_shape"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/summer_change_et2"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:layout_width="200dp"
+            android:hint="重复输入一遍"
+            android:textColor="#000000"
+            android:padding="10dp"
+            android:background="@drawable/summer_et_shape"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/summer_change_commit"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="更改"
+            android:background="@drawable/summer_chat_send_shape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+</layout>

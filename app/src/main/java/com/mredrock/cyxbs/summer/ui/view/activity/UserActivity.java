@@ -95,6 +95,7 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
         CircleImageView avatar = binding.summerUserAvatar;
 
         binding.summerUserToolbarLayout.setTitle(avUser.getUsername());
+        binding.summerUserSex.setText(avUser.getString("sex"));
         if(isFav) binding.summerUserSend.setText("已关注");
         binding.summerUserSend.setOnClickListener(v->{
             if(!isFavorite){
@@ -145,11 +146,13 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
                     binding.summerUserChat.setVisibility(View.VISIBLE);
                 }
                 binding.summerUserMoney.setVisibility(View.VISIBLE);
+                binding.summerUserSex.setVisibility(View.VISIBLE);
             } else {
                 avatar.setVisibility(View.GONE);
                 binding.summerUserMoney.setVisibility(View.GONE);
                 binding.summerUserSend.setVisibility(View.GONE);
                 binding.summerUserChat.setVisibility(View.GONE);
+                binding.summerUserSex.setVisibility(View.GONE);
             }
         });
         presenter.loadData(avUser);

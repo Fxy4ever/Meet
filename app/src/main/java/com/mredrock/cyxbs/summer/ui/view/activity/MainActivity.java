@@ -301,6 +301,9 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
                 case R.id.nav_feedback:
                     agent.startDefaultThreadActivity();
                     break;
+                case R.id.nav_change:
+                    startActivity(new Intent(MainActivity.this,ChangeInfoActivity.class));
+                    break;
             }
 
             drawerLayout.closeDrawer(GravityCompat.START);

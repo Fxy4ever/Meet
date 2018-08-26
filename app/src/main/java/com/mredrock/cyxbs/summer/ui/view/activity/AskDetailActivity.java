@@ -202,12 +202,12 @@ public class AskDetailActivity extends BaseMvpActivity implements AskDetailContr
                         list.add(bean);
                         if(finalI ==data.size()-1){
                             adapter.notifyDataSetChanged();
-                            refreshLayout.finishRefresh();
                         }
                     }
                 }
             });
         }
+        refreshLayout.finishRefresh();
         adapter = new SummerDetailAdapter(this,list,new int[]{R.layout.summer_item_comment_rv});
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();

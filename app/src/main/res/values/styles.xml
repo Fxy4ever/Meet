@@ -103,4 +103,11 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
+    <string-array name="change">
+        <item>密码</item>
+        <item>邮箱</item>
+        <item>性别</item>
+    </string-array>
+
 </resources>

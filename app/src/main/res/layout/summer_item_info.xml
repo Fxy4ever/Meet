@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:background="#EBEBEB"
     android:layout_width="match_parent"
+    android:foreground="?android:attr/selectableItemBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="5dp"
     app:cardElevation="0dp"

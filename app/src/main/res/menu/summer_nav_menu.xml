@@ -6,7 +6,6 @@
         <item
             android:id="@+id/nav_main"
             android:icon="@mipmap/ic_launcher"
-            android:checkable="true"
             android:title="主页"/>
 
     </group>
@@ -17,6 +16,10 @@
             android:id="@+id/nav_myself"
             android:icon="@mipmap/ic_launcher"
             android:title="个人信息"/>
+        <item
+            android:id="@+id/nav_change"
+            android:icon="@mipmap/ic_launcher"
+            android:title="修改信息"/>
     </group>
     <group
         android:id="@+id/group3"

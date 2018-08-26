@@ -16,13 +16,13 @@ public class SummerPresenter extends BasePresenter<SummerContract.ISummerView> {
     }
 
     public void start(){
+        skip=10;
         model.loadData(0,new BaseContract.ISomethingModel.LoadCallBack() {
             @Override
             public void succeed(Object o) {
                 if(o != null){
                     List<AVObject> data = (List<AVObject>) o;
                     getView().setData(data);
-                    skip=0;
                 }
             }
 

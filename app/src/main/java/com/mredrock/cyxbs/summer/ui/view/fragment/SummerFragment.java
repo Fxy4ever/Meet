@@ -72,9 +72,7 @@ public class SummerFragment  extends BaseFragment implements SummerContract.ISum
         recyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());//很关键
         binding.summerSmRefresh.setOnRefreshListener(refreshLayout -> {
             presenter.start();
-            binding.summerSmRefresh.finishRefresh(1000);
         }).setOnLoadMoreListener(refreshLayout -> {
-            binding.summerSmRefresh.finishRefresh(1000);
             presenter.loadMore();
         });
     }
@@ -108,14 +106,13 @@ public class SummerFragment  extends BaseFragment implements SummerContract.ISum
                         AVUser user = avObject.getAVUser("author");
                         bean.setAuthor(user);
                         datas.add(bean);
-                        binding.summerSmRefresh.finishRefresh();
                         if(finalI ==data.size()-1)
                             adapter.notifyDataSetChanged();
                     }
                 }
             });
-
         }
+        binding.summerSmRefresh.finishRefresh();
         adapter = new SummerListAdapter(getActivity(),datas,new int[]{R.layout.summer_item_ask_rv});
         recyclerView.setAdapter(adapter);
     }
