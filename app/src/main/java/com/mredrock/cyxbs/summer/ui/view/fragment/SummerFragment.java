@@ -11,10 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.GetCallback;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.adapter.SummerListAdapter;
@@ -102,10 +100,11 @@ public class SummerFragment  extends BaseFragment implements SummerContract.ISum
             AVUser user = data.get(i).getAVUser("author");
             bean.setAuthor(user);
             datas.add(bean);
-            if(i ==data.size()-1)
+            if(i ==data.size()-1){
                 adapter.notifyDataSetChanged();
+                binding.summerSmRefresh.finishRefresh();
+            }
         }
-        binding.summerSmRefresh.finishRefresh();
     }
 
     @Override
@@ -123,8 +122,11 @@ public class SummerFragment  extends BaseFragment implements SummerContract.ISum
                 AVUser user = data.get(i).getAVUser("author");
                 bean.setAuthor(user);
                 datas.add(bean);
-                if(i ==data.size()-1)
+                if(i ==data.size()-1){
                     adapter.notifyDataSetChanged();
+                    binding.summerSmRefresh.finishLoadMore();
+                }
+
             }
         }else{
             binding.summerSmRefresh.finishLoadMoreWithNoMoreData();

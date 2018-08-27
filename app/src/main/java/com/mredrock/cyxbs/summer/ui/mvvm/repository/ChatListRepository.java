@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.summer.ui.mvvm.repository;
 
 import android.arch.lifecycle.MutableLiveData;
-import android.util.Log;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
@@ -9,8 +8,6 @@ import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.im.v2.AVIMClient;
-import com.avos.avoscloud.im.v2.AVIMException;
-import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.mredrock.cyxbs.summer.bean.ChatUserBean;
 
 import java.util.ArrayList;
@@ -59,6 +56,7 @@ public class ChatListRepository {
             @Override
             public void done(List<AVObject> list, AVException e) {
                 if(list!=null&&list.size()>0){
+                    beans.clear();
                     //为了和下面list命名上不冲突
                     List<AVObject> lists = new ArrayList<>(list);
                     for (int i = 0; i < list.size(); i++) {
