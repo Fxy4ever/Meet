@@ -94,6 +94,9 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
         setSupportActionBar(binding.summerUserToolbar);
         CircleImageView avatar = binding.summerUserAvatar;
 
+        if(avUser.getBoolean("isAdmin")){
+            binding.summerUserAdmin.setVisibility(View.VISIBLE);
+        }
         binding.summerUserToolbarLayout.setTitle(avUser.getUsername());
         binding.summerUserSex.setText(avUser.getString("sex"));
         if(isFav) binding.summerUserSend.setText("已关注");
@@ -147,12 +150,16 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
                 }
                 binding.summerUserMoney.setVisibility(View.VISIBLE);
                 binding.summerUserSex.setVisibility(View.VISIBLE);
+                if(avUser.getBoolean("isAdmin")){
+                    binding.summerUserAdmin.setVisibility(View.VISIBLE);
+                }
             } else {
                 avatar.setVisibility(View.GONE);
                 binding.summerUserMoney.setVisibility(View.GONE);
                 binding.summerUserSend.setVisibility(View.GONE);
                 binding.summerUserChat.setVisibility(View.GONE);
                 binding.summerUserSex.setVisibility(View.GONE);
+                binding.summerUserAdmin.setVisibility(View.GONE);
             }
         });
         presenter.loadData(avUser);
@@ -185,21 +192,11 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
             bean.setAskInfo(beans.get(i));
             bean.setUpdatedAt(DateUtil.getCurDate(beans.get(i).getUpdatedAt()));
             bean.setObjectId(beans.get(i).getObjectId());
-            AVObject ask = AVObject.createWithoutData("askInfo", beans.get(i).getObjectId());
-            int finalI = i;
-            ask.fetchInBackground("author", new GetCallback<AVObject>() {
-                @Override
-                public void done(AVObject avObject, AVException e) {
-                    if (e == null) {
-                        AVUser user = avObject.getAVUser("author");
-                        bean.setAuthor(user);
-                        datas.add(bean);
-                        if(finalI ==datas.size()-1){
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-                }
-            });
+            bean.setAuthor(beans.get(i).getAVUser("author"));
+            datas.add(bean);
+            if(i ==datas.size()-1){
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 

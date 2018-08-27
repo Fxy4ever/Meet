@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.summer.ui.mvvm.repository;
 
 import android.arch.lifecycle.MutableLiveData;
+import android.util.Log;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
@@ -36,18 +37,6 @@ public class ChatListRepository {
         return repository;
     }
 
-    public void getClient(ClientCallback callback) {
-        client = AVIMClient.getInstance(AVUser.getCurrentUser());
-        client.open(new AVIMClientCallback() {
-            @Override
-            public void done(AVIMClient avimClient, AVIMException e) {
-                if(e==null){
-                    callback.succeed(avimClient);
-                }
-            }
-        });
-    }
-
     /**
      * 这里建表不是很合理，所以查询代码稍多了一些 后面优化
      * @return
@@ -58,27 +47,26 @@ public class ChatListRepository {
 
         AVQuery<AVObject> query = new AVQuery<>("conRelation");
         query.whereEqualTo("mine",user);
-        query.include("you");
 
         AVQuery<AVObject> query1 = new AVQuery<>("conRelation");
         query1.whereEqualTo("you",user);
-        query1.include("mine");
 
         AVQuery<AVObject> query_all = AVQuery.or(Arrays.asList(query,query1));
         query_all.include("mine");
         query_all.include("you");
-
+        query_all.orderByDescending("updatedAt");
         query_all.findInBackground(new FindCallback<AVObject>() {
             @Override
             public void done(List<AVObject> list, AVException e) {
                 if(list!=null&&list.size()>0){
+                    //为了和下面list命名上不冲突
+                    List<AVObject> lists = new ArrayList<>(list);
                     for (int i = 0; i < list.size(); i++) {
                         ChatUserBean bean = new ChatUserBean();
                         if(user.getObjectId().equals(list.get(i).getAVUser("you").getObjectId())){
                             //如果当前用户是you 对面的就是mine
                             bean.setAvUser(list.get(i).getAVUser("mine"));
                             bean.setConversationId(list.get(i).getString("conversationId"));
-                            beans.add(bean);
                             AVQuery<AVObject> avQuery = new AVQuery<>("_Conversation");
                             avQuery.whereEqualTo("objectId",list.get(i).getString("conversationId"));
                             int finalI = i;
@@ -87,7 +75,8 @@ public class ChatListRepository {
                                 public void done(List<AVObject> list, AVException e) {
                                     if(e==null){
                                         bean.setConversation(list.get(0));
-                                        if(finalI ==list.size()-1){
+                                        beans.add(bean);
+                                        if(finalI ==lists.size()-1){
                                             data.setValue(beans);
                                         }
                                     }
@@ -97,7 +86,6 @@ public class ChatListRepository {
                             //如果当前用户是mine 对面的就是you
                             bean.setAvUser(list.get(i).getAVUser("you"));
                             bean.setConversationId(list.get(i).getString("conversationId"));
-                            beans.add(bean);
                             AVQuery<AVObject> avQuery = new AVQuery<>("_Conversation");
                             avQuery.whereEqualTo("objectId",list.get(i).getString("conversationId"));
                             int finalI = i;
@@ -106,7 +94,8 @@ public class ChatListRepository {
                                 public void done(List<AVObject> list, AVException e) {
                                     if(e==null){
                                         bean.setConversation(list.get(0));
-                                        if(finalI ==list.size()-1){
+                                        beans.add(bean);
+                                        if(finalI ==lists.size()-1){
                                             data.setValue(beans);
                                         }
                                     }
@@ -119,9 +108,5 @@ public class ChatListRepository {
         });
 
         return data;
-    }
-    //我知道写回调不好2333
-    public interface ClientCallback{
-        void succeed(AVIMClient client);
     }
 }

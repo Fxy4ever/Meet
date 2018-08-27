@@ -287,10 +287,8 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
                     startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,avatar,"summer_toUser").toBundle());
                     break;
                 case R.id.nav_about:
-                    Log.d(TAG, "initDrawerLayout: ");
-                    Intent intent1 = new Intent(MainActivity.this,AboutActivity.class);
-                    MainActivity.this.startActivity(intent1);
-                    Log.d(TAG, "initDrawerLayout: 1");
+                    startActivity(new Intent(MainActivity.this,AboutActivity.class));
+                    overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
                     break;
                 case R.id.nav_back:
                     App.spHelper().remove("isChecked");

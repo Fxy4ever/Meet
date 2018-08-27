@@ -59,9 +59,8 @@ public class ChatListFragment extends Fragment {
     private ChatMsgAdapter adapter;
     private List<ChatUserBean> data;
     private SmartRefreshLayout refreshLayout;
-    public static final String TAG = "ChatListFragment";
-    private boolean isFirstResume = true;
-    private Disposable disposable;
+    private boolean isFirst  = true;
+
 
     @Nullable
     @Override
@@ -79,6 +78,8 @@ public class ChatListFragment extends Fragment {
         model = ViewModelProviders.of(this).get(ChatListViewModel.class);
         observe(model.getList());
         refreshLayout.setOnRefreshListener(refreshLayout -> {
+            data.clear();
+            adapter.notifyDataSetChanged();
             model.loadData();
         }).setOnLoadMoreListener(RefreshLayout::finishLoadMoreWithNoMoreData);
     }
@@ -89,14 +90,13 @@ public class ChatListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
         data = new ArrayList<>();
-
         adapter = new ChatMsgAdapter(getContext(),data,new int[]{R.layout.summer_item_chat_list});
         recyclerView.setAdapter(adapter);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loadData(EmptyEvent event){
-        model.loadData();
+            model.loadData();
     }
 
 
@@ -106,7 +106,6 @@ public class ChatListFragment extends Fragment {
         list.observe(this, chatUserBeans -> {
             if (chatUserBeans != null) {
                 refreshLayout.finishRefresh(1000);
-                data.clear();
                 data.addAll(chatUserBeans);
                 adapter.notifyDataSetChanged();
             }

@@ -68,8 +68,10 @@ public class SummerFragment  extends BaseFragment implements SummerContract.ISum
         recyclerView = binding.summerListRv;
         datas = new ArrayList<>();
         manager = new ScrollLinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(manager);
         recyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());//很关键
+        adapter = new SummerListAdapter(getActivity(),datas,new int[]{R.layout.summer_item_ask_rv});
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(manager);
         binding.summerSmRefresh.setOnRefreshListener(refreshLayout -> {
             presenter.start();
         }).setOnLoadMoreListener(refreshLayout -> {
@@ -97,24 +99,13 @@ public class SummerFragment  extends BaseFragment implements SummerContract.ISum
             bean.setAskInfo(data.get(i));
             bean.setUpdatedAt(DateUtil.getCurDate(data.get(i).getUpdatedAt()));
             bean.setObjectId(data.get(i).getObjectId());
-            AVObject ask = AVObject.createWithoutData("askInfo",data.get(i).getObjectId());
-            int finalI = i;
-            ask.fetchInBackground("author", new GetCallback<AVObject>() {
-                @Override
-                public void done(AVObject avObject, AVException e) {
-                    if(e==null){
-                        AVUser user = avObject.getAVUser("author");
-                        bean.setAuthor(user);
-                        datas.add(bean);
-                        if(finalI ==data.size()-1)
-                            adapter.notifyDataSetChanged();
-                    }
-                }
-            });
+            AVUser user = data.get(i).getAVUser("author");
+            bean.setAuthor(user);
+            datas.add(bean);
+            if(i ==data.size()-1)
+                adapter.notifyDataSetChanged();
         }
         binding.summerSmRefresh.finishRefresh();
-        adapter = new SummerListAdapter(getActivity(),datas,new int[]{R.layout.summer_item_ask_rv});
-        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -129,22 +120,11 @@ public class SummerFragment  extends BaseFragment implements SummerContract.ISum
                 bean.setVoice(data.get(i).getAVFile("voice"));
                 bean.setAskInfo(data.get(i));
                 bean.setUpdatedAt(DateUtil.getCurDate(data.get(i).getUpdatedAt()));
-                AVObject ask = AVObject.createWithoutData("askInfo",data.get(i).getObjectId());
-                int finalI = i;
-                ask.fetchInBackground("author", new GetCallback<AVObject>() {
-                    @Override
-                    public void done(AVObject avObject, AVException e) {
-                        if(e==null){
-                            AVUser user = avObject.getAVUser("author");
-                            bean.setAuthor(user);
-                            datas.add(bean);
-                            if(finalI ==data.size()-1){
-                                adapter.notifyDataSetChanged();
-                                binding.summerSmRefresh.finishLoadMore();
-                            }
-                        }
-                    }
-                });
+                AVUser user = data.get(i).getAVUser("author");
+                bean.setAuthor(user);
+                datas.add(bean);
+                if(i ==data.size()-1)
+                    adapter.notifyDataSetChanged();
             }
         }else{
             binding.summerSmRefresh.finishLoadMoreWithNoMoreData();

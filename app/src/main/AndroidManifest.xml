@@ -25,16 +25,21 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.view.activity.WelcomeActivity">
+        <activity android:name=".ui.view.activity.WelcomeActivity"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.view.activity.MainActivity" />
-        <activity android:name=".ui.view.activity.RegisterActivity" />
-        <activity android:name=".ui.view.activity.LoginActivity" />
+        <activity android:name=".ui.view.activity.MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.activity.RegisterActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.activity.LoginActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- 即时通讯组件 -->
         <service android:name="com.avos.avoscloud.PushService" />
@@ -49,7 +54,8 @@
 
         <activity
             android:name=".ui.view.activity.AskFriendsActivity"
-            android:theme="@style/translucent" />
+            android:theme="@style/translucent"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -61,16 +67,25 @@
                 android:resource="@xml/filepaths" />
         </provider>
 
-        <activity android:name=".ui.view.activity.AskDetailActivity" />
+        <activity android:name=".ui.view.activity.AskDetailActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.view.activity.UserActivity"
             android:label="@string/title_activity_user"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.view.activity.ChatActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
-        <activity android:name=".ui.view.activity.AboutActivity"></activity>
-        <activity android:name=".ui.view.activity.ChangeInfoActivity"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".ui.view.activity.AboutActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".ui.view.activity.ChangeInfoActivity"
+            android:screenOrientation="portrait"> </activity>
     </application>
 
 </manifest>

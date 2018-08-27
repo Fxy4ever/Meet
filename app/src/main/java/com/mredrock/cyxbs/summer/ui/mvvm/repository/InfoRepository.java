@@ -14,9 +14,10 @@ import java.util.List;
 
 public class InfoRepository {
     private static InfoRepository repository;
-    private AVUser currentUesr;
     private final MutableLiveData<List<AVUser>> data1;
     private final MutableLiveData<List<AVUser>> data2;
+    private List<AVUser> newList1 = new ArrayList<>();
+    private List<AVUser> newList2 = new ArrayList<>();
 
     private InfoRepository(){
         data1 = new MutableLiveData<>();
@@ -40,6 +41,7 @@ public class InfoRepository {
      * @return
      */
     public LiveData<List<AVUser>> getFowllowerList(AVUser avUser){
+        newList1.clear();
         try {
             AVQuery<AVUser> query = avUser.followerQuery(AVUser.class);
             query.include("follower");
@@ -47,7 +49,8 @@ public class InfoRepository {
                 @Override
                 public void done(List<AVUser> list, AVException e) {
                     if(e==null){
-                        data1.setValue(list);
+                        newList1.addAll(list);
+                        data1.setValue(newList1);
                     }else{
                         Toasts.show("查询不到当前粉丝列表");
                     }
@@ -65,17 +68,17 @@ public class InfoRepository {
      * @return
      */
     public LiveData<List<AVUser>> getFowlloweeList(AVUser avUser){
-
-        AVQuery<AVUser> query = null;
+        newList2.clear();
         try {
+            AVQuery<AVUser> query = null;
             query = avUser.followeeQuery(AVUser.class);
             query.include("followee");
             query.findInBackground(new FindCallback<AVUser>() {
                 @Override
                 public void done(List<AVUser> list, AVException e) {
                     if(e==null){
-                        List<AVUser> newList = new ArrayList<>(list);
-                        data2.setValue(newList);
+                        newList2.addAll(list);
+                        data2.setValue(newList2);
                     }else{
                         Toasts.show("查询不到当前关注列表");
                     }

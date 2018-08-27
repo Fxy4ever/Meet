@@ -27,6 +27,7 @@ import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.AVIMMessageManager;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.adapter.ChatListAdapter;
+import com.mredrock.cyxbs.summer.base.BaseActivity;
 import com.mredrock.cyxbs.summer.bean.ChatBean;
 import com.mredrock.cyxbs.summer.databinding.ActivityChatBinding;
 import com.mredrock.cyxbs.summer.event.AudioEvent;
@@ -54,7 +55,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends BaseActivity{
     private ActivityChatBinding binding;
     private CircleImageView voice;
     private Button send;

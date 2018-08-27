@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextPaint;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.DeleteCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -118,6 +120,33 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
                         bean = beans.get(i);
                         Intent intent = new Intent(getContext(), AskDetailActivity.class);
                         getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) getContext(),parent,"share").toBundle());
+                });
+
+                baseHolder.itemView.setOnLongClickListener(v -> {
+                    Dialog dialog  = new DialogBuilder(getContext())
+                            .title("是否删除该条消息")
+                            .sureText("是")
+                            .message("仅有管理员可以删除 要获取管理员 请联系我：QQ381391264")
+                            .setCancelable(true)
+                            .setSureOnClickListener(v1 -> {
+                                Log.d("fxy", "onBinds: "+AVUser.getCurrentUser().getBoolean("isAdmin"));
+                                if(AVUser.getCurrentUser().getBoolean("isAdmin")){
+                                    beans.get(i).getAskInfo().deleteInBackground(new DeleteCallback() {
+                                        @Override
+                                        public void done(AVException e) {
+                                            if(e==null){
+                                                beans.remove(i);
+                                                notifyDataSetChanged();
+                                                Toasts.show("删除成功");
+                                            }
+                                        }
+                                    });
+                                }else{
+                                    Toasts.show("您还不是管理员呢！");
+                                }
+                            }).build();
+                    dialog.show();
+                    return false;
                 });
 
                 like.setOnClickListener(v->{

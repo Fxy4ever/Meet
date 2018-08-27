@@ -8,12 +8,13 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.mredrock.cyxbs.summer.R;
+import com.mredrock.cyxbs.summer.base.BaseActivity;
 import com.mredrock.cyxbs.summer.databinding.ActivityAboutBinding;
 import com.mredrock.cyxbs.summer.utils.DensityUtils;
 import com.mredrock.cyxbs.summer.utils.DialogBuilder;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends BaseActivity {
     private ActivityAboutBinding binding;
     private Dialog dialog;
     public static final String TAG = "AboutActivity";
@@ -35,5 +36,11 @@ public class AboutActivity extends AppCompatActivity {
             },2000);
         });
         binding.summerAboutTl.setNavigationOnClickListener(v->{finish();});
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.out_to_right,R.anim.in_from_left);
     }
 }

@@ -50,6 +50,7 @@ public class UserModel implements UserContract.IUserModel {
         AVQuery<AVObject> query = new AVQuery<>("askInfo");
         query.whereEqualTo("author",user);
         query.orderByDescending("updatedAt");
+        query.include("author");
         query.findInBackground(new FindCallback<AVObject>() {
             @Override
             public void done(List<AVObject> list, AVException e) {

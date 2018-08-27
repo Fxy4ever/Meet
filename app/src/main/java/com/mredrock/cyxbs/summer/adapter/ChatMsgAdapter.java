@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.summer.adapter;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.mredrock.cyxbs.summer.bean.MsgType;
 import com.mredrock.cyxbs.summer.ui.view.activity.ChatActivity;
 import com.mredrock.cyxbs.summer.ui.view.activity.MainActivity;
 import com.mredrock.cyxbs.summer.utils.DateUtil;
+import com.mredrock.cyxbs.summer.utils.DialogBuilder;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -51,6 +53,7 @@ public class ChatMsgAdapter extends MultiLayoutBaseAdapter {
         switch (i1){
             case 0:
                 if(beans.get(i).getConversation()!=null){
+                    Log.d("fxy", "onBinds: "+beans.get(i).getAvUser().getUsername());
                     CircleImageView avatar = baseHolder.getView(R.id.summer_chat_list_avatar);
                     TextView name = baseHolder.getView(R.id.summer_chat_list_name);
                     TextView content = baseHolder.getView(R.id.summer_chat_list_content);
@@ -72,6 +75,19 @@ public class ChatMsgAdapter extends MultiLayoutBaseAdapter {
                         getContext().startActivity(intent);
                         ((Activity)getContext()).overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
                         });
+                    baseHolder.itemView.setOnLongClickListener(v -> {
+                        Dialog dialog  = new DialogBuilder(getContext())
+                                .title("是否删除该对话")
+                                .sureText("是")
+                                .message("点击方框外部取消")
+                                .setCancelable(true)
+                                .setSureOnClickListener(v1 -> {
+                                    beans.remove(i);
+                                    notifyDataSetChanged();
+                                }).build();
+                        dialog.show();
+                        return false;
+                    });
 
                     AVIMConversationsQuery query = MainActivity.client.getConversationsQuery();
                     query.whereEqualTo("objectId",beans.get(i).getConversationId());
@@ -83,6 +99,7 @@ public class ChatMsgAdapter extends MultiLayoutBaseAdapter {
                         public void done(List<AVIMConversation> list, AVIMException e) {
                             if(e==null){
                                 if(list!=null){
+
                                     AVIMMessage message = list.get(0).getLastMessage();
                                     String cont = message.getContent();
                                     MsgType msgType = new Gson().fromJson(cont,MsgType.class);
@@ -105,7 +122,8 @@ public class ChatMsgAdapter extends MultiLayoutBaseAdapter {
                             }
                         }
                     });
-
+                }else{
+                   baseHolder.itemView.setVisibility(View.GONE);
                 }
                 break;
         }

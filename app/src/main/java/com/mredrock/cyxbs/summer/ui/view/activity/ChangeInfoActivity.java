@@ -15,12 +15,13 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.mredrock.cyxbs.summer.R;
+import com.mredrock.cyxbs.summer.base.BaseActivity;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChangeInfoActivity extends AppCompatActivity {
+public class ChangeInfoActivity extends BaseActivity {
     private Spinner spinner;
     private EditText first;
     private EditText secend;
@@ -75,7 +76,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
 
             }
         });
-        Toolbar toolbar = findViewById(R.id.summer_change_tl);
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.summer_change_tl);
         toolbar.setNavigationOnClickListener(v->{
             finish();
         });
