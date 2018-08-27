@@ -9,6 +9,8 @@
 ##### 更新与2018.8.26
 <br> 
 <br> 
+[传送门](https://raw.githubusercontent.com/fengxinyao1/Meet/master/app/assets/%E7%9F%A5%E9%81%87-%E5%8F%AF%E8%83%BD%E6%98%AF%E6%9C%80%E7%BB%88%E7%89%882.apk.apk)
+
 
 #### 介绍：
 这是一个基于谷歌Material Design创意的社交聊天软件<br> 
