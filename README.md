@@ -50,15 +50,15 @@
 ---
 
 #### 软件部分截图：
-<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/about.jpg"/><br>
+<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/about.jpg"/>
 
-<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/chat.jpg"/><br>
+<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/chat.jpg"/>
 
-<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/follower.jpg"/><br>
+<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/follower.jpg"/>
 
-<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/main.jpg"/><br>
+<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/main.jpg"/>
 
-<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/msg.jpg"/><br>
+<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/msg.jpg"/>
 
-<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/user.jpg"/><br>
+<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/user.jpg"/>
 
