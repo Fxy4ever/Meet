@@ -6,9 +6,15 @@
 #### 你是否遇见一个人
 #### 你是否知道他(她)的全部呢？
 
-##### 更新与2018.8.26
+##### 更新于2018.8.27(还是有少许因为服务器的bug。。翻车了。。建表不太好 查询消息列表得可能有些出入)
+
+### 不闪退的BUG，都是彩蛋！！！！
 <br> 
 <br> 
+
+
+[传送门](https://raw.githubusercontent.com/fengxinyao1/Meet/master/app/assets/%E7%9F%A5%E9%81%87-%E5%8F%AF%E8%83%BD%E6%98%AF%E6%9C%80%E7%BB%88%E7%89%882.apk.apk)
+
 
 #### 介绍：
 这是一个基于谷歌Material Design创意的社交聊天软件<br> 
@@ -50,3 +56,9 @@
 ---
 
 #### 软件部分截图：
+<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/about.jpg"/>   <img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/chat.jpg"/> 
+
+<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/follower.jpg"/>   <img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/main.jpg"/>  
+
+<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/msg.jpg"/>  <img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/user.jpg"/>
+
