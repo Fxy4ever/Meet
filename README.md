@@ -7,13 +7,13 @@
 #### 你是否知道他(她)的全部呢？
 
 ##### 更新于2018.8.27(还是有少许因为服务器的bug。。翻车了。。建表不太好 查询消息列表得可能有些出入)
-
+##### 更新于2018.8.28 有一个floatActionbar的低版本兼容问题。。被我修改了 已更新
 ### 不闪退的BUG，都是彩蛋！！！！
 <br> 
 <br> 
 
 
-[传送门](https://raw.githubusercontent.com/fengxinyao1/Meet/master/app/assets/%E7%9F%A5%E9%81%87-%E5%8F%AF%E8%83%BD%E6%98%AF%E6%9C%80%E7%BB%88%E7%89%882.apk.apk)
+[传送门](https://raw.githubusercontent.com/fengxinyao1/Meet/master/app/assets/%E7%9F%A5%E9%81%87-%E5%8F%AF%E8%83%BD%E6%98%AF%E6%9C%80%E7%BB%88%E7%89%883.apk)
 
 
 #### 介绍：
