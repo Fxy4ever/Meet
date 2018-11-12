@@ -86,9 +86,11 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
         if(!avUser.getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
             binding.summerUserSend.setVisibility(View.VISIBLE);
             binding.summerUserChat.setVisibility(View.VISIBLE);
+            binding.summerUserPersonInfo.setVisibility(View.VISIBLE);
         }else{
             binding.summerUserSend.setVisibility(View.GONE);
             binding.summerUserChat.setVisibility(View.GONE);
+            binding.summerUserPersonInfo.setVisibility(View.GONE);
         }
         DensityUtils.setTransparent(binding.summerUserToolbar, this);
         setSupportActionBar(binding.summerUserToolbar);
@@ -147,6 +149,7 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
                 if(!avUser.getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
                     binding.summerUserSend.setVisibility(View.VISIBLE);
                     binding.summerUserChat.setVisibility(View.VISIBLE);
+                    binding.summerUserPersonInfo.setVisibility(View.VISIBLE);
                 }
                 binding.summerUserMoney.setVisibility(View.VISIBLE);
                 binding.summerUserSex.setVisibility(View.VISIBLE);
@@ -160,6 +163,7 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
                 binding.summerUserChat.setVisibility(View.GONE);
                 binding.summerUserSex.setVisibility(View.GONE);
                 binding.summerUserAdmin.setVisibility(View.GONE);
+                binding.summerUserPersonInfo.setVisibility(View.GONE);
             }
         });
         presenter.loadData(avUser);

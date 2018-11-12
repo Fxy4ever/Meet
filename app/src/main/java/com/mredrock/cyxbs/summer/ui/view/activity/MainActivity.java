@@ -44,6 +44,7 @@ import com.mredrock.cyxbs.summer.base.BaseActivity;
 import com.mredrock.cyxbs.summer.databinding.ActivityMainBinding;
 import com.mredrock.cyxbs.summer.ui.view.fragment.ChatListFragment;
 import com.mredrock.cyxbs.summer.ui.view.fragment.InfoFragment;
+import com.mredrock.cyxbs.summer.ui.view.fragment.SearchFragment;
 import com.mredrock.cyxbs.summer.ui.view.fragment.SummerFragment;
 import com.mredrock.cyxbs.summer.utils.ActivityManager;
 import com.mredrock.cyxbs.summer.utils.DensityUtils;
@@ -144,16 +145,20 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         titlelist = new ArrayList<>();
         fragments.add(new SummerFragment());
         fragments.add(new ChatListFragment());
-        InfoFragment follower = new InfoFragment();
-        follower.setKind("粉丝");
-        InfoFragment followee = new InfoFragment();
-        followee.setKind("关注");
-        fragments.add(follower);
-        fragments.add(followee);
+        fragments.add(new SearchFragment());
+        InfoFragment infoFragment = new InfoFragment();
+        infoFragment.setKind("粉丝");
+        InfoFragment infoFragment1 = new InfoFragment();
+        infoFragment1.setKind("关注");
+        fragments.add(infoFragment);
+        fragments.add(infoFragment1);
         titlelist.add("广场");
         titlelist.add("消息");
+        titlelist.add("发现");
         titlelist.add("我的粉丝");
         titlelist.add("我的关注");
+
+
 
         FFragmentPagerAdapter adapter = new FFragmentPagerAdapter(getSupportFragmentManager(),fragments,titlelist);
         viewPager.setAdapter(adapter);
