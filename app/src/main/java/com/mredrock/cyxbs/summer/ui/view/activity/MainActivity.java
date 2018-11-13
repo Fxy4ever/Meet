@@ -41,6 +41,7 @@ import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.adapter.FFragmentPagerAdapter;
 import com.mredrock.cyxbs.summer.base.BaseActivity;
+import com.mredrock.cyxbs.summer.bean.InfoBean;
 import com.mredrock.cyxbs.summer.databinding.ActivityMainBinding;
 import com.mredrock.cyxbs.summer.ui.view.fragment.ChatListFragment;
 import com.mredrock.cyxbs.summer.ui.view.fragment.InfoFragment;
@@ -49,6 +50,7 @@ import com.mredrock.cyxbs.summer.ui.view.fragment.SummerFragment;
 import com.mredrock.cyxbs.summer.utils.ActivityManager;
 import com.mredrock.cyxbs.summer.utils.DensityUtils;
 import com.mredrock.cyxbs.summer.utils.Glide4Engine;
+import com.mredrock.cyxbs.summer.utils.HttpUtilManager;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 import com.mredrock.cyxbs.summer.utils.UriUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -61,6 +63,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity implements LifecycleOwner {
 
@@ -105,6 +110,7 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         agent.sync();
     }
 
+    @SuppressLint("CheckResult")
     private void initMV(){
         pager = binding.materialViewPager;
         pager.setMaterialViewPagerListener(page -> {
@@ -166,8 +172,32 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         viewPager.setOffscreenPageLimit(4);
         viewPager.onSaveInstanceState();
 
+        //注册
+        HttpUtilManager
+                .getInstance()
+                .register(currentUser.getObjectId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(infoBean -> {
+                    if(infoBean.getStatus()==200){
+                        Log.d("meet_register","成功");
+                    }else{
+                        Log.d("meet_register","已注册");
+                    }
+                });
+        HttpUtilManager.getInstance()
+                .getToken(currentUser.getObjectId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(infoBean -> {
+                    if(infoBean.getStatus()==200){
+                        Log.d("meet_register","刷新token成功");
+                    }
+                });
+
         client = AVIMClient.getInstance(AVUser.getCurrentUser().getUsername());
         client.open(new AVIMClientCallback() {
+            @SuppressLint("CheckResult")
             @Override
             public void done(AVIMClient avimClient, AVIMException e) {
                 if(e==null){
