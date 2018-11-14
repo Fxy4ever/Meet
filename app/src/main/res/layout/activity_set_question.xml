@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.view.activity.SetQuestionActivity">
+    <include layout="@layout/summer_include_toolbar"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="花几分钟设置一下问题吧～"
+                android:textColor="#000000"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/setQuestion_q1"
+                android:hint="第一个问题"
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:textColor="#000000"
+                android:layout_margin="10dp"
+                android:background="#F3F3F3"
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+            <EditText
+                android:id="@+id/setQuestion_a1"
+                android:hint="第一个答案"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:textColor="#000000"
+                android:layout_margin="10dp"
+                android:background="#F3F3F3"
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+            <EditText
+                android:id="@+id/setQuestion_q2"
+                android:hint="第二个问题"
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:textColor="#000000"
+                android:layout_margin="10dp"
+                android:background="#F3F3F3"
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+            <EditText
+                android:id="@+id/setQuestion_a2"
+                android:hint="第二个答案"
+                android:textSize="14sp"
+                android:layout_margin="10dp"
+                android:textColor="#000000"
+                android:maxLines="1"
+                android:background="#F3F3F3"
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+            <EditText
+                android:id="@+id/setQuestion_q3"
+                android:hint="第三个问题"
+                android:textSize="14sp"
+                android:textColor="#000000"
+                android:layout_margin="10dp"
+                android:background="#F3F3F3"
+                android:padding="5dp"
+                android:maxLines="1"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+            <EditText
+                android:id="@+id/setQuestion_a3"
+                android:hint="第三个答案"
+                android:textSize="14sp"
+                android:layout_margin="10dp"
+                android:background="#F3F3F3"
+                android:textColor="#000000"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+            <View
+                android:background="#F3F3F3"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="备注:"
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/setQuestion_note"
+                android:layout_margin="5dp"
+                android:background="#F3F3F3"
+                android:minHeight="100dp"
+                android:textColor="#000000"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/setQuestion_commit"
+                android:background="@drawable/btn_round_white"
+                android:layout_gravity="center"
+                android:layout_margin="40dp"
+                android:text="提交"
+                android:textColor="#000000"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

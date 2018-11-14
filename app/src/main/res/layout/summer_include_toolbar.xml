@@ -11,7 +11,7 @@
         android:id="@+id/summer_include_tv"
         android:text="知遇"
         android:textColor="#FFFFFF"
-        android:textSize="22sp"
+        android:textSize="20sp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

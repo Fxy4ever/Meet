@@ -20,8 +20,11 @@ import com.avos.avoscloud.im.v2.messages.AVIMAudioMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMImageMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.mredrock.cyxbs.summer.bean.ChatBean;
+import com.mredrock.cyxbs.summer.event.MeetEvent;
 import com.mredrock.cyxbs.summer.ui.view.activity.MainActivity;
 import com.mredrock.cyxbs.summer.utils.Toasts;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -134,6 +137,7 @@ public class ChatRepository {
         AVIMTextMessage msg = new AVIMTextMessage();
         if (str.length() != 0) {
             msg.setText(str);
+            Log.d("fxy",msg.getText());
             if (isCanChat) {
                 conversation.sendMessage(msg, new AVIMConversationCallback() {
                     @Override

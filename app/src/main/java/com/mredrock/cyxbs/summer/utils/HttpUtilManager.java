@@ -1,6 +1,9 @@
 package com.mredrock.cyxbs.summer.utils;
 
+import com.mredrock.cyxbs.summer.bean.ChickenBean;
 import com.mredrock.cyxbs.summer.bean.InfoBean;
+import com.mredrock.cyxbs.summer.bean.MeetBackBean;
+import com.mredrock.cyxbs.summer.bean.MeetQuestionBean;
 import com.mredrock.cyxbs.summer.bean.TokenBean;
 
 import io.reactivex.Observable;
@@ -16,7 +19,7 @@ import retrofit2.http.POST;
  * time: 2018/11/13
  */
 public class HttpUtilManager {
-    private static String baseUrl = "http://ry24mj.natappfree.cc/";
+    private static String baseUrl = "http://47.106.222.221:8080/";
     private static String token = "pi6mNVUp";
     private APIService service;
     private static HttpUtilManager httpUtilManager;
@@ -51,6 +54,40 @@ public class HttpUtilManager {
         return service.getToken(user_id, token);
     }
 
+    public Observable<InfoBean> setQuestion(
+            String token,
+            String user_id,
+            String question_note,
+            String question_name1, String question_answer1,
+            String question_name2, String question_answer2,
+            String question_name3, String question_answer3
+    ) {
+        return service.setQuestion(token, user_id, question_note, question_name1, question_answer1,
+                question_name2, question_answer2, question_name3, question_answer3);
+    }
+
+    public Observable<ChickenBean> getChicken() {
+        return service.getChicken(token);
+    }
+
+    public Observable<MeetQuestionBean> meet(String user_id, String token) {
+        return service.meet(user_id,token);
+    }
+
+    public Observable<MeetBackBean> answer(String token,
+                                           String user_id,
+                                           String question_id,
+                                           String question_note,
+                                           String question_name1, String question_answer1,
+                                           String question_name2, String question_answer2,
+                                           String question_name3, String question_answer3){
+        return service.answerQuestion(token,user_id,question_id,question_note,
+                question_name1,question_answer1,
+                question_name2,question_answer2,
+                question_name3,question_answer3);
+    }
+
+
 
     public interface APIService {
         //注册用户进lxc的数据库
@@ -68,7 +105,7 @@ public class HttpUtilManager {
         @FormUrlEncoded
         Observable<InfoBean> setQuestion(@Field("token") String token,
                                          @Field("user_id") String user_id,
-                                         @Field("question_node") String question_note,
+                                         @Field("question_note") String question_note,
                                          @Field("question_name1") String question_name1,
                                          @Field("question_answer1") String question_answer1,
                                          @Field("question_name2") String question_name2,
@@ -77,27 +114,28 @@ public class HttpUtilManager {
                                          @Field("question_answer3") String question_answer3);
 
 
-        // TODO: 2018/11/13 等接口修好 改 Bean
         //匹配问题
         @POST("meet/question/get")
         @FormUrlEncoded
-        Observable<InfoBean> meet(@Field("user_id") String user_id, @Field("token") String token);
+        Observable<MeetQuestionBean> meet(@Field("user_id") String user_id, @Field("token") String token);
 
         //回答问题
         @POST("meet/question/mate")
         @FormUrlEncoded
-        Observable<InfoBean> answerQuestion(@Field("token") String token,
-                                            @Field("question_id") String question_id,
-                                            @Field("user_id") String user_id,
-                                            @Field("question_node") String question_note,
-                                            @Field("question_name1") String question_name1,
-                                            @Field("question_answer1") String question_answer1,
-                                            @Field("question_name2") String question_name2,
-                                            @Field("question_answer2") String question_answer2,
-                                            @Field("question_name3") String question_name3,
-                                            @Field("question_answer3") String question_answer3);
+        Observable<MeetBackBean> answerQuestion(@Field("token") String token,
+                                                @Field("user_id") String user_id,
+                                                @Field("question_id") String question_id,
+                                                @Field("question_note") String question_note,
+                                                @Field("question_name1") String question_name1,
+                                                @Field("question_answer1") String question_answer1,
+                                                @Field("question_name2") String question_name2,
+                                                @Field("question_answer2") String question_answer2,
+                                                @Field("question_name3") String question_name3,
+                                                @Field("question_answer3") String question_answer3);
 
-
+        @POST("meet/article/getAll")
+        @FormUrlEncoded
+        Observable<ChickenBean> getChicken(@Field("p") String p);
     }
 
 }

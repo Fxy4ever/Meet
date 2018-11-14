@@ -1,166 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<FrameLayout xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:background="#FAFAFA"
-        android:layout_marginTop="160dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <FrameLayout
-            android:background="@drawable/summer_et_shape"
-            android:layout_margin="30dp"
-            android:layout_gravity="top"
+
+        <LinearLayout
+            android:background="#FAFAFA"
+            android:layout_marginTop="160dp"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp">
+            android:layout_height="match_parent">
+            <View
+                android:layout_weight="0.1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="center|left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_gravity="center|left"
-                    android:src="@mipmap/ic_launcher"
-                    android:layout_width="80dp"
-                    android:layout_height="90dp" />
+            <com.mredrock.cyxbs.summer.ui.widget.JCardViewPlus
+                android:background="@drawable/summer_et_shape"
+                android:layout_margin="10dp"
+                android:layout_gravity="top"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                app:horizontalContentPadding="16dp"
+                app:shadowColor="#0d000000"
+                app:shadowRadius="10dp"
+                app:cardCornerRadius="20dp"
+                app:verticalContentPadding="20dp"
+                >
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:text="知遇匹配"
-                        android:textSize="16sp"
-                        android:textColor="#000000"
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center|left"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:layout_marginTop="10dp"
-                        android:text="通过知遇问题，寻找内心的声音"
-                        android:textSize="13sp"
-                        android:textColor="#000000"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </LinearLayout>
-            <Button
-                android:layout_gravity="bottom|right"
-                android:layout_margin="20dp"
-                android:padding="10dp"
-                android:foreground="@drawable/action_next"
-                android:background="@drawable/summer_btn_round"
-                android:layout_width="20dp"
-                android:layout_height="20dp" />
-        </FrameLayout>
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_gravity="center|left"
+                            android:src="@drawable/summer_meet_icon"
+                            android:layout_width="80dp"
+                            android:layout_height="90dp" />
 
-        <FrameLayout
-            android:background="@drawable/summer_et_shape"
-            android:layout_margin="30dp"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp">
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:text="知遇匹配"
+                                android:textSize="18sp"
+                                android:textColor="#000000"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:layout_marginTop="10dp"
+                                android:text="通过知遇问题，寻找内心的声音"
+                                android:textSize="15sp"
+                                android:textColor="#343434"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+                    </LinearLayout>
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:layout_gravity="center|left"
-                    android:src="@mipmap/ic_launcher"
-                    android:layout_width="80dp"
-                    android:layout_height="90dp" />
+                    <Button
+                        android:id="@+id/search_btn_meet"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="bottom|right"
+                        android:layout_margin="20dp"
+                        android:background="@drawable/btn_round_white"
+                        android:foreground="@drawable/summer_next_icon"
+                        android:padding="30dp" />
+                </FrameLayout>
+            </com.mredrock.cyxbs.summer.ui.widget.JCardViewPlus>
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:text="语音匹配"
-                        android:textSize="16sp"
-                        android:textColor="#000000"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:layout_marginTop="10dp"
-                        android:text="声音总能勾起你的好奇"
-                        android:textSize="13sp"
-                        android:textColor="#000000"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </LinearLayout>
-            <Button
-                android:layout_gravity="bottom|right"
-                android:layout_margin="20dp"
-                android:padding="10dp"
-                android:foreground="@drawable/action_next"
-                android:background="@drawable/summer_btn_round"
-                android:layout_width="20dp"
-                android:layout_height="20dp" />
-        </FrameLayout>
+            <View
+                android:layout_weight="0.1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
 
-        <FrameLayout
-            android:background="@drawable/summer_et_shape"
-            android:layout_margin="30dp"
-            android:layout_gravity="bottom"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp">
+            <com.mredrock.cyxbs.summer.ui.widget.JCardViewPlus
+                android:background="@drawable/summer_et_shape"
+                android:layout_margin="10dp"
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                app:horizontalContentPadding="16dp"
+                app:shadowColor="#0d000000"
+                app:shadowRadius="10dp"
+                app:verticalContentPadding="20dp"
+                app:cardCornerRadius="20dp"
+                >
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="center|left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_gravity="center|left"
-                    android:src="@mipmap/ic_launcher"
-                    android:layout_width="80dp"
-                    android:layout_height="90dp" />
+              <FrameLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+                  <LinearLayout
+                      android:orientation="horizontal"
+                      android:layout_marginLeft="10dp"
+                      android:layout_gravity="center|left"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content">
+                      <ImageView
+                          android:layout_gravity="center|left"
+                          android:src="@drawable/summer_shake_icon"
+                          android:layout_width="80dp"
+                          android:layout_height="90dp" />
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:text="知遇匹配"
-                        android:textSize="16sp"
-                        android:textColor="#000000"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:layout_marginTop="10dp"
-                        android:text="万一摇出个啥？"
-                        android:textSize="13sp"
-                        android:textColor="#000000"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </LinearLayout>
-            <Button
-                android:layout_gravity="bottom|right"
-                android:layout_margin="20dp"
-                android:padding="10dp"
-                android:foreground="@drawable/action_next"
-                android:background="@drawable/summer_btn_round"
-                android:layout_width="20dp"
-                android:layout_height="20dp" />
-        </FrameLayout>
+                      <LinearLayout
+                          android:orientation="vertical"
+                          android:layout_marginTop="10dp"
+                          android:layout_marginLeft="20dp"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content">
+                          <TextView
+                              android:text="摇一摇"
+                              android:textSize="18sp"
+                              android:textColor="#000000"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content" />
+                          <TextView
+                              android:layout_marginTop="10dp"
+                              android:text="万一摇出个啥？"
+                              android:textSize="15sp"
+                              android:textColor="#343434"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content" />
+                      </LinearLayout>
+                  </LinearLayout>
+                  <Button
+                      android:id="@+id/search_btn_shake"
+                      android:layout_gravity="bottom|right"
+                      android:layout_width="40dp"
+                      android:layout_height="40dp"
+                      android:layout_margin="20dp"
+
+                      android:background="@drawable/btn_round_white"
+                      android:foreground="@drawable/summer_next_icon"
+                      android:padding="30dp" />
+              </FrameLayout>
+            </com.mredrock.cyxbs.summer.ui.widget.JCardViewPlus>
+            <View
+                android:layout_weight="0.1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+
+    <FrameLayout
+        android:visibility="gone"
+        android:id="@+id/search_progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <View
+            android:foreground="#60000000"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <ProgressBar
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="50dp"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:text="加载中"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+</FrameLayout>

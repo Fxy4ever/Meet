@@ -92,6 +92,7 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
     private Dialog changeDesc;
     private FeedbackAgent agent;
     public static AVIMClient client;
+    public static String token;
 
     private AVUser currentUser = AVUser.getCurrentUser();
 
@@ -181,8 +182,6 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
                 .subscribe(infoBean -> {
                     if(infoBean.getStatus()==200){
                         Log.d("meet_register","成功");
-                    }else{
-                        Log.d("meet_register","已注册");
                     }
                 });
         HttpUtilManager.getInstance()
@@ -192,6 +191,7 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
                 .subscribe(infoBean -> {
                     if(infoBean.getStatus()==200){
                         Log.d("meet_register","刷新token成功");
+                        token = infoBean.getData().getToken();
                     }
                 });
 
@@ -334,6 +334,10 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
 
                 case R.id.nav_change:
                     startActivity(new Intent(MainActivity.this,ChangeInfoActivity.class));
+                    break;
+
+                case R.id.nav_question:
+                    startActivity(new Intent(MainActivity.this,SetQuestionActivity.class));
                     break;
             }
 
