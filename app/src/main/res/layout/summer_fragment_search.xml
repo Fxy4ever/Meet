@@ -11,8 +11,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:background="#FAFAFA"
-            android:layout_marginTop="160dp"
+            android:layout_marginTop="140dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -22,7 +21,6 @@
                 android:layout_height="0dp"/>
 
             <com.mredrock.cyxbs.summer.ui.widget.JCardViewPlus
-                android:background="@drawable/summer_et_shape"
                 android:layout_margin="10dp"
                 android:layout_gravity="top"
                 android:layout_width="match_parent"
@@ -46,9 +44,9 @@
                         android:layout_height="wrap_content">
                         <ImageView
                             android:layout_gravity="center|left"
-                            android:src="@drawable/summer_meet_icon"
-                            android:layout_width="80dp"
-                            android:layout_height="90dp" />
+                            android:src="@drawable/summer_mate_icon1"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content" />
 
                         <LinearLayout
                             android:orientation="vertical"
@@ -59,15 +57,15 @@
                             android:layout_height="wrap_content">
                             <TextView
                                 android:text="知遇匹配"
-                                android:textSize="18sp"
+                                android:textSize="21sp"
                                 android:textColor="#000000"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                             <TextView
-                                android:layout_marginTop="10dp"
+                                android:layout_marginTop="30dp"
                                 android:text="通过知遇问题，寻找内心的声音"
                                 android:textSize="15sp"
-                                android:textColor="#343434"
+                                android:textColor="#6B6B6B"
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content" />
                         </LinearLayout>
@@ -79,8 +77,7 @@
                         android:layout_height="40dp"
                         android:layout_gravity="bottom|right"
                         android:layout_margin="20dp"
-                        android:background="@drawable/btn_round_white"
-                        android:foreground="@drawable/summer_next_icon"
+                        android:background="@drawable/summer_btn_next"
                         android:padding="30dp" />
                 </FrameLayout>
             </com.mredrock.cyxbs.summer.ui.widget.JCardViewPlus>
@@ -91,7 +88,6 @@
                 android:layout_height="0dp"/>
 
             <com.mredrock.cyxbs.summer.ui.widget.JCardViewPlus
-                android:background="@drawable/summer_et_shape"
                 android:layout_margin="10dp"
                 android:layout_gravity="bottom"
                 android:layout_width="match_parent"
@@ -115,9 +111,9 @@
                       android:layout_height="wrap_content">
                       <ImageView
                           android:layout_gravity="center|left"
-                          android:src="@drawable/summer_shake_icon"
-                          android:layout_width="80dp"
-                          android:layout_height="90dp" />
+                          android:src="@drawable/summer_mate_icon2"
+                          android:layout_width="120dp"
+                          android:layout_height="wrap_content" />
 
                       <LinearLayout
                           android:orientation="vertical"
@@ -127,15 +123,15 @@
                           android:layout_height="wrap_content">
                           <TextView
                               android:text="摇一摇"
-                              android:textSize="18sp"
+                              android:textSize="21sp"
                               android:textColor="#000000"
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content" />
                           <TextView
-                              android:layout_marginTop="10dp"
+                              android:layout_marginTop="30dp"
                               android:text="万一摇出个啥？"
                               android:textSize="15sp"
-                              android:textColor="#343434"
+                              android:textColor="#6B6B6B"
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content" />
                       </LinearLayout>
@@ -146,9 +142,7 @@
                       android:layout_width="40dp"
                       android:layout_height="40dp"
                       android:layout_margin="20dp"
-
-                      android:background="@drawable/btn_round_white"
-                      android:foreground="@drawable/summer_next_icon"
+                      android:background="@drawable/summer_btn_next"
                       android:padding="30dp" />
               </FrameLayout>
             </com.mredrock.cyxbs.summer.ui.widget.JCardViewPlus>

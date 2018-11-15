@@ -16,15 +16,15 @@ import kotlinx.android.synthetic.main.activity_set_question.*
 import kotlinx.android.synthetic.main.summer_include_toolbar.*
 
 class SetQuestionActivity : BaseActivity(){
-    private val sp = App.getContext().getSharedPreferences("SetQuestion", Context.MODE_PRIVATE)
+    private val sp = App.spHelper()
 
-    private var q1 = sp.getString("SetQuestion_q1", "")
-    private var q2 = sp.getString("SetQuestion_q2", "")
-    private var q3 = sp.getString("SetQuestion_q3", "")
-    private var a1 = sp.getString("SetQuestion_a1", "")
-    private var a2 = sp.getString("SetQuestion_a2", "")
-    private var a3 = sp.getString("SetQuestion_a3", "")
-    private var note = sp.getString("SetQuestion_note", "")
+    private var q1:String = sp.get("SetQuestion_q1", "") as String
+    private var q2:String = sp.get("SetQuestion_q2", "") as String
+    private var q3:String = sp.get("SetQuestion_q3", "") as String
+    private var a1:String = sp.get("SetQuestion_a1", "") as String
+    private var a2:String = sp.get("SetQuestion_a2", "") as String
+    private var a3:String = sp.get("SetQuestion_a3", "") as String
+    private var note:String = sp.get("SetQuestion_note", "") as String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,15 +97,15 @@ class SetQuestionActivity : BaseActivity(){
 
                             if (it.status == 200) {
                                 Toasts.show("设置问题成功")
-                                sp.edit().apply {
-                                    putString("SetQuestion_q1", q1)
-                                    putString("SetQuestion_q2", q2)
-                                    putString("SetQuestion_q3", q3)
-                                    putString("SetQuestion_a1", a1)
-                                    putString("SetQuestion_a2", a2)
-                                    putString("SetQuestion_a3", a3)
-                                    putString("SetQuestion_note", note)
-                                }.apply()
+                                sp.apply {
+                                    put("SetQuestion_q1", q1)
+                                    put("SetQuestion_q2", q2)
+                                    put("SetQuestion_q3", q3)
+                                    put("SetQuestion_a1", a1)
+                                    put("SetQuestion_a2", a2)
+                                    put("SetQuestion_a3", a3)
+                                    put("SetQuestion_note", note)
+                                }
                                 finish()
                             } else {
                                 Toasts.show("设置问题失败")

@@ -327,6 +327,13 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
                     break;
                 case R.id.nav_back:
                     App.spHelper().remove("isChecked");
+                    App.spHelper().remove("SetQuestion_q1");
+                    App.spHelper().remove("SetQuestion_q2");
+                    App.spHelper().remove("SetQuestion_q3");
+                    App.spHelper().remove("SetQuestion_a1");
+                    App.spHelper().remove("SetQuestion_a2");
+                    App.spHelper().remove("SetQuestion_a3");
+                    App.spHelper().remove("SetQuestion_note");
                     AVUser.logOut();
                     startActivity(new Intent(MainActivity.this,LoginActivity.class));
                     finish();
