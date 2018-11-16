@@ -1,4 +1,4 @@
-# 红岩移动安卓最终考核作品-知遇  
+# 知遇  
 
 
 #### 你有多久没有看到满天的繁星，
@@ -8,16 +8,17 @@
 
 ##### 更新于2018.8.27(还是有少许因为服务器的bug。。翻车了。。建表不太好 查询消息列表得可能有些出入)
 ##### 更新于2018.8.28 有一个floatActionbar的低版本兼容问题。。被我修改了 已更新
+##### 更新于2018.11.16 加入知遇匹配功能 优化了ui
 ### 不闪退的BUG，都是彩蛋！！！！
 <br> 
 <br> 
 
 
-[传送门](https://raw.githubusercontent.com/fengxinyao1/Meet/master/app/assets/%E7%9F%A5%E9%81%87-%E5%8F%AF%E8%83%BD%E6%98%AF%E6%9C%80%E7%BB%88%E7%89%883.apk)
+[下载传送门](https://raw.githubusercontent.com/fengxinyao1/Meet/master/app/release/app-release.apk)
 
 
 #### 介绍：
-这是一个基于谷歌Material Design创意的社交聊天软件<br> 
+这是一个基于谷歌Material Design创意的社交聊天匹配软件<br> 
 
 ---
 
@@ -28,6 +29,8 @@
 
 #### 关于这款软件的功能：
 - [x] 广场发布情感问题(支持文字语音图片)，可以利用自己的财富值去增加消息的热度值。
+
+- [x] 知遇匹配功能：可以设置自己的问题，也可以回答别人的问题。问题随机从问题数据库里取出，并通过匹配算法计算兴趣爱好匹配度。
 
 - [x] 每个问题、回复、聊天、用户、文件都是单独建表，方便查询。
 
@@ -49,16 +52,18 @@
 - 软件前半部分使用了mvp模式，后半部分由于觉得聊天使用mvp太过于繁琐，转为mvvm架构，即viewModel+LiveData，外加Databinding，解耦更加彻底。
 - EventBus的使用，使消息刷新更加简单，优化了代码量。
 - Material Design的设计模式，界面UI更加好看。
-- LeanCloud强大的后端支持
+- LeanCloud+Java web强大的后端支持
 - Glide压缩图片策略，图片加载更加迅速。
 - 感谢SmartRefreshLayout与Zhihu.matisse框架，节省了许多时间。
 
 ---
 
 #### 软件部分截图：
-<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/about.jpg"/>   <img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/chat.jpg"/> 
+<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/meet2.png"/>   <img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/meet1.png"/> 
 
-<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/follower.jpg"/>   <img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/main.jpg"/>  
+<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/getMsg.png"/>   <img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/lgoin.png"/>  
 
-<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/msg.jpg"/>  <img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/user.jpg"/>
+<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/sendMsg.png"/>  <img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/setQst.png"/>
+
+<img width="300" height="560" src="https://github.com/fengxinyao1/Meet/blob/master/app/assets/version.png"/>
 
