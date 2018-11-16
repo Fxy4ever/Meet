@@ -85,11 +85,9 @@ class AnswerActivity : BaseActivity() {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe {backBean->
-                            Log.d("fxy",backBean.toString())
                             if (backBean.status == 200) {
                                 rate = String.format("%.4f", (backBean.data.score_map.question1.toDouble() + backBean.data.score_map.question2.toDouble() + backBean.data.score_map.question3.toDouble()) / 3)
                                 user_id = bean.data.question.user_id
-                                Toasts.show("rate = $rate  id = $user_id")
                                     val intent = Intent(this, ChatActivity::class.java)
                                     val bundle = Bundle()
 

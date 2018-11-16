@@ -129,7 +129,6 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
                             .message("仅有管理员可以删除 要获取管理员 请联系我：QQ381391264")
                             .setCancelable(true)
                             .setSureOnClickListener(v1 -> {
-                                Log.d("fxy", "onBinds: "+AVUser.getCurrentUser().getBoolean("isAdmin"));
                                 if(AVUser.getCurrentUser().getBoolean("isAdmin")){
                                     beans.get(i).getAskInfo().deleteInBackground(new DeleteCallback() {
                                         @Override

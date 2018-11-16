@@ -137,7 +137,6 @@ public class ChatRepository {
         AVIMTextMessage msg = new AVIMTextMessage();
         if (str.length() != 0) {
             msg.setText(str);
-            Log.d("fxy",msg.getText());
             if (isCanChat) {
                 conversation.sendMessage(msg, new AVIMConversationCallback() {
                     @Override

@@ -93,7 +93,6 @@ class SetQuestionActivity : BaseActivity(){
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe {
 
-                            Log.d("fxy",it.toString())
 
                             if (it.status == 200) {
                                 Toasts.show("设置问题成功")

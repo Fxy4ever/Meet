@@ -128,7 +128,6 @@ public class App extends Application {
             if(conversation.getUnreadMessagesCount()>0){
                 NotificationUtils notificationUtils = new NotificationUtils(getContext());
                 notificationUtils.sendNotification("知遇","您有"+conversation.getUnreadMessagesCount()+"条未读消息");
-                Log.d("fxy", "onUnreadMessagesCountUpdated: "+conversation.getUnreadMessagesCount());
             }
         }
     }
