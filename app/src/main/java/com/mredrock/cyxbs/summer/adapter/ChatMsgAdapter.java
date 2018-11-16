@@ -53,7 +53,6 @@ public class ChatMsgAdapter extends MultiLayoutBaseAdapter {
         switch (i1){
             case 0:
                 if(beans.get(i).getConversation()!=null){
-                    Log.d("fxy", "onBinds: "+beans.get(i).getAvUser().getUsername());
                     CircleImageView avatar = baseHolder.getView(R.id.summer_chat_list_avatar);
                     TextView name = baseHolder.getView(R.id.summer_chat_list_name);
                     TextView content = baseHolder.getView(R.id.summer_chat_list_content);

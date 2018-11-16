@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:padding="15dp"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -22,7 +23,7 @@
             <ImageView
                 android:id="@+id/summer_chat_left_photo_img"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_launcher_background"
+                android:src="@drawable/summer_load_icon"
                 android:layout_width="200dp"
                 android:layout_height="100dp" />
         </FrameLayout>

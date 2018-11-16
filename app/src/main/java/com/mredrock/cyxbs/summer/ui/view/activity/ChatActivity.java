@@ -8,10 +8,12 @@ import android.content.pm.ActivityInfo;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +34,7 @@ import com.mredrock.cyxbs.summer.bean.ChatBean;
 import com.mredrock.cyxbs.summer.databinding.ActivityChatBinding;
 import com.mredrock.cyxbs.summer.event.AudioEvent;
 import com.mredrock.cyxbs.summer.event.ImageEvent;
+import com.mredrock.cyxbs.summer.event.MeetEvent;
 import com.mredrock.cyxbs.summer.event.TextEvent;
 import com.mredrock.cyxbs.summer.ui.mvvm.model.ChatViewModel;
 import com.mredrock.cyxbs.summer.utils.DensityUtils;
@@ -60,6 +63,7 @@ public class ChatActivity extends BaseActivity{
     private CircleImageView voice;
     private Button send;
     private Button sendVoice;
+    private Bundle bundle;
     private EditText et;
     private ImageButton photo;
     private TextView userName;
@@ -89,7 +93,6 @@ public class ChatActivity extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chat);
-        EventBus.getDefault().register(this);
         askPermissions();
         setRecyclerView();
         setBinding();
@@ -105,6 +108,13 @@ public class ChatActivity extends BaseActivity{
                 recyclerView.scrollToPosition(chatBeans.size()-1);
             }
         });
+        String rate;
+        rate= bundle.getString("rate","");
+        if(!rate.equals("")){
+            new Handler().postDelayed(() -> {
+                model.sendText("我进行了你的知遇测试！我们之间的知遇匹配度为"+rate);
+            },2000);
+        }
     }
 
 
@@ -127,7 +137,8 @@ public class ChatActivity extends BaseActivity{
         /*
         查询当前用户 这里不改成了mvvm了 因为要用user 心情好烦。。
          */
-        Bundle bundle = getIntent().getExtras();
+        bundle = getIntent().getExtras();
+
         AVQuery<AVUser> userQuery = new AVQuery<>("_User");
         if (bundle != null) {
             userQuery.whereEqualTo("objectId", bundle.getString("objectId"));
@@ -166,6 +177,7 @@ public class ChatActivity extends BaseActivity{
 
     @SuppressLint("ClickableViewAccessibility")
     private void setListener() {
+
         //输入栏监听
         et.addTextChangedListener(new TextWatcheListener() {
             @Override
@@ -271,6 +283,7 @@ public class ChatActivity extends BaseActivity{
         model.getAudio(event);
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -288,7 +301,6 @@ public class ChatActivity extends BaseActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
         if(model.getChatList()!=null)
             model.getChatList().removeObservers(this);
     }

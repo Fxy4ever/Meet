@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_marginTop="140dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <View
+                android:layout_weight="0.1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+
+            <com.mredrock.cyxbs.summer.ui.widget.JCardViewPlus
+                android:layout_margin="10dp"
+                android:layout_gravity="top"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                app:horizontalContentPadding="16dp"
+                app:shadowColor="#0d000000"
+                app:shadowRadius="10dp"
+                app:cardCornerRadius="20dp"
+                app:verticalContentPadding="20dp"
+                >
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center|left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_gravity="center|left"
+                            android:src="@drawable/summer_mate_icon1"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content" />
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:text="知遇匹配"
+                                android:textSize="21sp"
+                                android:textColor="#000000"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:layout_marginTop="30dp"
+                                android:text="通过知遇问题，寻找内心的声音"
+                                android:textSize="15sp"
+                                android:textColor="#6B6B6B"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/search_btn_meet"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="bottom|right"
+                        android:layout_margin="20dp"
+                        android:background="@drawable/summer_btn_next"
+                        android:padding="30dp" />
+                </FrameLayout>
+            </com.mredrock.cyxbs.summer.ui.widget.JCardViewPlus>
+
+            <View
+                android:layout_weight="0.1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+
+            <com.mredrock.cyxbs.summer.ui.widget.JCardViewPlus
+                android:layout_margin="10dp"
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                app:horizontalContentPadding="16dp"
+                app:shadowColor="#0d000000"
+                app:shadowRadius="10dp"
+                app:verticalContentPadding="20dp"
+                app:cardCornerRadius="20dp"
+                >
+
+              <FrameLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+                  <LinearLayout
+                      android:orientation="horizontal"
+                      android:layout_marginLeft="10dp"
+                      android:layout_gravity="center|left"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content">
+                      <ImageView
+                          android:layout_gravity="center|left"
+                          android:src="@drawable/summer_mate_icon2"
+                          android:layout_width="120dp"
+                          android:layout_height="wrap_content" />
+
+                      <LinearLayout
+                          android:orientation="vertical"
+                          android:layout_marginTop="10dp"
+                          android:layout_marginLeft="20dp"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content">
+                          <TextView
+                              android:text="摇一摇"
+                              android:textSize="21sp"
+                              android:textColor="#000000"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content" />
+                          <TextView
+                              android:layout_marginTop="30dp"
+                              android:text="万一摇出个啥？"
+                              android:textSize="15sp"
+                              android:textColor="#6B6B6B"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content" />
+                      </LinearLayout>
+                  </LinearLayout>
+                  <Button
+                      android:id="@+id/search_btn_shake"
+                      android:layout_gravity="bottom|right"
+                      android:layout_width="40dp"
+                      android:layout_height="40dp"
+                      android:layout_margin="20dp"
+                      android:background="@drawable/summer_btn_next"
+                      android:padding="30dp" />
+              </FrameLayout>
+            </com.mredrock.cyxbs.summer.ui.widget.JCardViewPlus>
+            <View
+                android:layout_weight="0.1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:visibility="gone"
+        android:id="@+id/search_progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <View
+            android:foreground="#60000000"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <ProgressBar
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="50dp"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:text="加载中"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+</FrameLayout>

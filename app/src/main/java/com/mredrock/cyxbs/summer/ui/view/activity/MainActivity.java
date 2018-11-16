@@ -41,13 +41,16 @@ import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.adapter.FFragmentPagerAdapter;
 import com.mredrock.cyxbs.summer.base.BaseActivity;
+import com.mredrock.cyxbs.summer.bean.InfoBean;
 import com.mredrock.cyxbs.summer.databinding.ActivityMainBinding;
 import com.mredrock.cyxbs.summer.ui.view.fragment.ChatListFragment;
 import com.mredrock.cyxbs.summer.ui.view.fragment.InfoFragment;
+import com.mredrock.cyxbs.summer.ui.view.fragment.SearchFragment;
 import com.mredrock.cyxbs.summer.ui.view.fragment.SummerFragment;
 import com.mredrock.cyxbs.summer.utils.ActivityManager;
 import com.mredrock.cyxbs.summer.utils.DensityUtils;
 import com.mredrock.cyxbs.summer.utils.Glide4Engine;
+import com.mredrock.cyxbs.summer.utils.HttpUtilManager;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 import com.mredrock.cyxbs.summer.utils.UriUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -60,6 +63,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity implements LifecycleOwner {
 
@@ -86,6 +92,7 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
     private Dialog changeDesc;
     private FeedbackAgent agent;
     public static AVIMClient client;
+    public static String token;
 
     private AVUser currentUser = AVUser.getCurrentUser();
 
@@ -104,6 +111,7 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         agent.sync();
     }
 
+    @SuppressLint("CheckResult")
     private void initMV(){
         pager = binding.materialViewPager;
         pager.setMaterialViewPagerListener(page -> {
@@ -144,16 +152,20 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         titlelist = new ArrayList<>();
         fragments.add(new SummerFragment());
         fragments.add(new ChatListFragment());
-        InfoFragment follower = new InfoFragment();
-        follower.setKind("粉丝");
-        InfoFragment followee = new InfoFragment();
-        followee.setKind("关注");
-        fragments.add(follower);
-        fragments.add(followee);
+        fragments.add(new SearchFragment());
+        InfoFragment infoFragment = new InfoFragment();
+        infoFragment.setKind("粉丝");
+        InfoFragment infoFragment1 = new InfoFragment();
+        infoFragment1.setKind("关注");
+        fragments.add(infoFragment);
+        fragments.add(infoFragment1);
         titlelist.add("广场");
         titlelist.add("消息");
+        titlelist.add("发现");
         titlelist.add("我的粉丝");
         titlelist.add("我的关注");
+
+
 
         FFragmentPagerAdapter adapter = new FFragmentPagerAdapter(getSupportFragmentManager(),fragments,titlelist);
         viewPager.setAdapter(adapter);
@@ -161,8 +173,31 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         viewPager.setOffscreenPageLimit(4);
         viewPager.onSaveInstanceState();
 
+        //注册
+        HttpUtilManager
+                .getInstance()
+                .register(currentUser.getObjectId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(infoBean -> {
+                    if(infoBean.getStatus()==200){
+                        Log.d("meet_register","成功");
+                    }
+                });
+        HttpUtilManager.getInstance()
+                .getToken(currentUser.getObjectId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(infoBean -> {
+                    if(infoBean.getStatus()==200){
+                        Log.d("meet_register","刷新token成功");
+                        token = infoBean.getData().getToken();
+                    }
+                });
+
         client = AVIMClient.getInstance(AVUser.getCurrentUser().getUsername());
         client.open(new AVIMClientCallback() {
+            @SuppressLint("CheckResult")
             @Override
             public void done(AVIMClient avimClient, AVIMException e) {
                 if(e==null){
@@ -292,6 +327,13 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
                     break;
                 case R.id.nav_back:
                     App.spHelper().remove("isChecked");
+                    App.spHelper().remove("SetQuestion_q1");
+                    App.spHelper().remove("SetQuestion_q2");
+                    App.spHelper().remove("SetQuestion_q3");
+                    App.spHelper().remove("SetQuestion_a1");
+                    App.spHelper().remove("SetQuestion_a2");
+                    App.spHelper().remove("SetQuestion_a3");
+                    App.spHelper().remove("SetQuestion_note");
                     AVUser.logOut();
                     startActivity(new Intent(MainActivity.this,LoginActivity.class));
                     finish();
@@ -299,6 +341,10 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
 
                 case R.id.nav_change:
                     startActivity(new Intent(MainActivity.this,ChangeInfoActivity.class));
+                    break;
+
+                case R.id.nav_question:
+                    startActivity(new Intent(MainActivity.this,SetQuestionActivity.class));
                     break;
             }
 

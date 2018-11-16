@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             app:viewpager_logoMarginTop="100dp"
             app:viewpager_color="@color/colorPrimary"
-            app:viewpager_headerHeight="200dp"
+            app:viewpager_headerHeight="150dp"
             app:viewpager_headerAlpha="1.0"
             app:viewpager_hideLogoWithFade="false"
             app:viewpager_hideToolbarAndTitle="false"
