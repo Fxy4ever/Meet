@@ -8,6 +8,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,6 +23,11 @@ import com.mredrock.cyxbs.summer.utils.ActivityManager;
 import com.mredrock.cyxbs.summer.utils.DensityUtils;
 import com.mredrock.cyxbs.summer.utils.DialogBuilder;
 import com.mredrock.cyxbs.summer.utils.Toasts;
+import com.mredrock.cyxbs.summer.utils.network.ApiGenerator;
+import com.mredrock.cyxbs.summer.utils.network.ApiService;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class LoginActivity extends BaseActivity {
 
@@ -132,6 +138,15 @@ public class LoginActivity extends BaseActivity {
                         if(dialog!=null){
                             dialog.dismiss();
                         }
+                        ApiGenerator
+                                .INSTANCE
+                                .getApiService(ApiService.class)
+                                .login(tx_account,tx_password)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(netBean -> {
+                                    Log.d("test",netBean.toString());
+                                });
                         App.spHelper().put("username",tx_account);
                         LoginActivity.this.finish();
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);

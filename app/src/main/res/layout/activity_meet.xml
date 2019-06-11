@@ -31,7 +31,7 @@
 
         <Button
             android:id="@+id/meet_btn_start"
-            android:text="遇见你的知遇"
+            android:text="查找你的树洞"
             android:background="@drawable/btn_round_white"
             android:layout_margin="50dp"
             android:textColor="#000000"

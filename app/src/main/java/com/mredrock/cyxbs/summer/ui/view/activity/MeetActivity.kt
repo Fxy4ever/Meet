@@ -30,7 +30,7 @@ class MeetActivity : AppCompatActivity() {
                 .setDuration(600000)
                 .setInterpolator(LinearInterpolator())
                 .start()
-        summer_include_tv.text = "我的知遇"
+        summer_include_tv.text = "我的树洞"
 
         meet_btn_start.setOnClickListener { view ->
             meet_progressbar.visibility = View.VISIBLE

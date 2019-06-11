@@ -85,11 +85,11 @@ public class App extends Application {
             NotificationUtils notificationUtils = new NotificationUtils(getContext());
             Log.d("chat", "onMessage: "+message.getContent());
             if(message instanceof AVIMTextMessage){
-                notificationUtils.sendNotification("来自知遇", message.getFrom()+"："+((AVIMTextMessage) message).getText());
+                notificationUtils.sendNotification("来自深夜树洞", message.getFrom()+"："+((AVIMTextMessage) message).getText());
             }else if(message instanceof AVIMImageMessage){
-                notificationUtils.sendNotification("来自知遇", message.getFrom()+"：[图片]");
+                notificationUtils.sendNotification("来自深夜树洞", message.getFrom()+"：[图片]");
             }else{
-                notificationUtils.sendNotification("来自知遇", message.getFrom()+"：[语音]");
+                notificationUtils.sendNotification("来自深夜树洞", message.getFrom()+"：[语音]");
             }
         }
 
@@ -127,7 +127,7 @@ public class App extends Application {
             super.onUnreadMessagesCountUpdated(client, conversation);
             if(conversation.getUnreadMessagesCount()>0){
                 NotificationUtils notificationUtils = new NotificationUtils(getContext());
-                notificationUtils.sendNotification("知遇","您有"+conversation.getUnreadMessagesCount()+"条未读消息");
+                notificationUtils.sendNotification("预见","您有"+conversation.getUnreadMessagesCount()+"条未读消息");
             }
         }
     }

@@ -17,20 +17,20 @@
         android:layout_gravity="bottom|center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+        <TextView
+            android:textColor="#000000"
+            android:text="在树洞里敞开心扉吧!~"
+            android:textSize="18sp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center|bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <ImageView
             android:src="@drawable/summer_logo"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
             android:layout_width="60dp"
             android:layout_height="60dp" />
-        <TextView
-            android:textColor="#000000"
-            android:text="因为相遇而知道"
-            android:textSize="18sp"
-            android:layout_marginBottom="20dp"
-            android:layout_gravity="center|bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </FrameLayout>

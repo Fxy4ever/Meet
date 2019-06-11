@@ -85,11 +85,11 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
         isFavorite = isFav;
         if(!avUser.getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
             binding.summerUserSend.setVisibility(View.VISIBLE);
-            binding.summerUserChat.setVisibility(View.VISIBLE);
+//            binding.summerUserChat.setVisibility(View.VISIBLE);
             binding.summerUserPersonInfo.setVisibility(View.VISIBLE);
         }else{
             binding.summerUserSend.setVisibility(View.GONE);
-            binding.summerUserChat.setVisibility(View.GONE);
+//            binding.summerUserChat.setVisibility(View.GONE);
             binding.summerUserPersonInfo.setVisibility(View.GONE);
         }
         DensityUtils.setTransparent(binding.summerUserToolbar, this);
@@ -148,7 +148,7 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
                 avatar.setVisibility(View.VISIBLE);
                 if(!avUser.getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
                     binding.summerUserSend.setVisibility(View.VISIBLE);
-                    binding.summerUserChat.setVisibility(View.VISIBLE);
+//                    binding.summerUserChat.setVisibility(View.VISIBLE);
                     binding.summerUserPersonInfo.setVisibility(View.VISIBLE);
                 }
                 binding.summerUserMoney.setVisibility(View.VISIBLE);
@@ -160,7 +160,7 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
                 avatar.setVisibility(View.GONE);
                 binding.summerUserMoney.setVisibility(View.GONE);
                 binding.summerUserSend.setVisibility(View.GONE);
-                binding.summerUserChat.setVisibility(View.GONE);
+//                binding.summerUserChat.setVisibility(View.GONE);
                 binding.summerUserSex.setVisibility(View.GONE);
                 binding.summerUserAdmin.setVisibility(View.GONE);
                 binding.summerUserPersonInfo.setVisibility(View.GONE);
@@ -172,13 +172,13 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
             finish();
         });
 
-        binding.summerUserChat.setOnClickListener(v->{
-            Intent intent = new Intent(UserActivity.this,ChatActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("objectId",avUser.getObjectId());
-            intent.putExtras(bundle);
-            startActivity(intent);
-        });
+//        binding.summerUserChat.setOnClickListener(v->{
+//            Intent intent = new Intent(UserActivity.this,ChatActivity.class);
+//            Bundle bundle = new Bundle();
+//            bundle.putString("objectId",avUser.getObjectId());
+//            intent.putExtras(bundle);
+//            startActivity(intent);
+//        });
     }
 
 

@@ -112,7 +112,7 @@ public class ChatActivity extends BaseActivity{
         rate= bundle.getString("rate","");
         if(!rate.equals("")){
             new Handler().postDelayed(() -> {
-                model.sendText("我进行了你的知遇测试！我们之间的知遇匹配度为"+rate);
+                model.sendText("我进行了你的遇见测试！我们之间的遇见匹配度为"+rate);
             },2000);
         }
     }

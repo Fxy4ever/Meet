@@ -64,16 +64,16 @@ public class ChatMsgAdapter extends MultiLayoutBaseAdapter {
                     name.setText(beans.get(i).getAvUser().getUsername());
                     time.setText("更新于"+DateUtil.getCurDate(beans.get(i).getConversation().getDate("updatedAt")));
 
-                    baseHolder.itemView.setOnClickListener(v->{
-                        unReadCount.setVisibility(View.GONE);
-                        unReadCount.setText("");
-                        Intent intent = new Intent(getContext(),ChatActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("objectId",beans.get(i).getAvUser().getObjectId());
-                        intent.putExtras(bundle);
-                        getContext().startActivity(intent);
-                        ((Activity)getContext()).overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
-                        });
+//                    baseHolder.itemView.setOnClickListener(v->{
+//                        unReadCount.setVisibility(View.GONE);
+//                        unReadCount.setText("");
+//                        Intent intent = new Intent(getContext(),ChatActivity.class);
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("objectId",beans.get(i).getAvUser().getObjectId());
+//                        intent.putExtras(bundle);
+//                        getContext().startActivity(intent);
+//                        ((Activity)getContext()).overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
+//                        });
                     baseHolder.itemView.setOnLongClickListener(v -> {
                         Dialog dialog  = new DialogBuilder(getContext())
                                 .title("是否删除该对话")

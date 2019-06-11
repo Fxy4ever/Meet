@@ -9,7 +9,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <TextView
         android:id="@+id/summer_include_tv"
-        android:text="知遇"
+        android:text="深夜树洞"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:layout_gravity="center"

@@ -19,17 +19,21 @@ import com.mredrock.cyxbs.summer.databinding.ActivityRegisterBinding;
 import com.mredrock.cyxbs.summer.utils.ActivityManager;
 import com.mredrock.cyxbs.summer.utils.DensityUtils;
 import com.mredrock.cyxbs.summer.utils.Toasts;
+import com.mredrock.cyxbs.summer.utils.network.ApiGenerator;
+import com.mredrock.cyxbs.summer.utils.network.ApiService;
 
 import java.util.HashMap;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class RegisterActivity extends BaseActivity {
     public static final String TAG = "Register";
 
-    private String tx_account;
-    private String tx_password;
-    private String tx_email;
+    private String tx_account="";
+    private String tx_password="";
+    private String tx_email="";
     private ActivityRegisterBinding binding;
-
     private AVUser user = new AVUser();
 
     @Override
@@ -120,6 +124,15 @@ public class RegisterActivity extends BaseActivity {
                                 Log.d(TAG, "done: 默认头像保存成功");
                             }
                         });
+                        ApiGenerator
+                                .INSTANCE
+                                .getApiService(ApiService.class)
+                                .register(tx_account,tx_password,"15311111111",20)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(netBean -> {
+                                    Log.d("test",netBean.toString());
+                                });
                         Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                         ActivityManager.getInstance().finishAllActivity();

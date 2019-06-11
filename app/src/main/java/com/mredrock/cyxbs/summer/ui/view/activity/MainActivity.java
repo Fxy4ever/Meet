@@ -53,6 +53,8 @@ import com.mredrock.cyxbs.summer.utils.Glide4Engine;
 import com.mredrock.cyxbs.summer.utils.HttpUtilManager;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 import com.mredrock.cyxbs.summer.utils.UriUtil;
+import com.mredrock.cyxbs.summer.utils.network.ApiGenerator;
+import com.mredrock.cyxbs.summer.utils.network.ApiService;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -66,6 +68,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
 
 public class MainActivity extends BaseActivity implements LifecycleOwner {
 
@@ -120,15 +123,15 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
                     return HeaderDesign.fromColorResAndDrawable(
                             R.color.cardview_dark_background,getResources().getDrawable(R.drawable.summer_main_header1));
 
+//                case 1:
+//                    return HeaderDesign.fromColorResAndDrawable(
+//                            R.color.green,
+//                            getResources().getDrawable(R.drawable.summer_main_header4));
                 case 1:
                     return HeaderDesign.fromColorResAndDrawable(
-                            R.color.green,
-                            getResources().getDrawable(R.drawable.summer_main_header2));
-                case 2:
-                    return HeaderDesign.fromColorResAndDrawable(
                             R.color.cyan,
-                            getResources().getDrawable(R.drawable.summer_main_header3));
-                case 3:
+                            getResources().getDrawable(R.drawable.summer_main_header1));
+                case 2:
                     return HeaderDesign.fromColorResAndDrawable(
                             R.color.blue,
                             getResources().getDrawable(R.drawable.summer_main_header4));
@@ -151,8 +154,8 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         fragments = new ArrayList<>();
         titlelist = new ArrayList<>();
         fragments.add(new SummerFragment());
-        fragments.add(new ChatListFragment());
-        fragments.add(new SearchFragment());
+//        fragments.add(new ChatListFragment());
+//        fragments.add(new SearchFragment());
         InfoFragment infoFragment = new InfoFragment();
         infoFragment.setKind("粉丝");
         InfoFragment infoFragment1 = new InfoFragment();
@@ -160,8 +163,8 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         fragments.add(infoFragment);
         fragments.add(infoFragment1);
         titlelist.add("广场");
-        titlelist.add("消息");
-        titlelist.add("发现");
+//        titlelist.add("消息");
+//        titlelist.add("发现");
         titlelist.add("我的粉丝");
         titlelist.add("我的关注");
 
@@ -173,27 +176,27 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         viewPager.setOffscreenPageLimit(4);
         viewPager.onSaveInstanceState();
 
-        //注册
-        HttpUtilManager
-                .getInstance()
-                .register(currentUser.getObjectId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(infoBean -> {
-                    if(infoBean.getStatus()==200){
-                        Log.d("meet_register","成功");
-                    }
-                });
-        HttpUtilManager.getInstance()
-                .getToken(currentUser.getObjectId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(infoBean -> {
-                    if(infoBean.getStatus()==200){
-                        Log.d("meet_register","刷新token成功");
-                        token = infoBean.getData().getToken();
-                    }
-                });
+//        //注册
+//        HttpUtilManager
+//                .getInstance()
+//                .register(currentUser.getObjectId())
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(infoBean -> {
+//                    if(infoBean.getStatus()==200){
+//                        Log.d("meet_register","成功");
+//                    }
+//                });
+//        HttpUtilManager.getInstance()
+//                .getToken(currentUser.getObjectId())
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(infoBean -> {
+//                    if(infoBean.getStatus()==200){
+//                        Log.d("meet_register","刷新token成功");
+//                        token = infoBean.getData().getToken();
+//                    }
+//                });
 
         client = AVIMClient.getInstance(AVUser.getCurrentUser().getUsername());
         client.open(new AVIMClientCallback() {
@@ -343,9 +346,9 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
                     startActivity(new Intent(MainActivity.this,ChangeInfoActivity.class));
                     break;
 
-                case R.id.nav_question:
-                    startActivity(new Intent(MainActivity.this,SetQuestionActivity.class));
-                    break;
+//                case R.id.nav_question:
+//                    startActivity(new Intent(MainActivity.this,SetQuestionActivity.class));
+//                    break;
             }
 
             drawerLayout.closeDrawer(GravityCompat.START);

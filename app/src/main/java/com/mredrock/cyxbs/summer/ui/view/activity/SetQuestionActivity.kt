@@ -32,7 +32,7 @@ class SetQuestionActivity : BaseActivity(){
         summer_include_tl.setNavigationOnClickListener {
             finish()
         }
-        summer_include_tv.text = "我的知遇问题"
+        summer_include_tv.text = "我的树洞问题"
         setDefaultText()
         setETListener()
     }

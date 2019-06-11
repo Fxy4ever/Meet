@@ -61,9 +61,16 @@ dependencies {
         exclude group: 'com.android.support'
         exclude group: 'com.github.bumptech'
     }
-    implementation files('/Users/mac/redrock/Meet/jar/FRecyclerView.jar')
+    implementation files('/Users/mac/redrock/知遇/Meet/jar/FRecyclerView.jar')
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'cn.leancloud.android:avoscloud-sdk:v4.6.4'
+
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+
     //leanCloud基础包
     api('cn.leancloud.android:avoscloud-push:v4.6.4@aar') {
         transitive = true
