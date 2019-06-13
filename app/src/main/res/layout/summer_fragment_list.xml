@@ -25,7 +25,7 @@
             android:layout_marginBottom="20dp"
             app:fabSize="normal"
             app:layout_behavior="com.mredrock.cyxbs.summer.utils.FabBehavior"
-            app:backgroundTint="#514E57"
+            app:backgroundTint="#3188D9"
             android:src="@drawable/summer_drawable_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

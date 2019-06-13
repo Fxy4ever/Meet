@@ -17,6 +17,8 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/meet_iv_icon"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
             android:layout_gravity="center"
             android:src="@drawable/summer_logo"
             android:layout_width="wrap_content"

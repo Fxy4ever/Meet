@@ -7,6 +7,7 @@ import android.view.View
 import com.avos.avoscloud.AVUser
 import com.mredrock.cyxbs.summer.R
 import com.mredrock.cyxbs.summer.base.BaseActivity
+import com.mredrock.cyxbs.summer.utils.DensityUtils
 import com.mredrock.cyxbs.summer.utils.HttpUtilManager
 import com.mredrock.cyxbs.summer.utils.TextWatcheListener
 import com.mredrock.cyxbs.summer.utils.Toasts
@@ -32,6 +33,7 @@ class SetQuestionActivity : BaseActivity(){
         summer_include_tl.setNavigationOnClickListener {
             finish()
         }
+        DensityUtils.setTransparent(summer_include_tl,this)
         summer_include_tv.text = "我的树洞问题"
         setDefaultText()
         setETListener()

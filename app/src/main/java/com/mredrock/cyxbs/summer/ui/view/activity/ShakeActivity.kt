@@ -12,6 +12,7 @@ import android.view.View
 import android.webkit.*
 import com.mredrock.cyxbs.summer.R
 import com.mredrock.cyxbs.summer.ui.view.fragment.SearchFragment
+import com.mredrock.cyxbs.summer.utils.DensityUtils
 import kotlinx.android.synthetic.main.activity_shake.*
 import kotlinx.android.synthetic.main.summer_include_toolbar.*
 
@@ -25,6 +26,7 @@ class ShakeActivity : AppCompatActivity() {
         summer_include_tl.setNavigationOnClickListener {
             finish()
         }
+        DensityUtils.setTransparent(summer_include_tl,this)
         summer_include_tv.text = "摇一摇"
         url = SearchFragment.url
         wv_redPage.loadUrl(url)

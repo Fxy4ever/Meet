@@ -93,6 +93,7 @@ public class ChatActivity extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chat);
+        DensityUtils.setTransparent(binding.summerChatTl,this);
         askPermissions();
         setRecyclerView();
         setBinding();

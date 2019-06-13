@@ -1,5 +1,7 @@
 package com.mredrock.cyxbs.summer.utils;
 
+import android.util.Log;
+
 import com.mredrock.cyxbs.summer.bean.ChickenBean;
 import com.mredrock.cyxbs.summer.bean.InfoBean;
 import com.mredrock.cyxbs.summer.bean.MeetBackBean;
@@ -7,6 +9,8 @@ import com.mredrock.cyxbs.summer.bean.MeetQuestionBean;
 import com.mredrock.cyxbs.summer.bean.TokenBean;
 
 import io.reactivex.Observable;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -19,7 +23,7 @@ import retrofit2.http.POST;
  * time: 2018/11/13
  */
 public class HttpUtilManager {
-    private static String baseUrl = "http://47.106.222.221:8080/";
+    private static String baseUrl = "http://120.79.143.238:8765/";
     private static String token = "pi6mNVUp";
     private APIService service;
     private static HttpUtilManager httpUtilManager;
@@ -38,8 +42,18 @@ public class HttpUtilManager {
 
 
     private HttpUtilManager() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> {
+            //打印retrofit日志
+            Log.e("RetrofitLog","retrofitBack = "+message);
+        });
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()//okhttp设置部分，此处还可再设置网络参数
+                .addInterceptor(loggingInterceptor)
+                .build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
+                .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
@@ -90,7 +104,7 @@ public class HttpUtilManager {
 
 
     public interface APIService {
-        //注册用户进lxc的数据库
+        //注册用户进数据库
         @POST("meet/user/register")
         @FormUrlEncoded
         Observable<InfoBean> register(@Field("user_id") String user_id, @Field("p") String p);

@@ -74,7 +74,7 @@
                 <Button
                     android:id="@+id/summer_ask_back"
                     android:text="返回"
-                    android:background="@drawable/summer_askbtn_shape"
+                    android:background="@drawable/summer_login_backgroud_shape"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:textColor="#FFFFFF"
@@ -84,7 +84,7 @@
                 <Button
                     android:id="@+id/summer_ask_commit"
                     android:text="提交"
-                    android:background="@drawable/summer_askbtn_shape"
+                    android:background="@drawable/summer_login_backgroud_shape"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:textColor="#FFFFFF"

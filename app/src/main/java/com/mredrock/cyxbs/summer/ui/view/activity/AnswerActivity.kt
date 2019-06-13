@@ -12,6 +12,7 @@ import com.mredrock.cyxbs.summer.R
 import com.mredrock.cyxbs.summer.base.BaseActivity
 import com.mredrock.cyxbs.summer.bean.MeetQuestionBean
 import com.mredrock.cyxbs.summer.event.MeetEvent
+import com.mredrock.cyxbs.summer.utils.DensityUtils
 import com.mredrock.cyxbs.summer.utils.HttpUtilManager
 import com.mredrock.cyxbs.summer.utils.TextWatcheListener
 import com.mredrock.cyxbs.summer.utils.Toasts
@@ -36,6 +37,7 @@ class AnswerActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_answer)
+        DensityUtils.setTransparent(summer_include_tl,this)
         val bean = MeetActivity.bean
         summer_include_tv.text = "匹配"
         if (bean.data != null) {

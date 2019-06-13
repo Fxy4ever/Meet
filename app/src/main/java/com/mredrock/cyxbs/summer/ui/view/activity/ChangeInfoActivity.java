@@ -16,6 +16,7 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.base.BaseActivity;
+import com.mredrock.cyxbs.summer.utils.DensityUtils;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class ChangeInfoActivity extends BaseActivity {
     }
 
     private void init(){
+        DensityUtils.setTransparent(findViewById(R.id.summer_change_tl),this);
         spinner = findViewById(R.id.summer_change_spinner);
         first = findViewById(R.id.summer_change_et1);
         secend = findViewById(R.id.summer_change_et2);

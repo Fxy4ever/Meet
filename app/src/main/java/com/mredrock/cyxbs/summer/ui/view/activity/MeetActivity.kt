@@ -9,6 +9,7 @@ import android.view.animation.LinearInterpolator
 import com.avos.avoscloud.AVUser
 import com.mredrock.cyxbs.summer.R
 import com.mredrock.cyxbs.summer.bean.MeetQuestionBean
+import com.mredrock.cyxbs.summer.utils.DensityUtils
 import com.mredrock.cyxbs.summer.utils.HttpUtilManager
 import com.mredrock.cyxbs.summer.utils.Toasts
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -31,14 +32,14 @@ class MeetActivity : AppCompatActivity() {
                 .setInterpolator(LinearInterpolator())
                 .start()
         summer_include_tv.text = "我的树洞"
-
+        DensityUtils.setTransparent(summer_include_tl,this)
         meet_btn_start.setOnClickListener { view ->
             meet_progressbar.visibility = View.VISIBLE
             HttpUtilManager.getInstance()
                     .meet(AVUser.getCurrentUser().objectId, MainActivity.token)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { it ->
+                    .subscribe {
                         if (it.status == 200 && it.data.question.user_id != AVUser.getCurrentUser().objectId) {
                             Handler().postDelayed({
                                 val intent = Intent(this, AnswerActivity::class.java)
@@ -48,6 +49,7 @@ class MeetActivity : AppCompatActivity() {
                             }, 2000)
                         } else {
                             Toasts.show("服务器暂时无法匹配噢")
+                            meet_progressbar.visibility = View.GONE
                         }
                     }
         }
