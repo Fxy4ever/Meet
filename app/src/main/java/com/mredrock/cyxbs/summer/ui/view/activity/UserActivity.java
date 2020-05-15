@@ -173,11 +173,11 @@ public class UserActivity extends BaseMvpActivity implements UserContract.IUserV
         });
 
         binding.summerUserChat.setOnClickListener(v->{
-            Intent intent = new Intent(UserActivity.this,ChatActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("objectId",avUser.getObjectId());
-            intent.putExtras(bundle);
-            startActivity(intent);
+//            Intent intent = new Intent(UserActivity.this,ChatActivity.class);
+//            Bundle bundle = new Bundle();
+//            bundle.putString("objectId",avUser.getObjectId());
+//            intent.putExtras(bundle);
+//            startActivity(intent);
         });
     }
 

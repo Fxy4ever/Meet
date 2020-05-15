@@ -16,6 +16,7 @@ import com.avos.avoscloud.AVUser;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.adapter.SummerListAdapter;
+import com.mredrock.cyxbs.summer.base.BaseFragment;
 import com.mredrock.cyxbs.summer.bean.AskBean;
 import com.mredrock.cyxbs.summer.databinding.SummerFragmentListBinding;
 import com.mredrock.cyxbs.summer.ui.mvp.contract.SummerContract;

@@ -80,19 +80,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.view.activity.ChatActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity
             android:name=".ui.view.activity.AboutActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.view.activity.ChangeInfoActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.view.activity.SetQuestionActivity" />
-        <activity android:name=".ui.view.activity.MeetActivity" />
-        <activity android:name=".ui.view.activity.ShakeActivity" />
-        <activity android:name=".ui.view.activity.AnswerActivity"></activity>
     </application>
 
 </manifest>

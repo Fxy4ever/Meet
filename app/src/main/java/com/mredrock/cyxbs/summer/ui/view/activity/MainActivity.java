@@ -2,7 +2,6 @@ package com.mredrock.cyxbs.summer.ui.view.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.arch.lifecycle.LifecycleOwner;
@@ -41,11 +40,8 @@ import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.adapter.FFragmentPagerAdapter;
 import com.mredrock.cyxbs.summer.base.BaseActivity;
-import com.mredrock.cyxbs.summer.bean.InfoBean;
 import com.mredrock.cyxbs.summer.databinding.ActivityMainBinding;
-import com.mredrock.cyxbs.summer.ui.view.fragment.ChatListFragment;
 import com.mredrock.cyxbs.summer.ui.view.fragment.InfoFragment;
-import com.mredrock.cyxbs.summer.ui.view.fragment.SearchFragment;
 import com.mredrock.cyxbs.summer.ui.view.fragment.SummerFragment;
 import com.mredrock.cyxbs.summer.utils.ActivityManager;
 import com.mredrock.cyxbs.summer.utils.DensityUtils;
@@ -53,8 +49,6 @@ import com.mredrock.cyxbs.summer.utils.Glide4Engine;
 import com.mredrock.cyxbs.summer.utils.HttpUtilManager;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 import com.mredrock.cyxbs.summer.utils.UriUtil;
-import com.mredrock.cyxbs.summer.utils.network.ApiGenerator;
-import com.mredrock.cyxbs.summer.utils.network.ApiService;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -66,9 +60,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
 
 public class MainActivity extends BaseActivity implements LifecycleOwner {
 
@@ -154,8 +146,6 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         fragments = new ArrayList<>();
         titlelist = new ArrayList<>();
         fragments.add(new SummerFragment());
-        fragments.add(new ChatListFragment());
-        fragments.add(new SearchFragment());
         InfoFragment infoFragment = new InfoFragment();
         infoFragment.setKind("粉丝");
         InfoFragment infoFragment1 = new InfoFragment();
@@ -163,8 +153,6 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         fragments.add(infoFragment);
         fragments.add(infoFragment1);
         titlelist.add("广场");
-        titlelist.add("消息");
-        titlelist.add("匹配");
         titlelist.add("我的粉丝");
         titlelist.add("我的关注");
 
@@ -344,10 +332,6 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
 
                 case R.id.nav_change:
                     startActivity(new Intent(MainActivity.this,ChangeInfoActivity.class));
-                    break;
-
-                case R.id.nav_question:
-                    startActivity(new Intent(MainActivity.this,SetQuestionActivity.class));
                     break;
             }
 
