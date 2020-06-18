@@ -12,9 +12,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextPaint;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageButton;
@@ -31,7 +28,6 @@ import com.example.frecyclerview.BaseHolder;
 import com.example.frecyclerview.MultiLayoutBaseAdapter;
 import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.bean.AskBean;
-import com.mredrock.cyxbs.summer.ui.view.activity.AskDetailActivity;
 import com.mredrock.cyxbs.summer.ui.view.activity.UserActivity;
 import com.mredrock.cyxbs.summer.utils.AudioUtil;
 import com.mredrock.cyxbs.summer.utils.DialogBuilder;
@@ -115,12 +111,6 @@ public class SummerListAdapter  extends MultiLayoutBaseAdapter{
                 if(beans.get(i).getVoice()!=null){
                     AudioUtil.setAudio(getContext(),beans.get(i).getVoice(),playTime,play);
                 }
-
-                baseHolder.itemView.setOnClickListener(v -> {
-                        bean = beans.get(i);
-                        Intent intent = new Intent(getContext(), AskDetailActivity.class);
-                        getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) getContext(),parent,"share").toBundle());
-                });
 
                 baseHolder.itemView.setOnLongClickListener(v -> {
                     Dialog dialog  = new DialogBuilder(getContext())

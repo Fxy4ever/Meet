@@ -19,9 +19,9 @@
     <application
         android:name=".ui.view.activity.App"
         android:allowBackup="true"
-        android:icon="@drawable/summer_logo"
+        android:icon="@drawable/summer_icon_like"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/summer_logo"
+        android:roundIcon="@drawable/summer_icon_like"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -72,18 +72,12 @@
         </provider>
 
         <activity
-            android:name=".ui.view.activity.AskDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.view.activity.UserActivity"
             android:label="@string/title_activity_user"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.view.activity.AboutActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.view.activity.ChangeInfoActivity"
             android:screenOrientation="portrait" />
     </application>
 

@@ -20,7 +20,7 @@
             android:layout_marginLeft="80dp"
             android:layout_marginRight="80dp"
             android:layout_gravity="center"
-            android:src="@drawable/summer_logo"
+            android:src="@drawable/summer_icon_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView

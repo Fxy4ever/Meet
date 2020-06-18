@@ -85,11 +85,11 @@ public class App extends Application {
             NotificationUtils notificationUtils = new NotificationUtils(getContext());
             Log.d("chat", "onMessage: "+message.getContent());
             if(message instanceof AVIMTextMessage){
-                notificationUtils.sendNotification("来自深夜树洞", message.getFrom()+"："+((AVIMTextMessage) message).getText());
+                notificationUtils.sendNotification("来自邮问", message.getFrom()+"："+((AVIMTextMessage) message).getText());
             }else if(message instanceof AVIMImageMessage){
-                notificationUtils.sendNotification("来自深夜树洞", message.getFrom()+"：[图片]");
+                notificationUtils.sendNotification("来自邮问", message.getFrom()+"：[图片]");
             }else{
-                notificationUtils.sendNotification("来自深夜树洞", message.getFrom()+"：[语音]");
+                notificationUtils.sendNotification("来自邮问", message.getFrom()+"：[语音]");
             }
         }
 

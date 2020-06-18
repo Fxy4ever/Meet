@@ -46,15 +46,15 @@ public class WelcomeActivity extends BaseActivity {
         String tx_account = (String) App.spHelper().get("account","123");
         String tx_password = (String) App.spHelper().get("password","123");
         if(tx_account.length()>0&&tx_password.length()>0){
-            ApiGenerator
-                    .INSTANCE
-                    .getApiService(ApiService.class)
-                    .login(tx_account,tx_password)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(netBean -> {
-                        Log.d("test",netBean.toString());
-                    });
+//            ApiGenerator
+//                    .INSTANCE
+//                    .getApiService(ApiService.class)
+//                    .login(tx_account,tx_password)
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(netBean -> {
+//                        Log.d("test",netBean.toString());
+//                    });
             AVUser.logInInBackground(tx_account, tx_password, new LogInCallback<AVUser>() {
                 @Override
                 public void done(AVUser avUser, AVException e) {

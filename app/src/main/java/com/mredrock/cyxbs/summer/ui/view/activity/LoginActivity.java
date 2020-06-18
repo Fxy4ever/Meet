@@ -138,15 +138,7 @@ public class LoginActivity extends BaseActivity {
                         if(dialog!=null){
                             dialog.dismiss();
                         }
-                        ApiGenerator
-                                .INSTANCE
-                                .getApiService(ApiService.class)
-                                .login(tx_account,tx_password)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(netBean -> {
-                                    Log.d("test",netBean.toString());
-                                });
+
                         App.spHelper().put("username",tx_account);
                         LoginActivity.this.finish();
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);

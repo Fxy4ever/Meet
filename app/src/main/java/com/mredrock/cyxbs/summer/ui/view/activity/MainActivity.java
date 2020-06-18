@@ -2,7 +2,6 @@ package com.mredrock.cyxbs.summer.ui.view.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.arch.lifecycle.LifecycleOwner;
 import android.content.Intent;
@@ -17,7 +16,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -41,12 +39,10 @@ import com.mredrock.cyxbs.summer.R;
 import com.mredrock.cyxbs.summer.adapter.FFragmentPagerAdapter;
 import com.mredrock.cyxbs.summer.base.BaseActivity;
 import com.mredrock.cyxbs.summer.databinding.ActivityMainBinding;
-import com.mredrock.cyxbs.summer.ui.view.fragment.InfoFragment;
 import com.mredrock.cyxbs.summer.ui.view.fragment.SummerFragment;
 import com.mredrock.cyxbs.summer.utils.ActivityManager;
 import com.mredrock.cyxbs.summer.utils.DensityUtils;
 import com.mredrock.cyxbs.summer.utils.Glide4Engine;
-import com.mredrock.cyxbs.summer.utils.HttpUtilManager;
 import com.mredrock.cyxbs.summer.utils.Toasts;
 import com.mredrock.cyxbs.summer.utils.UriUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -59,8 +55,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity implements LifecycleOwner {
 
@@ -81,8 +75,8 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
     private int REQUEST_CODE_CHOOSE = 10086;
     private List<Uri> selects;
     private AVFile photo;
-    private String name="";
-    private String path="";
+    private String name = "";
+    private String path = "";
     private CircleImageView avatar;
     private Dialog changeDesc;
     private FeedbackAgent agent;
@@ -101,19 +95,19 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         initDrawerLayout();
     }
 
-    private void setFeedBack(){
+    private void setFeedBack() {
         agent = new FeedbackAgent(this);
         agent.sync();
     }
 
     @SuppressLint("CheckResult")
-    private void initMV(){
+    private void initMV() {
         pager = binding.materialViewPager;
         pager.setMaterialViewPagerListener(page -> {
             switch (page) {
                 case 0:
                     return HeaderDesign.fromColorResAndDrawable(
-                            R.color.cardview_dark_background,getResources().getDrawable(R.drawable.summer_main_header1));
+                            R.color.cardview_dark_background, getResources().getDrawable(R.drawable.summer_login_backgroud_shape));
 
                 case 1:
                     return HeaderDesign.fromColorResAndDrawable(
@@ -132,7 +126,7 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         });
         Toolbar toolbar = pager.getToolbar();
 
-        DensityUtils.setTransparent(toolbar,this);
+        DensityUtils.setTransparent(toolbar, this);
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -146,52 +140,29 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         fragments = new ArrayList<>();
         titlelist = new ArrayList<>();
         fragments.add(new SummerFragment());
-        InfoFragment infoFragment = new InfoFragment();
-        infoFragment.setKind("粉丝");
-        InfoFragment infoFragment1 = new InfoFragment();
-        infoFragment1.setKind("关注");
-        fragments.add(infoFragment);
-        fragments.add(infoFragment1);
-        titlelist.add("广场");
-        titlelist.add("我的粉丝");
-        titlelist.add("我的关注");
+//        InfoFragment infoFragment = new InfoFragment();
+//        infoFragment.setKind("粉丝");
+//        InfoFragment infoFragment1 = new InfoFragment();
+//        infoFragment1.setKind("关注");
+//        fragments.add(infoFragment);
+//        fragments.add(infoFragment1);
+        titlelist.add("  ");
+//        titlelist.add("我的粉丝");
+//        titlelist.add("我的关注");
 
 
-
-        FFragmentPagerAdapter adapter = new FFragmentPagerAdapter(getSupportFragmentManager(),fragments,titlelist);
+        FFragmentPagerAdapter adapter = new FFragmentPagerAdapter(getSupportFragmentManager(), fragments, titlelist);
         viewPager.setAdapter(adapter);
         pager.getPagerTitleStrip().setViewPager(viewPager);
         viewPager.setOffscreenPageLimit(4);
         viewPager.onSaveInstanceState();
-
-        //注册
-        HttpUtilManager
-                .getInstance()
-                .register(currentUser.getObjectId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(infoBean -> {
-                    if(infoBean.getStatus()==200){
-                        Log.d("meet_register","成功");
-                    }
-                });
-        HttpUtilManager.getInstance()
-                .getToken(currentUser.getObjectId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(infoBean -> {
-                    if(infoBean.getStatus()==200){
-                        Log.d("meet_register","刷新token成功");
-                        token = infoBean.getData().getToken();
-                    }
-                });
 
         client = AVIMClient.getInstance(AVUser.getCurrentUser().getUsername());
         client.open(new AVIMClientCallback() {
             @SuppressLint("CheckResult")
             @Override
             public void done(AVIMClient avimClient, AVIMException e) {
-                if(e==null){
+                if (e == null) {
                     Toasts.show("登陆成功");
                 }
             }
@@ -199,23 +170,23 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
     }
 
     @SuppressLint({"CheckResult"})
-    private void askPermissions(){
+    private void askPermissions() {
         rxPermissions = new RxPermissions(this);
         rxPermissions
                 .requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE
-                        ,Manifest.permission.READ_EXTERNAL_STORAGE
-                        ,Manifest.permission.RECORD_AUDIO
+                        , Manifest.permission.READ_EXTERNAL_STORAGE
+                        , Manifest.permission.RECORD_AUDIO
                 )
                 .subscribe(permission -> {
-                    if(permission.granted){
+                    if (permission.granted) {
                         isAskPer = true;
-                    }else{
+                    } else {
                         Toasts.show("未获取权限");
                     }
                 });
     }
 
-    private void initDrawerLayout(){
+    private void initDrawerLayout() {
         drawerLayout = binding.drawerLayout;
         navigationView = binding.navigation;
         navigationView.getChildAt(0).setVerticalScrollBarEnabled(false);
@@ -236,22 +207,22 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         EditText changeEt = changeDesc.findViewById(R.id.summer_change_et);
         Button changeBack = changeDesc.findViewById(R.id.summer_change_back);
         Button changeCommit = changeDesc.findViewById(R.id.summer_change_commit);
-        changeBack.setOnClickListener(v->{
+        changeBack.setOnClickListener(v -> {
             changeDesc.cancel();
             changeEt.setText("");
         });
         /*
         修改个性签名
          */
-        changeCommit.setOnClickListener(v->{
+        changeCommit.setOnClickListener(v -> {
             String descContent = changeEt.getText().toString();
-            if(descContent.length()>0){
+            if (descContent.length() > 0) {
                 AVUser user = AVUser.getCurrentUser();
-                user.put("desc",descContent);
+                user.put("desc", descContent);
                 user.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(AVException e) {
-                        if(e==null){
+                        if (e == null) {
                             Toasts.show("修改成功");
                             changeEt.setText("");
                             desc.setText(descContent);
@@ -262,7 +233,7 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
             }
         });
 
-        desc_change.setOnClickListener(v->{
+        desc_change.setOnClickListener(v -> {
             changeDesc.show();
         });
 
@@ -270,14 +241,14 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
         头像选择
          */
         avatar.setOnClickListener(v -> {
-            if(isAskPer){
+            if (isAskPer) {
                 Matisse.from(this)
                         .choose(MimeType.allOf())
                         .capture(true)  // 开启相机，和 captureStrategy 一并使用否则报错
-                        .captureStrategy(new CaptureStrategy(true,"com.mredrock.cyxbs.summer.fileprovider"))
+                        .captureStrategy(new CaptureStrategy(true, "com.mredrock.cyxbs.summer.fileprovider"))
                         .countable(true)
                         .maxSelectable(1)
-                        .gridExpectedSize(DensityUtils.getScreenWidth(this)/3)
+                        .gridExpectedSize(DensityUtils.getScreenWidth(this) / 3)
                         .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                         .thumbnailScale(0.85f)
                         .imageEngine(new Glide4Engine())
@@ -286,52 +257,34 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
             }
         });
 
-        if(currentUser.getString("desc")!=null){
+        if (currentUser.getString("desc") != null) {
             desc.setText(currentUser.getString("desc"));
-        }else{
+        } else {
             desc.setText("还没有签名噢!");
         }
         name.setText(currentUser.getUsername());
         AVFile avFile = currentUser.getAVFile("avatar");
-        if(avFile!=null){
-            Glide.with(this).load(avFile.getUrl()).apply(new RequestOptions().override(200,200)).into(avatar);
+        if (avFile != null) {
+            Glide.with(this).load(avFile.getUrl()).apply(new RequestOptions().override(200, 200)).into(avatar);
         }
         selects = new ArrayList<>();
-        toggle = new ActionBarDrawerToggle(this,drawerLayout,pager.getToolbar(),0,0);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, pager.getToolbar(), 0, 0);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(item -> {
-            switch(item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.nav_main:
                     Toasts.show("主界面");
                     break;
-                case R.id.nav_myself:
-                    Intent intent = new Intent(MainActivity.this,UserActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("objectId",currentUser.getObjectId());
-                    intent.putExtras(bundle);
-                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,avatar,"summer_toUser").toBundle());
-                    break;
                 case R.id.nav_about:
-                    startActivity(new Intent(MainActivity.this,AboutActivity.class));
-                    overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
+                    startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                    overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
                     break;
                 case R.id.nav_back:
                     App.spHelper().remove("isChecked");
-                    App.spHelper().remove("SetQuestion_q1");
-                    App.spHelper().remove("SetQuestion_q2");
-                    App.spHelper().remove("SetQuestion_q3");
-                    App.spHelper().remove("SetQuestion_a1");
-                    App.spHelper().remove("SetQuestion_a2");
-                    App.spHelper().remove("SetQuestion_a3");
-                    App.spHelper().remove("SetQuestion_note");
                     AVUser.logOut();
-                    startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     finish();
-                    break;
-
-                case R.id.nav_change:
-                    startActivity(new Intent(MainActivity.this,ChangeInfoActivity.class));
                     break;
             }
 
@@ -350,31 +303,31 @@ public class MainActivity extends BaseActivity implements LifecycleOwner {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK){
+        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             selects = Matisse.obtainResult(data);
-            try{
-                     name = System.currentTimeMillis()/1000 + ".jpg";
-                    if(selects.get(0).toString().contains("provider")){
-                        path = UriUtil.getFPUriToPath(this,selects.get(0));
-                        photo = AVFile.withAbsoluteLocalPath(name,path);
-                    }
-                    else{
-                        path = UriUtil.getRealPathFromUri(this,selects.get(0));
-                        photo = AVFile.withAbsoluteLocalPath(name,path);
-                    }
+            try {
+                name = System.currentTimeMillis() / 1000 + ".jpg";
+                if (selects.get(0).toString().contains("provider")) {
+                    path = UriUtil.getFPUriToPath(this, selects.get(0));
+                    photo = AVFile.withAbsoluteLocalPath(name, path);
+                } else {
+                    path = UriUtil.getRealPathFromUri(this, selects.get(0));
+                    photo = AVFile.withAbsoluteLocalPath(name, path);
+                }
 
-                AVUser.getCurrentUser().put("avatar",photo);
+                AVUser.getCurrentUser().put("avatar", photo);
                 AVUser.getCurrentUser().saveInBackground(new SaveCallback() {
                     @Override
                     public void done(AVException e) {
-                        if(e==null) {
+                        if (e == null) {
                             Toasts.show("头像修改成功");
-                            Glide.with(App.getContext()).load(photo.getUrl()).apply(new RequestOptions().override(200,200)).into(avatar);
+                            Glide.with(App.getContext()).load(photo.getUrl()).apply(new RequestOptions().override(200, 200))
+                                    .into(avatar);
                             SummerFragment.presenter.start();
                         }
                     }
                 });
-            }catch (IOException e){
+            } catch (IOException e) {
                 Toasts.show("文件上传失败");
             }
         }

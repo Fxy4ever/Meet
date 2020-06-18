@@ -56,10 +56,10 @@ public class NotificationUtils extends ContextWrapper {
         if (Build.VERSION.SDK_INT>=26){
             createNotificationChannel();
             Notification notification = getChannelNotification
-                    (title, content).setSmallIcon(R.drawable.summer_logo).build();
+                    (title, content).setSmallIcon(R.drawable.summer_icon_like).build();
             getManager().notify(1,notification);
         }else{
-            Notification notification = getNotification_25(title, content).setSmallIcon(R.drawable.summer_logo).build();
+            Notification notification = getNotification_25(title, content).setSmallIcon(R.drawable.summer_icon_like).build();
             getManager().notify(1,notification);
         }
     }

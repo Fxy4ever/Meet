@@ -18,7 +18,7 @@
                 xmlns:android="http://schemas.android.com/apk/res/android">
                 <TextView
                     android:id="@+id/summer_sm_detail_item_tv"
-                    android:text="深夜树洞"
+                    android:text="邮问"
                     android:textColor="#FFFFFF"
                     android:textSize="22sp"
                     android:layout_gravity="center"

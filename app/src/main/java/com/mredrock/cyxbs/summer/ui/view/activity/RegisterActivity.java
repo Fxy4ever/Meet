@@ -124,15 +124,15 @@ public class RegisterActivity extends BaseActivity {
                                 Log.d(TAG, "done: 默认头像保存成功");
                             }
                         });
-                        ApiGenerator
-                                .INSTANCE
-                                .getApiService(ApiService.class)
-                                .register(tx_account,tx_password,"15311111111",20)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(netBean -> {
-                                    Log.d("test",netBean.toString());
-                                });
+//                        ApiGenerator
+//                                .INSTANCE
+//                                .getApiService(ApiService.class)
+//                                .register(tx_account,tx_password,"15311111111",20)
+//                                .subscribeOn(Schedulers.io())
+//                                .observeOn(AndroidSchedulers.mainThread())
+//                                .subscribe(netBean -> {
+//                                    Log.d("test",netBean.toString());
+//                                });
                         Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                         ActivityManager.getInstance().finishAllActivity();
